@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: temp
+
+server:
+  shutdown: graceful
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+    import: secret/application-local.yml

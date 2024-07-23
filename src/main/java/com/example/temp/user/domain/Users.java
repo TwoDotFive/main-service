@@ -14,22 +14,22 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User extends BaseTimeEntity {
+public class Users extends BaseTimeEntity {
 
-	@Id
-	private Long id;
+    @Id
+    private Long id;
 
-	@Embedded
-	private Nickname nickname;
+    @Embedded
+    private Nickname nickname;
 
-	public static User build(Nickname nickname) {
-		User user = new User();
-		user.id = IdUtil.create();
-		user.nickname = nickname;
-		return user;
-	}
+    public static Users build(Nickname nickname) {
+        Users users = new Users();
+        users.id = IdUtil.create();
+        users.nickname = nickname;
+        return users;
+    }
 
-	public String getNickname() {
-		return nickname.getValue();
-	}
+    public String getNickname() {
+        return nickname.getValue();
+    }
 }

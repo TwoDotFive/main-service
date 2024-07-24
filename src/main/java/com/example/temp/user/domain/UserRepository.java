@@ -7,11 +7,11 @@ import org.springframework.http.HttpStatus;
 
 import com.example.temp.common.exception.CustomException;
 
-public interface UserRepository extends Repository<Users, Long> {
+public interface UserRepository extends Repository<User, Long> {
 
-	Optional<Users> findById(Long id);
+	Optional<User> findById(Long id);
 
-	default Users findByIdOrElseThrow(Long id) {
+	default User findByIdOrElseThrow(Long id) {
 		return findById(id).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "회원 조회 실패"));
 	}
 }

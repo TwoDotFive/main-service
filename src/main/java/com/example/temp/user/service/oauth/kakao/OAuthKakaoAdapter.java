@@ -32,7 +32,7 @@ public class OAuthKakaoAdapter implements OAuthAdapter {
             KakaoProfileResponse profile = kakaoProfileClient.getProfile(accessToken);
 
             OAuthResponse oAuthResponse = OAuthResponse.builder()
-                    .platformId(profile.getId().toString())
+                    .platformId(profile.getId())
                     .platformType("kakao")
                     .email(profile.getKakaoAccount().getEmail())
                     .name(profile.getKakaoAccount().getProfile().getNickname())

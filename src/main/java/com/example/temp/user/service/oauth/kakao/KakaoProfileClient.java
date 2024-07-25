@@ -21,7 +21,7 @@ public class KakaoProfileClient {
 
     public KakaoProfileResponse getProfile(String accessToken) {
 
-        KakaoProfileResponse profile = WebClient.create(kakaoUrlBuilder.profile())
+        return WebClient.create(kakaoUrlBuilder.getProfileUri())
                 .post()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
                 .header(HttpHeaders.CONTENT_TYPE, HttpHeaderValues.APPLICATION_X_WWW_FORM_URLENCODED.toString())
@@ -32,8 +32,6 @@ public class KakaoProfileClient {
                         Mono.error(new CustomException(HttpStatus.BAD_GATEWAY, "Internal Server Error")))
                 .bodyToMono(KakaoProfileResponse.class)
                 .block();
-
-        return profile;
     }
 }
 

@@ -9,14 +9,14 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class OAuthResponse {
-    private String platformId;
+    private Long platformId;
     private String platformType;
     private String email;
     private String name;
     private String profileImageUrl;
 
     @Builder
-    private OAuthResponse(String platformId, String platformType, String email, String name, String profileImageUrl) {
+    private OAuthResponse(Long platformId, String platformType, String email, String name, String profileImageUrl) {
         this.platformId = platformId;
         this.platformType = platformType;
         this.email = email;

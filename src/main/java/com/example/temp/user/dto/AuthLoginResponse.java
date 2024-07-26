@@ -1,6 +1,6 @@
 package com.example.temp.user.dto;
 
-import com.example.temp.user.domain.UserRole;
+import com.example.temp.user.domain.value.UserRole;
 import lombok.Builder;
 import lombok.Getter;
 

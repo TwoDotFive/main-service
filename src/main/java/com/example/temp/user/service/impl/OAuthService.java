@@ -1,5 +1,6 @@
 package com.example.temp.user.service.impl;
 
+import com.example.temp.user.domain.value.PlatformType;
 import com.example.temp.user.service.oauth.OAuthAdapter;
 import com.example.temp.user.service.oauth.OAuthFactory;
 import com.example.temp.user.service.oauth.OAuthUrlBuilder;
@@ -16,12 +17,12 @@ import java.util.Map;
 @Slf4j
 public class OAuthService {
 
-    private final Map<String, OAuthFactory> adapterMap;
+    private final Map<PlatformType, OAuthFactory> adapterMap;
 
     public OAuthService(OAuthKakaoAdapter oAuthKakaoAdapter, KakaoUrlBuilder kakaoURLBuilder) {
         // 객체 생성 시점에 맵 구축
         this.adapterMap = new HashMap<>() {{
-            put("kakao", OAuthFactory.builder()
+            put(PlatformType.KAKAO, OAuthFactory.builder()
                     .oAuthAdapter(oAuthKakaoAdapter)
                     .oAuthURLBuilder(kakaoURLBuilder)
                     .build());
@@ -29,13 +30,13 @@ public class OAuthService {
     }
 
     public String loginPage(String platformType) {
-        return adapterMap.get(platformType)
+        return adapterMap.get(PlatformType.fromName(platformType))
                 .getOAuthURLBuilder()
                 .authorize();
     }
 
     public OAuthResponse login(String platformType, String code) {
-        OAuthFactory factory = getOAuthFactory(platformType);
+        OAuthFactory factory = getOAuthFactory(PlatformType.fromName(platformType));
         OAuthUrlBuilder urlBuilder = factory.getOAuthURLBuilder();
         OAuthAdapter adapter = factory.getOAuthAdapter();
         log.info(">>>> {} Login Start", platformType);
@@ -47,7 +48,7 @@ public class OAuthService {
         return profile;
     }
 
-    private OAuthFactory getOAuthFactory(String platformType) {
+    private OAuthFactory getOAuthFactory(PlatformType platformType) {
         return adapterMap.get(platformType);
     }
 }

@@ -45,6 +45,7 @@ public class SecurityConfig {
                 ); // 401 403 관련 예외처리
 
         // Jwt 인가 관련 필터
+        // TODO JWT 인가 exception 커스텀
         http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenService), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

@@ -1,6 +1,7 @@
 package com.example.temp.user.service.oauth.kakao;
 
 import com.example.temp.common.exception.CustomException;
+import com.example.temp.user.domain.value.PlatformType;
 import com.example.temp.user.service.oauth.OAuthAdapter;
 import com.example.temp.user.service.oauth.response.KakaoProfileResponse;
 import com.example.temp.user.service.oauth.response.OAuthResponse;
@@ -31,15 +32,14 @@ public class OAuthKakaoAdapter implements OAuthAdapter {
             // 프로필 조회
             KakaoProfileResponse profile = kakaoProfileClient.getProfile(accessToken);
 
-            OAuthResponse oAuthResponse = OAuthResponse.builder()
+            return OAuthResponse.builder()
                     .platformId(profile.getId())
-                    .platformType("kakao")
+                    .platformType(PlatformType.KAKAO)
                     .email(profile.getKakaoAccount().getEmail())
                     .name(profile.getKakaoAccount().getProfile().getNickname())
                     .profileImageUrl(profile.getKakaoAccount().getProfile().getThumbnailImageUrl())
                     .build();
 
-            return oAuthResponse;
         } catch (RuntimeException e) {
             throw new CustomException(HttpStatus.BAD_REQUEST, "프로필 조회에 실패했습니다");
         }

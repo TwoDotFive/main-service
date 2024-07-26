@@ -19,12 +19,12 @@ public class OAuthController {
     private final OAuthService oAuthService;
     private final CreateUserService createUserService;
 
-    @GetMapping("/{platform}/login")
+    @GetMapping("/{platformType}/login")
     public ResponseEntity<String> loginform(
-            @PathVariable("platform") String platform,
+            @PathVariable("platformType") String platformType,
             @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
-        String loginPage = oAuthService.loginPage(platform);
+        String loginPage = oAuthService.loginPage(platformType);
         return ResponseEntity.ok(loginPage);
     }
 

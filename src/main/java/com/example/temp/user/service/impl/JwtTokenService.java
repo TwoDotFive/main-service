@@ -1,6 +1,6 @@
 package com.example.temp.user.service.impl;
 
-import com.example.temp.user.domain.UserRole;
+import com.example.temp.user.domain.value.UserRole;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

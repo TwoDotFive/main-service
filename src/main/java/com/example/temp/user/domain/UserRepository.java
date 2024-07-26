@@ -13,7 +13,7 @@ public interface UserRepository extends Repository<User, Long> {
 	Optional<User> findByEmail(String email);
 	User save(User saveUser);
 
-	default User findByIdOrElseThrow(Long id) {
-		return findById(id).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "회원 조회 실패"));
+	default User findByIdOrElseThrow(String email) {
+		return findByEmail(email).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "회원 조회 실패"));
 	}
 }

@@ -6,8 +6,12 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -18,6 +22,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
+@RequiredArgsConstructor
 public class JwtTokenService {
 
     @Value("${jwt.secretKey}")
@@ -25,10 +30,18 @@ public class JwtTokenService {
     @Value("${jwt.expiration-time}")
     private long expirationTime;
 
+    private final UserDetailsService userDetailsService;
+
+    public Authentication getAuthentication(String token) {
+        Claims claims = extractAllClaims(token);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(claims.getSubject());
+        return new UsernamePasswordAuthenticationToken(userDetails, token, userDetails.getAuthorities());
+    }
+
     /*
      *   Token에서 사용자 이름 추출
      */
-    public String extractUsername(String token) {
+    public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -52,7 +65,7 @@ public class JwtTokenService {
     public String generateAccessToken(Map<String, String> extraClaims, UserDetails userDetails, Date expiredTime) {
         return Jwts.builder()
                 .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
+                .setSubject(userDetails.getUsername()) // email
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(expiredTime)
                 .signWith(getSignInkey(), SignatureAlgorithm.HS256)
@@ -73,7 +86,7 @@ public class JwtTokenService {
     public String generateRefreshToken(Map<String, String> extraClaims, UserDetails userDetails, Date expiredTime) {
         return Jwts.builder()
                 .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
+                .setSubject(userDetails.getUsername()) // email
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(expiredTime)
                 .signWith(getSignInkey(), SignatureAlgorithm.HS256)
@@ -84,7 +97,7 @@ public class JwtTokenService {
     /*
      *   Token 검증
      */
-    public boolean isTokenValid(String token, String username) {
+    public boolean isTokenValid(String token) {
         Claims claims = extractAllClaims(token);
 
         try {
@@ -100,10 +113,10 @@ public class JwtTokenService {
 
         String claimsSubject = claims.getSubject();
 
-        return (claimsSubject.equals(username)) && !isTokenExpired(token);
+        return !isTokenExpired(token);
     }
 
-    public boolean isTokenExpired(String token) {
+    private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
@@ -111,11 +124,11 @@ public class JwtTokenService {
     /*
      *   Token 정보 추출
      */
-    public Date extractExpiration(String token) {
+    private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    public Claims extractAllClaims(String token) {
+    private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSignInkey())
                 .build()

@@ -3,6 +3,8 @@ package com.example.temp.user.domain;
 import com.example.temp.common.entity.BaseTimeEntity;
 import com.example.temp.common.util.IdUtil;
 import com.example.temp.user.domain.value.Nickname;
+import com.example.temp.user.domain.value.PlatformType;
+import com.example.temp.user.domain.value.UserRole;
 import com.example.temp.user.service.oauth.response.OAuthResponse;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -23,7 +25,7 @@ public class User extends BaseTimeEntity implements UserDetails {
     @Id
     private Long id;
     private Long platformId;
-    private String platformType;
+    private PlatformType platformType;
     private String email;
     private String name;
     @Embedded

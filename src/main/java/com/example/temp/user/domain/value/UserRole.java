@@ -1,4 +1,4 @@
-package com.example.temp.user.domain;
+package com.example.temp.user.domain.value;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -4,5 +4,5 @@ import com.example.temp.user.dto.UserProfileView;
 
 public interface FindUserProfileService {
 
-	UserProfileView doService(Long userId);
+	UserProfileView doService(String email);
 }

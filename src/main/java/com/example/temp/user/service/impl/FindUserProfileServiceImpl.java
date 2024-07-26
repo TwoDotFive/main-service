@@ -18,8 +18,8 @@ public class FindUserProfileServiceImpl implements FindUserProfileService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public UserProfileView doService(Long userId) {
-		User user = userRepository.findByIdOrElseThrow(userId);
+	public UserProfileView doService(String email) {
+		User user = userRepository.findByIdOrElseThrow(email);
 		return new UserProfileView(user);
 	}
 }

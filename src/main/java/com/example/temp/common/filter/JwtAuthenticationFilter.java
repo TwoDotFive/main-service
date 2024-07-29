@@ -35,8 +35,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = authorizationHeader.substring(7);
             //JWT 유효성 검증
             if (jwtTokenService.isTokenValid(token)) {
-                String email = jwtTokenService.extractEmail(token);
-
                 //현재 Request의 Security Context에 접근권한 설정
                 Authentication authentication = jwtTokenService.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);

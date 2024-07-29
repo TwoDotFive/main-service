@@ -13,15 +13,15 @@ public class OAuthResponse {
     private Long platformId;
     private PlatformType platformType;
     private String email;
-    private String name;
+    private String nickname;
     private String profileImageUrl;
 
     @Builder
-    private OAuthResponse(Long platformId, PlatformType platformType, String email, String name, String profileImageUrl) {
+    private OAuthResponse(Long platformId, PlatformType platformType, String email, String nickname, String profileImageUrl) {
         this.platformId = platformId;
         this.platformType = platformType;
         this.email = email;
-        this.name = name;
+        this.nickname = nickname;
         this.profileImageUrl = profileImageUrl;
     }
 }

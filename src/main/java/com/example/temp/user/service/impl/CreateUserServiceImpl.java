@@ -36,7 +36,7 @@ public class CreateUserServiceImpl implements CreateUserService {
                 });
 
         // 기존 회원의 경우 name, profileImageUrl 변하면 update
-        findUser.updateProfile(oAuthResponse.getName(), oAuthResponse.getProfileImageUrl());
+        findUser.updateProfile(oAuthResponse.getNickname(), oAuthResponse.getProfileImageUrl());
 
         // JWT Access Token, Refresh Token 발급
         JwtToken tokens = createJwtToken(findUser);

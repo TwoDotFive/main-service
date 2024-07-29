@@ -37,7 +37,6 @@ public class OAuthService {
 
     public OAuthResponse login(String platformType, String code) {
         OAuthFactory factory = getOAuthFactory(PlatformType.fromName(platformType));
-        OAuthUrlBuilder urlBuilder = factory.getOAuthURLBuilder();
         OAuthAdapter adapter = factory.getOAuthAdapter();
         log.info(">>>> {} Login Start", platformType);
 

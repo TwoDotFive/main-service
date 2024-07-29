@@ -68,7 +68,7 @@ public class GlobalExceptionHandler {
 		StringWriter errors = new StringWriter();
 		e.printStackTrace(new PrintWriter(errors));
 		log.error(errors.toString());
-		ErrorResponse errorResponse = new ErrorResponse("예상치 못한 오류 발생");
+		ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
 		return ResponseEntity.badRequest().body(errorResponse);
 	}
 

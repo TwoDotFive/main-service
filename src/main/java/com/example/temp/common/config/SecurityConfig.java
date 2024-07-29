@@ -36,8 +36,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorizeRequests) ->
                         authorizeRequests
                                 .requestMatchers(PathRequest.toH2Console()).permitAll()
-                                .requestMatchers("/**").permitAll()
-                                .anyRequest().authenticated()
+                                .requestMatchers("/user/**").authenticated()
+                                .anyRequest().permitAll()
                 )
                 .exceptionHandling((exceptionConfig) ->
                         exceptionConfig.authenticationEntryPoint(unauthorizedEntryPoint).accessDeniedHandler(accessDeniedHandler)

@@ -1,6 +1,8 @@
 package com.example.temp.user.service.impl;
 
-import com.example.temp.user.domain.value.UserRole;
+import com.example.temp.common.entity.CustomUserDetails;
+import com.example.temp.user.domain.User;
+import com.example.temp.user.dto.JwtToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -25,6 +27,11 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class JwtTokenService {
 
+    private static final String IDENTIFICATION_CLAIM = "identification";
+    private static final String ROLE_CLAIM = "role";
+    private static final String NAME_CLAIM = "name";
+    private static final String PROFILE_IMAGE_CLAIM = "profileImageUrl";
+
     @Value("${jwt.secretKey}")
     private String secretKey;
     @Value("${jwt.expiration-time}")
@@ -34,21 +41,35 @@ public class JwtTokenService {
 
     public Authentication getAuthentication(String token) {
         Claims claims = extractAllClaims(token);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(claims.getSubject());
+        UserDetails userDetails = userDetailsService.loadUserByUsername(claims.get(IDENTIFICATION_CLAIM, Long.class).toString());
         return new UsernamePasswordAuthenticationToken(userDetails, token, userDetails.getAuthorities());
     }
 
-    /*
-     *   Token에서 사용자 이름 추출
-     */
-    public String extractEmail(String token) {
-        return extractClaim(token, Claims::getSubject);
-    }
+    public JwtToken createJwtToken(User user) {
+        // JWT 토큰 생성을 위한 claims 생성
+        HashMap<String, Object> claims = new HashMap<>();
+        claims.put(IDENTIFICATION_CLAIM, user.getId());
+        claims.put(ROLE_CLAIM, user.getUserRole().name());
+        claims.put(NAME_CLAIM, user.getName());
+        claims.put(PROFILE_IMAGE_CLAIM, user.getProfileImageUrl());
 
-    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        Claims claims = extractAllClaims(token);
+        UserDetails customUserDetails = CustomUserDetails.create(user);
+        // Access Token 생성
+        final String accessToken = generateAccessToken(claims, customUserDetails);
+        // Refresh Token 생성
+        final String refreshToken = generateRefreshToken(claims, customUserDetails);
 
-        return claimsResolver.apply(claims);
+        // Refresh Token 저장 - REDIS
+//        RefreshToken rt = RefreshToken.builder()
+//                .refreshToken(refreshToken)
+//                .email(user.getEmail())
+//                .build();
+//        refreshTokenService.saveRefreshToken(rt);
+
+        return JwtToken.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
     }
 
     /*
@@ -58,11 +79,11 @@ public class JwtTokenService {
         return generateAccessToken(new HashMap<>(), userDetails, new Date(System.currentTimeMillis() + expirationTime));
     }
 
-    public String generateAccessToken(Map<String, String> extraClaims, UserDetails userDetails) {
+    public String generateAccessToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return generateAccessToken(extraClaims, userDetails, new Date(System.currentTimeMillis() + expirationTime));
     }
 
-    public String generateAccessToken(Map<String, String> extraClaims, UserDetails userDetails, Date expiredTime) {
+    public String generateAccessToken(Map<String, Object> extraClaims, UserDetails userDetails, Date expiredTime) {
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername()) // email
@@ -79,11 +100,11 @@ public class JwtTokenService {
         return generateAccessToken(new HashMap<>(), userDetails, new Date(System.currentTimeMillis() + expirationTime * 7));
     }
 
-    public String generateRefreshToken(Map<String, String> extraClaims, UserDetails userDetails) {
+    public String generateRefreshToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return generateRefreshToken(extraClaims, userDetails, new Date(System.currentTimeMillis() + expirationTime * 7));
     }
 
-    public String generateRefreshToken(Map<String, String> extraClaims, UserDetails userDetails, Date expiredTime) {
+    public String generateRefreshToken(Map<String, Object> extraClaims, UserDetails userDetails, Date expiredTime) {
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername()) // email
@@ -101,12 +122,8 @@ public class JwtTokenService {
         Claims claims = extractAllClaims(token);
 
         try {
-            if (!claims.containsKey("role")) {
-                UserRole.valueOf(claims.get("role", String.class));
-                return false;
-            }
-            if (!claims.containsKey("name")) return false;
-            if (!claims.containsKey("profileImageUrl")) return false;
+            if (!claims.containsKey(ROLE_CLAIM)) return false;
+            if (!claims.containsKey(IDENTIFICATION_CLAIM)) return false;
         } catch (RuntimeException e) { // covered for NullPointException, IllegalArgumentException
             throw new JwtException("잘못된 정보입니다");
         }
@@ -124,6 +141,12 @@ public class JwtTokenService {
     /*
      *   Token 정보 추출
      */
+    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        Claims claims = extractAllClaims(token);
+
+        return claimsResolver.apply(claims);
+    }
+
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
@@ -142,18 +165,4 @@ public class JwtTokenService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateExpiredAccessToken(Map<String, String> claims, UserDetails user) {
-        Date now = new Date();
-
-        // 만료기간을 현재 시각보다 이전으로
-        Date expiryTime = new Date(now.getTime() - 1000);
-
-        return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(user.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(expiryTime)
-                .signWith(getSignInkey(), SignatureAlgorithm.HS256)
-                .compact();
-    }
 }

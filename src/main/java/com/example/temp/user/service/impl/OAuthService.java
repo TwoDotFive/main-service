@@ -30,13 +30,13 @@ public class OAuthService {
     }
 
     public String loginPage(String platformType) {
-        return adapterMap.get(PlatformType.fromName(platformType))
+        return adapterMap.get(PlatformType.valueOf(platformType.toUpperCase()))
                 .getOAuthURLBuilder()
                 .authorize();
     }
 
     public OAuthResponse login(String platformType, String code) {
-        OAuthFactory factory = getOAuthFactory(PlatformType.fromName(platformType));
+        OAuthFactory factory = getOAuthFactory(PlatformType.valueOf(platformType.toUpperCase()));
         OAuthAdapter adapter = factory.getOAuthAdapter();
         log.info(">>>> {} Login Start", platformType);
 

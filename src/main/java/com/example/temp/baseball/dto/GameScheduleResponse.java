@@ -1,5 +1,6 @@
 package com.example.temp.baseball.dto;
 
+import com.example.temp.baseball.domain.Game;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -11,4 +12,5 @@ public class GameScheduleResponse {
     public TeamInformation home;
     public TeamInformation away;
     // 장소 full name, abbreviation name
+    public Game.State state;
 }

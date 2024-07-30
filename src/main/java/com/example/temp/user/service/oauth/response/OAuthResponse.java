@@ -13,15 +13,15 @@ public class OAuthResponse {
     private Long platformId;
     private PlatformType platformType;
     private String email;
-    private String nickname;
+    private String name; // kakao response에선 nickname
     private String profileImageUrl;
 
     @Builder
-    private OAuthResponse(Long platformId, PlatformType platformType, String email, String nickname, String profileImageUrl) {
+    private OAuthResponse(Long platformId, PlatformType platformType, String email, String name, String profileImageUrl) {
         this.platformId = platformId;
         this.platformType = platformType;
         this.email = email;
-        this.nickname = nickname;
+        this.name = name;
         this.profileImageUrl = profileImageUrl;
     }
 }

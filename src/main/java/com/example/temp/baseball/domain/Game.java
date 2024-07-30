@@ -1,10 +1,8 @@
 package com.example.temp.baseball.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
@@ -12,12 +10,16 @@ import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class Game {
     @Id
     private Long id;
-    private Long season;
-    private Long homeTeam;
-    private Long awayTeam;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Season season;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Team homeTeam;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Team awayTeam;
     private LocalDateTime startDate;
     @Enumerated(EnumType.STRING)
     public State state;

@@ -37,9 +37,9 @@ public class User extends BaseTimeEntity {
         user.platformId = response.getPlatformId();
         user.platformType = response.getPlatformType();
         user.email = response.getEmail();
-        user.name = response.getNickname();
+        user.name = response.getName();
         // TODO nickname 정책 확인
-        user.nickname = new Nickname("temp");
+        user.nickname = new Nickname(response.getName());
         user.profileImageUrl = response.getProfileImageUrl();
         user.userRole = UserRole.USER;
         return user;

@@ -1,11 +1,12 @@
 package com.example.temp.user.dto;
 
-import com.example.temp.common.util.IdUtil;
 import com.example.temp.user.domain.User;
+import com.example.temp.user.domain.value.UserRole;
 
-public record UserProfileView(String id, String nickname) {
+public record UserProfileView(String email, String nickname, String profileImageUrl, String name, String oneLiner,
+                              UserRole userRole, long favoriteTeam) {
 
-	public UserProfileView(User user) {
-		this(IdUtil.toString(user.getId()), user.getNickname());
-	}
+    public UserProfileView(User user) {
+        this(user.getEmail(), user.getNickname(), user.getProfileImageUrl(), user.getName(), user.getOneLiner(), user.getUserRole(), user.getFavoriteTeam());
+    }
 }

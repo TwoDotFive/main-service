@@ -1,17 +1,24 @@
 package com.example.temp.user.domain;
 
-import java.util.Optional;
-
+import com.example.temp.common.exception.CustomException;
+import com.example.temp.user.domain.value.PlatformType;
 import org.springframework.data.repository.Repository;
 import org.springframework.http.HttpStatus;
 
-import com.example.temp.common.exception.CustomException;
+import java.util.Optional;
 
 public interface UserRepository extends Repository<User, Long> {
 
-	Optional<User> findById(Long id);
+    Optional<User> findById(Long id);
 
-	default User findByIdOrElseThrow(Long id) {
-		return findById(id).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "회원 조회 실패"));
-	}
+    Optional<User> findByEmail(String email);
+
+    Optional<User> findByPlatformTypeAndPlatformId(PlatformType platformType, Long platformId);
+
+    User save(User saveUser);
+
+    default User findByIdOrElseThrow(Long id) {
+        return findById(id).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "회원 조회 실패"));
+    }
+
 }

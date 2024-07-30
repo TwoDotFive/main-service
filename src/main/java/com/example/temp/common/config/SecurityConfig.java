@@ -1,5 +1,6 @@
 package com.example.temp.common.config;
 
+
 import com.example.temp.common.exception.CustomException;
 import com.example.temp.common.filter.JwtAuthenticationFilter;
 import com.example.temp.user.service.impl.JwtTokenService;
@@ -49,6 +50,19 @@ public class SecurityConfig {
 
         return http.build();
     }
+  
+  	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration corsConfiguration = new CorsConfiguration();
+		corsConfiguration.addAllowedOriginPattern("*");
+		corsConfiguration.addAllowedMethod("*");
+		corsConfiguration.addAllowedHeader("*");
+		corsConfiguration.setAllowCredentials(true);
+		corsConfiguration.addExposedHeader("Authorization");
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", corsConfiguration);
+		return source;
+	}
 
     private final AuthenticationEntryPoint unauthorizedEntryPoint =
             (request, response, authException) -> {
@@ -59,4 +73,5 @@ public class SecurityConfig {
             (request, response, accessDeniedException) -> {
                 throw new CustomException(HttpStatus.FORBIDDEN, "Spring security forbidden...");
             };
+
 }

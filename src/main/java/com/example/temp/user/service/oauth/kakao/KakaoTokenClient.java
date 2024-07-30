@@ -15,11 +15,11 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class KakaoTokenClient {
 
-    public static final String GRANT_TYPE = "grant_type";
-    public static final String AUTHORIZATION_CODE = "authorization_code";
-    public static final String CLIENT_ID = "client_id";
-    public static final String REDIRECT_URI = "redirect_uri";
-    public static final String CODE = "code";
+    private static final String GRANT_TYPE = "grant_type";
+    private static final String AUTHORIZATION_CODE = "authorization_code";
+    private static final String CLIENT_ID = "client_id";
+    private static final String REDIRECT_URI = "redirect_uri";
+    private static final String CODE = "code";
 
     private final KakaoUrlBuilder kakaoUrlBuilder;
 

@@ -5,7 +5,6 @@ import com.example.temp.user.domain.User;
 import com.example.temp.user.dto.JwtToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ClaimsBuilder;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +20,6 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
@@ -120,41 +118,13 @@ public class JwtTokenService {
                 .compact();
     }
 
-
-    /*
-     *   Token 검증
-     */
     public boolean isTokenValid(String token) {
-        Claims claims = extractAllClaims(token);
-
         try {
-            if (!claims.containsKey(ROLE_CLAIM)) return false;
-            if (!claims.containsKey(IDENTIFICATION_CLAIM)) return false;
-        } catch (RuntimeException e) { // covered for NullPointException, IllegalArgumentException
-            throw new JwtException("잘못된 정보입니다");
+            extractAllClaims(token);
+        } catch (Exception e) {
+            return false;
         }
-
-        String claimsSubject = claims.getSubject();
-
-        return !isTokenExpired(token);
-    }
-
-    private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
-
-
-    /*
-     *   Token 정보 추출
-     */
-    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        Claims claims = extractAllClaims(token);
-
-        return claimsResolver.apply(claims);
-    }
-
-    private Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
+        return true;
     }
 
     private Claims extractAllClaims(String token) {

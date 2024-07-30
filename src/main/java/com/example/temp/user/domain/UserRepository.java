@@ -1,6 +1,7 @@
 package com.example.temp.user.domain;
 
 import com.example.temp.common.exception.CustomException;
+import com.example.temp.user.domain.value.PlatformType;
 import org.springframework.data.repository.Repository;
 import org.springframework.http.HttpStatus;
 
@@ -12,13 +13,9 @@ public interface UserRepository extends Repository<User, Long> {
 
     Optional<User> findByEmail(String email);
 
-    Optional<User> findByPlatformId(Long platformId);
+    Optional<User> findByPlatformTypeAndPlatformId(PlatformType platformType, Long platformId);
 
     User save(User saveUser);
-
-    default User findByEmailOrElseThrow(String email) {
-        return findByEmail(email).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "회원 조회 실패"));
-    }
 
     default User findByIdOrElseThrow(Long id) {
         return findById(id).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "회원 조회 실패"));

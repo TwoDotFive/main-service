@@ -32,7 +32,7 @@ public class JwtTokenService {
     private static final String NAME_CLAIM = "name";
     private static final String PROFILE_IMAGE_CLAIM = "profileImageUrl";
 
-    @Value("${jwt.secretKey}")
+    @Value("${jwt.secret-key}")
     private String secretKey;
     @Value("${jwt.expiration-time}")
     private long expirationTime;

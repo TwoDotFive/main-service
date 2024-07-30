@@ -5,6 +5,7 @@ import com.example.temp.common.util.IdUtil;
 import com.example.temp.user.domain.value.Nickname;
 import com.example.temp.user.domain.value.PlatformType;
 import com.example.temp.user.domain.value.UserRole;
+import com.example.temp.user.dto.UpdatedUserProfileRequest;
 import com.example.temp.user.service.oauth.response.OAuthResponse;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -27,6 +28,8 @@ public class User extends BaseTimeEntity {
     private String profileImageUrl;
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
+    private Long favoriteTeam;
+    private String oneLiner; // 한 줄 소개
 
     public static User build(OAuthResponse response) {
         User user = new User();
@@ -46,9 +49,11 @@ public class User extends BaseTimeEntity {
         return nickname.getValue();
     }
 
-    public void updateProfile(String name, String profileImageUrl) {
-        this.name = name;
-        this.profileImageUrl = profileImageUrl;
+    public void updateProfile(UpdatedUserProfileRequest request) {
+        this.nickname = new Nickname(request.getNickname());
+        this.oneLiner = request.getOneLiner();
+        this.favoriteTeam = request.getFavoriteTeam();
+        this.profileImageUrl = request.getProfileImageUrl();
     }
 
 }

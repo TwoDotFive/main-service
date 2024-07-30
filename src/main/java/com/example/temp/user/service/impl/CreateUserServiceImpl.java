@@ -23,7 +23,7 @@ public class CreateUserServiceImpl implements CreateUserService {
     @Transactional
     public AuthLoginResponse doService(OAuthResponse oAuthResponse) {
         // OAuth 로그인을 시도한 사용자 정보가 DB에 존재하는지 확인 후 없다면 등록
-        User findUser = userRepository.findByPlatformId(oAuthResponse.getPlatformId())
+        User findUser = userRepository.findByPlatformTypeAndPlatformId(oAuthResponse.getPlatformType(), oAuthResponse.getPlatformId())
                 .orElseGet(() -> {
                     User saveUser = User.build(oAuthResponse);
                     return userRepository.save(saveUser);

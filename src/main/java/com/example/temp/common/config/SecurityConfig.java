@@ -1,5 +1,6 @@
 package com.example.temp.common.config;
 
+
 import com.example.temp.common.exception.CustomException;
 import com.example.temp.common.filter.JwtAuthenticationFilter;
 import com.example.temp.user.service.impl.JwtTokenService;
@@ -16,6 +17,9 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -50,6 +54,19 @@ public class SecurityConfig {
         return http.build();
     }
 
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.addAllowedOriginPattern("*");
+        corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.setAllowCredentials(true);
+        corsConfiguration.addExposedHeader("Authorization");
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfiguration);
+        return source;
+    }
+
     private final AuthenticationEntryPoint unauthorizedEntryPoint =
             (request, response, authException) -> {
                 throw new CustomException(HttpStatus.UNAUTHORIZED, "Spring security unauthorized...");
@@ -59,4 +76,5 @@ public class SecurityConfig {
             (request, response, accessDeniedException) -> {
                 throw new CustomException(HttpStatus.FORBIDDEN, "Spring security forbidden...");
             };
+
 }

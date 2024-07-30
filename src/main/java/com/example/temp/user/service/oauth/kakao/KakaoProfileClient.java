@@ -5,7 +5,6 @@ import com.example.temp.common.exception.CustomException;
 import com.example.temp.user.service.oauth.response.KakaoProfileResponse;
 import io.netty.handler.codec.http.HttpHeaderValues;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -17,13 +16,14 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class KakaoProfileClient {
 
+    public static final String BEARER = "Bearer ";
     private final KakaoUrlBuilder kakaoUrlBuilder;
 
     public KakaoProfileResponse getProfile(String accessToken) {
 
         return WebClient.create(kakaoUrlBuilder.getProfileUri())
                 .post()
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                .header(HttpHeaders.AUTHORIZATION, BEARER + accessToken)
                 .header(HttpHeaders.CONTENT_TYPE, HttpHeaderValues.APPLICATION_X_WWW_FORM_URLENCODED.toString())
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, clientResponse ->

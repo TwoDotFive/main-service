@@ -20,8 +20,6 @@ public class KakaoUrlBuilder implements OAuthUrlBuilder {
     private String clientId;
     @Value("${oauth2.kakao.redirect-uri}")
     private String redirectUri;
-    @Value("${oauth2.kakao.client-secret}")
-    private String clientSecret;
 
     @Override
     public String authorize() {

@@ -4,10 +4,9 @@ import com.example.temp.common.entity.CustomUserDetails;
 import com.example.temp.user.domain.User;
 import com.example.temp.user.dto.JwtToken;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ClaimsBuilder;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,7 +15,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import java.security.Key;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
@@ -84,12 +84,15 @@ public class JwtTokenService {
     }
 
     public String generateAccessToken(Map<String, Object> extraClaims, UserDetails userDetails, Date expiredTime) {
+        ClaimsBuilder claimsBuilder = Jwts.claims();
+        claimsBuilder.subject(userDetails.getUsername());
+        claimsBuilder.add(extraClaims);
+
         return Jwts.builder()
-                .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername()) // email
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(expiredTime)
-                .signWith(getSignInkey(), SignatureAlgorithm.HS256)
+                .claims(claimsBuilder.build())
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(expiredTime)
+                .signWith(getSignInkey())
                 .compact();
     }
 
@@ -105,12 +108,15 @@ public class JwtTokenService {
     }
 
     public String generateRefreshToken(Map<String, Object> extraClaims, UserDetails userDetails, Date expiredTime) {
+        ClaimsBuilder claimsBuilder = Jwts.claims();
+        claimsBuilder.subject(userDetails.getUsername());
+        claimsBuilder.add(extraClaims);
+
         return Jwts.builder()
-                .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername()) // email
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(expiredTime)
-                .signWith(getSignInkey(), SignatureAlgorithm.HS256)
+                .claims(claimsBuilder.build())
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(expiredTime)
+                .signWith(getSignInkey())
                 .compact();
     }
 
@@ -152,17 +158,16 @@ public class JwtTokenService {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSignInkey())
+        return Jwts.parser()
+                .verifyWith(getSignInkey())
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
-    private Key getSignInkey() {
+    private SecretKey getSignInkey() {
         byte[] keyBytes = Base64.getDecoder().decode(secretKey);
-
-        return Keys.hmacShaKeyFor(keyBytes);
+        return new SecretKeySpec(keyBytes, "HmacSHA256");
     }
 
 }

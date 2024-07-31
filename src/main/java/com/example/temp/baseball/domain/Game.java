@@ -1,10 +1,8 @@
 package com.example.temp.baseball.domain;
 
+import com.example.temp.common.util.IdUtil;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -22,7 +20,7 @@ public class Game {
     private Team awayTeam;
     private LocalDateTime startDate;
     @Enumerated(EnumType.STRING)
-    public State state;
+    private State state;
 
     @RequiredArgsConstructor
     public enum State {
@@ -31,5 +29,15 @@ public class Game {
         TERMINATED("경기종료");
 
         private final String kor;
+    }
+
+    @Builder
+    public Game(Season season, Team homeTeam, Team awayTeam, LocalDateTime startDate) {
+        this.id = IdUtil.create();
+        this.season = season;
+        this.homeTeam = homeTeam;
+        this.awayTeam = awayTeam;
+        this.startDate = startDate;
+        this.state = State.BEFORE_START;
     }
 }

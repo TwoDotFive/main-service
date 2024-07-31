@@ -26,6 +26,10 @@ public class CustomUserDetails implements UserDetails {
         return this.user.getFavoriteTeam();
     }
 
+    public boolean isAdmin() {
+        return this.user.getUserRole().isAdmin();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();

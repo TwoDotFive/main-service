@@ -13,4 +13,6 @@ public interface GameRepository extends Repository<Game, Long> {
                                                  @Param("team") Team team,
                                                  @Param("startOfWeek") LocalDateTime startOfWeek,
                                                  @Param("endOfWeek") LocalDateTime endOfWeek);
+
+    Game save(Game saveGame);
 }

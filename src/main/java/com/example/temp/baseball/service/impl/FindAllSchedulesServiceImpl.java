@@ -3,6 +3,7 @@ package com.example.temp.baseball.service.impl;
 import com.example.temp.baseball.domain.GameRepository;
 import com.example.temp.baseball.domain.Season;
 import com.example.temp.baseball.domain.SeasonRepository;
+import com.example.temp.baseball.domain.Team;
 import com.example.temp.baseball.dto.GameScheduleResponse;
 import com.example.temp.baseball.dto.GameSchedulesRequest;
 import com.example.temp.baseball.service.FindAllSchedulesService;
@@ -23,7 +24,7 @@ public class FindAllSchedulesServiceImpl implements FindAllSchedulesService {
     private final SeasonRepository seasonRepository;
 
     @Override
-    public List<GameScheduleResponse> doService(GameSchedulesRequest request) {
+    public List<GameScheduleResponse> doService(Team team, GameSchedulesRequest request) {
         Season season = seasonRepository.findByYearOrElseThrow(request.getSeason());
 
         LocalDate now = LocalDate.now();
@@ -33,8 +34,9 @@ public class FindAllSchedulesServiceImpl implements FindAllSchedulesService {
         LocalDateTime startOfWeekDateTime = startOfWeek.atStartOfDay();
         LocalDateTime endOfWeekDateTime = endOfWeek.atStartOfDay();
 
-        return gameRepository.findGamesForCurrentWeekInYear(season.getId(), startOfWeekDateTime, endOfWeekDateTime)
-                .stream().map(GameScheduleResponse::new)
+        return gameRepository.findAllByTeamAndCurrentWeekInYear(season, team, startOfWeekDateTime, endOfWeekDateTime)
+                .stream()
+                .map(GameScheduleResponse::new)
                 .collect(Collectors.toList());
     }
 }

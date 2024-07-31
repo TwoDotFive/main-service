@@ -1,5 +1,6 @@
 package com.example.temp.user.domain;
 
+import com.example.temp.baseball.domain.Team;
 import com.example.temp.common.entity.BaseTimeEntity;
 import com.example.temp.common.util.IdUtil;
 import com.example.temp.user.domain.value.Nickname;
@@ -28,7 +29,9 @@ public class User extends BaseTimeEntity {
     private String profileImageUrl;
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
-    private Long favoriteTeam;
+    @ManyToOne
+    @JoinColumn(name = "teamId", referencedColumnName = "id")
+    private Team favoriteTeam;
     private String oneLiner; // 한 줄 소개
 
     public static User build(OAuthResponse response) {
@@ -38,7 +41,6 @@ public class User extends BaseTimeEntity {
         user.platformType = response.getPlatformType();
         user.email = response.getEmail();
         user.name = response.getName();
-        // TODO nickname 정책 확인
         user.nickname = new Nickname(response.getName());
         user.profileImageUrl = response.getProfileImageUrl();
         user.userRole = UserRole.USER;
@@ -52,7 +54,7 @@ public class User extends BaseTimeEntity {
     public void updateProfile(UpdatedUserProfileRequest request) {
         this.nickname = new Nickname(request.getNickname());
         this.oneLiner = request.getOneLiner();
-        this.favoriteTeam = request.getFavoriteTeam();
+//        this.favoriteTeam = request.getFavoriteTeam();
         this.profileImageUrl = request.getProfileImageUrl();
     }
 

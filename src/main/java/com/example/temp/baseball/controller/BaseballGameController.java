@@ -3,8 +3,10 @@ package com.example.temp.baseball.controller;
 import com.example.temp.baseball.dto.GameScheduleResponse;
 import com.example.temp.baseball.dto.GameSchedulesRequest;
 import com.example.temp.baseball.service.FindAllSchedulesService;
+import com.example.temp.common.entity.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +23,11 @@ public class BaseballGameController {
 
     @GetMapping("/schedules")
     public ResponseEntity<List<GameScheduleResponse>> findAllSchedules(
+            @AuthenticationPrincipal CustomUserDetails authenticatedUser,
             @RequestBody GameSchedulesRequest schedulesRequest
     ) {
-        // user가 응원하는 팀의 스케줄을 보여줌
-        List<GameScheduleResponse> result = findAllSchedulesService.doService(schedulesRequest);
+        List<GameScheduleResponse> result = findAllSchedulesService.doService(authenticatedUser.getFavoriteTeam(), schedulesRequest);
         return ResponseEntity.ok(result);
     }
+
 }

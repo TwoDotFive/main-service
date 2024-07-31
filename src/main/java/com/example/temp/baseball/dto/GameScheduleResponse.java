@@ -10,6 +10,7 @@ import java.time.LocalTime;
 
 @Getter
 public class GameScheduleResponse {
+    public long id;
     public LocalDate startDate;
     public LocalTime startTime;
     public TeamInformation home;
@@ -18,6 +19,7 @@ public class GameScheduleResponse {
     public Game.State state;
 
     public GameScheduleResponse(Game game) {
+        this.id = game.getId();
         this.startDate = game.getStartDate().toLocalDate();
         this.startTime = game.getStartDate().toLocalTime();
         this.home = new TeamInformation(game.getHomeTeam());

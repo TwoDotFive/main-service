@@ -19,8 +19,8 @@ public class FindAllTeamsInSeasonServiceImpl implements FindAllTeamsInSeasonServ
     private final SeasonRepository seasonRepository;
 
     @Override
-    public List<TeamInformation> doService(int season) {
-        Optional<Season> found = seasonRepository.findByYear(season);
+    public List<TeamInformation> doService(int year) {
+        Optional<Season> found = seasonRepository.findByYear(year);
         if (found.isEmpty()) {
             return List.of();
         }

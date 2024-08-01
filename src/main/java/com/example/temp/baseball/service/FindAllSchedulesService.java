@@ -7,5 +7,5 @@ import com.example.temp.baseball.dto.GameSchedulesRequest;
 import java.util.List;
 
 public interface FindAllSchedulesService {
-    public List<GameScheduleResponse> doService(Team team, GameSchedulesRequest request);
+    List<GameScheduleResponse> doService(Team team, int year);
 }

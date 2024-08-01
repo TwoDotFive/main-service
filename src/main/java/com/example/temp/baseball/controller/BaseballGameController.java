@@ -23,9 +23,9 @@ public class BaseballGameController {
     @GetMapping("/schedules")
     public ResponseEntity<List<GameScheduleResponse>> findAllSchedules(
             @AuthenticationPrincipal CustomUserDetails authenticatedUser,
-            @RequestBody GameSchedulesRequest schedulesRequest
+            @RequestParam(name = "year", required = true) int year
     ) {
-        List<GameScheduleResponse> result = findAllSchedulesService.doService(authenticatedUser.getFavoriteTeam(), schedulesRequest);
+        List<GameScheduleResponse> result = findAllSchedulesService.doService(authenticatedUser.getFavoriteTeam(), year);
         return ResponseEntity.ok(result);
     }
 

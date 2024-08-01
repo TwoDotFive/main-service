@@ -19,9 +19,9 @@ public class TeamController {
 
     @GetMapping("/teams")
     public ResponseEntity<List<TeamInformation>> find(
-            @RequestParam(name = "season", required = true) int season
+            @RequestParam(name = "year", required = true) int year
     ) {
-        List<TeamInformation> result = findAllTeamsInSeasonService.doService(season);
+        List<TeamInformation> result = findAllTeamsInSeasonService.doService(year);
         return ResponseEntity.ok(result);
     }
 }

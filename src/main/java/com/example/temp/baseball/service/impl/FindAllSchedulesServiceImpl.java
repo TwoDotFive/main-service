@@ -24,8 +24,8 @@ public class FindAllSchedulesServiceImpl implements FindAllSchedulesService {
     private final SeasonRepository seasonRepository;
 
     @Override
-    public List<GameScheduleResponse> doService(Team team, GameSchedulesRequest request) {
-        Season season = seasonRepository.findByYearOrElseThrow(request.getSeason());
+    public List<GameScheduleResponse> doService(Team team, int year) {
+        Season season = seasonRepository.findByYearOrElseThrow(year);
 
         LocalDate now = LocalDate.now();
         LocalDate startOfWeek = now.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));

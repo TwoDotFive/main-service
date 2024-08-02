@@ -1,6 +1,7 @@
 package com.example.temp.common.entity;
 
 import com.example.temp.baseball.domain.Team;
+
 import com.example.temp.user.domain.User;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class CustomUserDetails implements UserDetails {
     public long getId() {
         return this.user.getId();
     }
+
 
     public Team getFavoriteTeam() {
         return this.user.getFavoriteTeam();

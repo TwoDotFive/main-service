@@ -1,6 +1,7 @@
 package com.example.temp.user.domain;
 
 import com.example.temp.baseball.domain.Team;
+
 import com.example.temp.common.entity.BaseTimeEntity;
 import com.example.temp.common.util.IdUtil;
 import com.example.temp.user.domain.value.Nickname;
@@ -29,6 +30,7 @@ public class User extends BaseTimeEntity {
     private String profileImageUrl;
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
+
     @ManyToOne
     @JoinColumn(name = "teamId", referencedColumnName = "id")
     private Team favoriteTeam;

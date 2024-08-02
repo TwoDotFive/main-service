@@ -54,8 +54,10 @@ public class User extends BaseTimeEntity {
     public void updateProfile(UpdatedUserProfileRequest request) {
         this.nickname = new Nickname(request.getNickname());
         this.oneLiner = request.getOneLiner();
-//        this.favoriteTeam = request.getFavoriteTeam();
         this.profileImageUrl = request.getProfileImageUrl();
     }
 
+    public void updateFavoriteTeam(Team team) {
+        this.favoriteTeam = team;
+    }
 }

@@ -15,7 +15,6 @@ public class GameScheduleResponse {
     public LocalTime startTime;
     public TeamInformation home;
     public TeamInformation away;
-    // 장소 full name, abbreviation name
     public Game.State state;
 
     public GameScheduleResponse(Game game) {

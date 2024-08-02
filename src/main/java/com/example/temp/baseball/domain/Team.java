@@ -18,5 +18,6 @@ public class Team {
     private Season season;
     private String name;
     private String representativeImageUrl;
-    // 구단 (enum으로 할지 DB에 저장할지)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Stadium stadium;
 }

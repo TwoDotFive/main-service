@@ -15,4 +15,7 @@ public interface ChatRoomRepository extends Repository<ChatRoom, Long> {
     default ChatRoom findByIdOrElseThrow(Long id) {
         return findById(id).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Chat Room Not Found"));
     }
+
+    void deleteById(Long id);
+
 }

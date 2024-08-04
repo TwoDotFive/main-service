@@ -18,4 +18,6 @@ public interface UserChatRoomRepository extends Repository<UserChatRoom, Long> {
     }
 
     List<UserChatRoom> findByUserId(Long userId);
+
+    List<UserChatRoom> findByUserIdAndDeletedFalse(Long userId);
 }

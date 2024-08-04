@@ -28,12 +28,19 @@ public class UserChatRoom extends BaseTimeEntity {
 
     private LocalDateTime lastExitTime;
 
+    private boolean deleted;
+
     public static UserChatRoom build(User user, ChatRoom chatRoom) {
         UserChatRoom userChatRoom = new UserChatRoom();
         userChatRoom.id = IdUtil.create();
         userChatRoom.user = user;
         userChatRoom.chatRoom = chatRoom;
         userChatRoom.lastExitTime = LocalDateTime.now();
+        userChatRoom.deleted = false;
         return userChatRoom;
+    }
+
+    public void setDeleted() {
+        deleted = true;
     }
 }

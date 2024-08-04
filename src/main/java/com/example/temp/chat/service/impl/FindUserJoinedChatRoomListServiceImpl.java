@@ -18,7 +18,8 @@ public class FindUserJoinedChatRoomListServiceImpl implements FindUserJoinedChat
     @Override
     @Transactional(readOnly = true)
     public List<ChatRoomView> doService(long userId) {
-        return userChatRoomRepository.findByUserId(userId).stream()
+        return userChatRoomRepository.findByUserIdAndDeletedFalse(userId)
+                .stream()
                 .map(userChatRoom -> ChatRoomView.of(userChatRoom.getChatRoom()))
                 .toList();
     }

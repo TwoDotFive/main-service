@@ -4,6 +4,7 @@ import com.example.temp.common.exception.CustomException;
 import org.springframework.data.repository.Repository;
 import org.springframework.http.HttpStatus;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserChatRoomRepository extends Repository<UserChatRoom, Long> {
@@ -15,4 +16,6 @@ public interface UserChatRoomRepository extends Repository<UserChatRoom, Long> {
     default UserChatRoom findByIdOrElseThrow(Long id) {
         return findById(id).orElseThrow(() -> new CustomException(HttpStatus.FORBIDDEN, "Chat Room User Not Found"));
     }
+
+    List<UserChatRoom> findByUserId(Long userId);
 }

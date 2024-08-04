@@ -2,14 +2,12 @@ package com.example.temp.chat.domain;
 
 import com.example.temp.common.entity.BaseTimeEntity;
 import com.example.temp.common.util.IdUtil;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,10 +19,12 @@ public class ChatRoom extends BaseTimeEntity {
     @Id
     private Long id;
 
-    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<UserChatRoom> userChatRooms = new HashSet<>();
 
     private String lastMessage;
+
+    private LocalDateTime lastMessageTime;
 
     public static ChatRoom create() {
         ChatRoom chatRoom = new ChatRoom();

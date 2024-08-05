@@ -3,6 +3,7 @@ package com.example.temp.chat.controller;
 import com.example.temp.chat.dto.SaveChatMessageCommand;
 import com.example.temp.chat.dto.StompChatMessage;
 import com.example.temp.chat.service.SaveChatMessageService;
+import com.example.temp.common.util.IdUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -28,7 +29,7 @@ public class StompController {
         Long userId = (Long) accessor.getSessionAttributes().get("userId");
         SaveChatMessageCommand command = SaveChatMessageCommand.build(roomId, userId, message.getType(), message.getContent());
         saveChatMessageService.doService(command);
-        message.setUserId(userId.toString());
+        message.setUserId(IdUtil.toString(userId));
         return message;
     }
 }

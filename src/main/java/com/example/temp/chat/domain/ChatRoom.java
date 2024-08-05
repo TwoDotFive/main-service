@@ -36,4 +36,8 @@ public class ChatRoom extends BaseTimeEntity {
         userChatRooms.add(userChatRoom);
     }
 
+    public void updateLastMessageInfo(String lastMessage) {
+        this.lastMessage = lastMessage;
+        this.lastMessageTime = LocalDateTime.now();
+    }
 }

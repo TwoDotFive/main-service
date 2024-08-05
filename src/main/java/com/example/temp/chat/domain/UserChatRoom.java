@@ -43,4 +43,8 @@ public class UserChatRoom extends BaseTimeEntity {
     public void setDeleted() {
         deleted = true;
     }
+
+    public void updateLastExitTime() {
+        lastExitTime = LocalDateTime.now();
+    }
 }

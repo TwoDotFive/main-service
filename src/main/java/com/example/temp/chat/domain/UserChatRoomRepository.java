@@ -20,4 +20,8 @@ public interface UserChatRoomRepository extends Repository<UserChatRoom, Long> {
     List<UserChatRoom> findByUserId(Long userId);
 
     List<UserChatRoom> findByUserIdAndDeletedFalse(Long userId);
+
+    Optional<UserChatRoom> findByUserIdAndChatRoomId(Long userId, Long roomId);
+
+    boolean existsByUserIdAndChatRoomId(Long userId, Long roomId);
 }

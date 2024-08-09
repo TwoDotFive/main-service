@@ -6,6 +6,7 @@ import com.example.temp.geo.dto.VworldCoord2AddressResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -14,7 +15,7 @@ import reactor.core.publisher.Mono;
 * 국토교통부 Open API
 * https://www.vworld.kr/dev/v4dv_geocoderguide2_s002.do
 * */
-@Service
+@Component
 public class Coord2AddressClient {
     private static final String SERVICE_PARAM = "service";
     private static final String SERVICE_PARAM_VALUE = "address";
@@ -24,7 +25,6 @@ public class Coord2AddressClient {
     private static final String POINT_PARAM = "point";
     private static final String RESPONSE_TYPE_PARAM ="type";
     private static final String RESPONSE_TYPE_PARAM_VALUE ="PARCEL";    //법정동
-
 
     @Value("${geo.vworld.coord2address-uri}")
     private String coord2AddressUri;

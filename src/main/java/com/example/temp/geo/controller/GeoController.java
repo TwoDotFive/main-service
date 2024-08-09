@@ -1,7 +1,7 @@
 package com.example.temp.geo.controller;
 
-import com.example.temp.common.entity.Address;
-import com.example.temp.geo.service.impl.Coord2AddressClient;
+import com.example.temp.geo.dto.FindAddressResponse;
+import com.example.temp.geo.service.FindAddressByCoordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/geo")
 @RequiredArgsConstructor
 public class GeoController {
-    private final Coord2AddressClient coord2AddressClient;
+    private final FindAddressByCoordService findAddressByCoordService;
 
     @GetMapping("/coord2address")
-    public ResponseEntity<?> trans(
+    public ResponseEntity<FindAddressResponse> trans(
             @RequestParam("x") String x,
             @RequestParam("y") String y
     ) {
-        Address address = coord2AddressClient.trans(x, y);
-        return ResponseEntity.ok(address);
+        FindAddressResponse result = findAddressByCoordService.doService(x, y);
+        return ResponseEntity.ok(result);
     }
 }

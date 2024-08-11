@@ -18,6 +18,7 @@ import java.net.URI;
 @Component
 @Slf4j
 public class TourInformationBasedLocationClient {
+
     public static final String NUM_OF_ROWS_PARAM = "numOfRows";
     public static final String PAGE_NO_PARAM = "pageNo";
     public static final String MOBILE_OS_PARAM = "MobileOS"; // required
@@ -52,12 +53,12 @@ public class TourInformationBasedLocationClient {
                 .queryParam(SERVICE_KEY_PARAM, restApiKey)
                 .queryParam(MOBILE_OS_PARAM, MOBILE_OS_PARAM_VALUE)
                 .queryParam(MOBILE_APP_PARAM, MOBILE_APP_PARAM_VALUE)
-                .queryParam(MAP_X_PARAM, command.getX())
-                .queryParam(MAP_Y_PARAM, command.getY())
-                .queryParam(RADIUS_PARAM, command.getRadius()) // 여기까지 필수
-                .queryParam(NUM_OF_ROWS_PARAM, command.getNumOfRows())
-                .queryParam(PAGE_NO_PARAM, command.getPageNo())
-                .queryParam(CONTENT_TYPE_ID_PARAM, command.getContentTypeId())
+                .queryParam(MAP_X_PARAM, command.x())
+                .queryParam(MAP_Y_PARAM, command.y())
+                .queryParam(RADIUS_PARAM, command.radius()) // 여기까지 필수
+                .queryParam(NUM_OF_ROWS_PARAM, command.numOfRows())
+                .queryParam(PAGE_NO_PARAM, command.pageNo())
+                .queryParam(CONTENT_TYPE_ID_PARAM, command.contentTypeId())
                 .queryParam(TYPE_PARAM, TYPE_PARAM_VALUE)
                 .build(true)
                 .toUri();

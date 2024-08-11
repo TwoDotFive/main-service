@@ -8,34 +8,35 @@ import java.util.List;
 
 @Getter
 public class TourInformationBasedLocationDto {
-    private int numOfRows;
-    private int pageNo;
-    private int totalCount;
-    private List<Item> item;
+
+    private final int numOfRows;
+    private final int pageNo;
+    private final int totalCount;
+    private final List<Item> item;
 
     @Getter
     private static class Item {
-        private String contentTypeId;
-        private String areaCode;
-        private String sigunguCode;
+        private final String contentTypeId;
+        private final String areaCode;
+        private final String sigunguCode;
 
-        private String cat1; // 대분류
-        private String cat2; // 중분류
-        private String cat3; // 소분류
-        private String addr1;   // 주소 전체
-        private String addr2; // 상세주소
+        private final String cat1; // 대분류
+        private final String cat2; // 중분류
+        private final String cat3; // 소분류
+        private final String addr1;   // 주소 전체
+        private final String addr2; // 상세주소
 
-        private String representativeImageUrl;  // 대표이미지
-        private String thumbnail; // 썸네일 이미지
-        private String x;
-        private String y;
+        private final String representativeImageUrl;  // 대표이미지
+        private final String thumbnail; // 썸네일 이미지
+        private final String x;
+        private final String y;
 
-        private String dist; // 거리
-        private String tel;
-        private String title;
+        private final String dist; // 거리
+        private final String tel;
+        private final String title;
 
-        private LocalDateTime createdTime;
-        private LocalDateTime modifiedTime;
+        private final LocalDateTime createdTime;
+        private final LocalDateTime modifiedTime;
 
         @Builder
         public Item(String contentTypeId, String areaCode, String sigunguCode, String cat1, String cat2, String cat3, String addr1, String addr2, String representativeImageUrl, String thumbnail, String x, String y, String dist, String tel, String title, LocalDateTime createdTime, LocalDateTime modifiedTime) {

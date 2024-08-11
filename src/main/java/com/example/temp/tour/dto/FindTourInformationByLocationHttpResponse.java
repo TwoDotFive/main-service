@@ -16,7 +16,7 @@ import java.util.List;
 
 @NoArgsConstructor
 @Getter
-public class TourInformationBasedLocationResponse {
+public class FindTourInformationByLocationHttpResponse {
     private Response response;
 
     public int getNumOfRows() {
@@ -67,7 +67,7 @@ public class TourInformationBasedLocationResponse {
 
             @Getter
             public static class Items {
-                private List<Item> item = new ArrayList<>();
+                private final List<Item> item = new ArrayList<>();
 
                 @Getter
                 @JsonIgnoreProperties(ignoreUnknown = true)

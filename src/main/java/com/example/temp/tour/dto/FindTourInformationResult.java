@@ -7,15 +7,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
-public class TourInformationBasedLocationDto {
+public class FindTourInformationResult {
 
     private final int numOfRows;
     private final int pageNo;
     private final int totalCount;
-    private final List<Item> item;
+    private final List<TourInformation> tourInformation;
 
     @Getter
-    private static class Item {
+    private static class TourInformation {
         private final String contentTypeId;
         private final String areaCode;
         private final String sigunguCode;
@@ -39,7 +39,7 @@ public class TourInformationBasedLocationDto {
         private final LocalDateTime modifiedTime;
 
         @Builder
-        public Item(String contentTypeId, String areaCode, String sigunguCode, String cat1, String cat2, String cat3, String addr1, String addr2, String representativeImageUrl, String thumbnail, String x, String y, String dist, String tel, String title, LocalDateTime createdTime, LocalDateTime modifiedTime) {
+        public TourInformation(String contentTypeId, String areaCode, String sigunguCode, String cat1, String cat2, String cat3, String addr1, String addr2, String representativeImageUrl, String thumbnail, String x, String y, String dist, String tel, String title, LocalDateTime createdTime, LocalDateTime modifiedTime) {
             this.contentTypeId = contentTypeId;
             this.areaCode = areaCode;
             this.sigunguCode = sigunguCode;
@@ -60,13 +60,13 @@ public class TourInformationBasedLocationDto {
         }
     }
 
-    public TourInformationBasedLocationDto(TourInformationBasedLocationResponse res) {
+    public FindTourInformationResult(FindTourInformationByLocationHttpResponse res) {
         this.numOfRows = res.getNumOfRows();
         this.pageNo = res.getPageNo();
         this.totalCount = res.getTotalCount();
 
-        this.item = res.getItems().stream()
-                .map(i -> Item.builder()
+        this.tourInformation = res.getItems().stream()
+                .map(i -> TourInformation.builder()
                         .addr1(i.getAddr1())
                         .addr2(i.getAddr2())
                         .cat1(i.getCat1())

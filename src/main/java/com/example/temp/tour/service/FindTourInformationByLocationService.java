@@ -1,9 +1,9 @@
 package com.example.temp.tour.service;
 
 import com.example.temp.common.exception.CustomException;
-import com.example.temp.tour.dto.TourInformationBasedLocationCommand;
-import com.example.temp.tour.dto.TourInformationBasedLocationDto;
-import com.example.temp.tour.dto.TourInformationBasedLocationResponse;
+import com.example.temp.tour.dto.FindTourInformationByLocationCommand;
+import com.example.temp.tour.dto.FindTourInformationByLocationHttpResponse;
+import com.example.temp.tour.dto.FindTourInformationResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ import java.net.URI;
 
 @Component
 @Slf4j
-public class TourInformationBasedLocationClient {
+public class FindTourInformationByLocationService {
 
     public static final String NUM_OF_ROWS_PARAM = "numOfRows";
     public static final String PAGE_NO_PARAM = "pageNo";
@@ -47,7 +47,7 @@ public class TourInformationBasedLocationClient {
     @Value("${tour.knto.info-kor.location-based-list-uri}")
     private String locationBasedListUri;
 
-    public TourInformationBasedLocationDto get(TourInformationBasedLocationCommand command) {
+    public FindTourInformationResult get(FindTourInformationByLocationCommand command) {
         URI uri = UriComponentsBuilder.fromHttpUrl(baseUrl)
                 .path(locationBasedListUri)
                 .queryParam(SERVICE_KEY_PARAM, restApiKey)
@@ -63,11 +63,11 @@ public class TourInformationBasedLocationClient {
                 .build(true)
                 .toUri();
 
-        TourInformationBasedLocationResponse result = getBlock(uri);
-        return new TourInformationBasedLocationDto(result);
+        FindTourInformationByLocationHttpResponse result = getBlock(uri);
+        return new FindTourInformationResult(result);
     }
 
-    private TourInformationBasedLocationResponse getBlock(URI uri) {
+    private FindTourInformationByLocationHttpResponse getBlock(URI uri) {
         return WebClient.create().get()
                 .uri(uri)
                 .retrieve()
@@ -75,7 +75,7 @@ public class TourInformationBasedLocationClient {
                         Mono.error(new CustomException(HttpStatus.BAD_REQUEST, "Invalid Parameter")))
                 .onStatus(HttpStatusCode::is5xxServerError, clientResponse ->
                         Mono.error(new CustomException(HttpStatus.BAD_GATEWAY, "Internal Server Error")))
-                .bodyToMono(TourInformationBasedLocationResponse.class)
+                .bodyToMono(FindTourInformationByLocationHttpResponse.class)
                 .block();
     }
 }

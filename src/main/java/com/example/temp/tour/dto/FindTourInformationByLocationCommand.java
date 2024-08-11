@@ -1,6 +1,6 @@
 package com.example.temp.tour.dto;
 
-public record TourInformationBasedLocationCommand(
+public record FindTourInformationByLocationCommand(
         int numOfRows,
         int pageNo,
         String x,

@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,13 +106,19 @@ public class FindTourInformationByLocationHttpResponse {
                     @JsonInclude(JsonInclude.Include.NON_EMPTY)
                     private String title;
 
+                    /* 참고
+                    createdTime, modifiedTime - 역직렬화 오류 발생, 현재 기획상 해당 정보는 필요하지 않으므로 우선 제외하고 개발 진행
+
                     @JsonProperty("createdtime")
                     @JsonFormat(pattern = "yyyyMMddHHmmss")
                     private LocalDateTime createdTime;
+
                     @JsonProperty("modifiedtime")
                     @JsonSetter(nulls = Nulls.AS_EMPTY)
                     @JsonFormat(pattern = "yyyyMMddHHmmss")
                     private LocalDateTime modifiedTime;
+
+                     */
                 }
             }
         }

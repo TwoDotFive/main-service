@@ -32,4 +32,8 @@ public class UserAuthenticatedLocation extends BaseTimeEntity {
         ret.firstLocation = firstLocation;
         return ret;
     }
+
+    public String getFirstLocationDongCd() {
+        return firstLocation.getAddress().getDongCd();
+    }
 }

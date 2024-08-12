@@ -20,13 +20,16 @@ import java.time.LocalDateTime;
 public class Fanpool extends BaseTimeEntity {
     @Id
     private Long id;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private User hostUser;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Game game;
+
     @Embedded
     private Address place;
-    private LocalDateTime time;
+    private LocalDateTime departAt;
     private Integer numberOfPeople;
     private Integer currentNumberOfPeople;
     private FanpoolType fanpoolType;
@@ -37,7 +40,7 @@ public class Fanpool extends BaseTimeEntity {
         ret.id = IdUtil.create();
         ret.game = game;
         ret.hostUser = hostUser;
-        ret.time = request.getTime();
+        ret.departAt = request.getTime();
         ret.numberOfPeople = request.getNumberOfPeople();
         ret.currentNumberOfPeople = 0;
         ret.fanpoolType = request.getFanpoolType();

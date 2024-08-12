@@ -15,6 +15,7 @@ public class FindFanpoolByIdServiceImpl implements FindFanpoolByIdService {
     @Override
     public FanpoolInformationView doService(long id) {
         Fanpool found = fanpoolRepository.findByIdOrElseThrow(id);
+        // TODO 개별 Response 만들기
         return new FanpoolInformationView(found);
     }
 }

@@ -30,6 +30,7 @@ public class VworldCoord2AddressResponse {
                 .sigungu(response.getSigungu())
                 .sido(response.getSido())
                 .dong(response.getEupmyundong())
+                .dongCd(response.getEupmyundongCd())
                 .build();
     }
 
@@ -59,6 +60,10 @@ public class VworldCoord2AddressResponse {
 
         private String getEupmyundong() {
             return result.get(0).structure.eupmyundong;
+        }
+
+        private String getEupmyundongCd() {
+            return result.get(0).structure.eupmyundongCd;
         }
 
         private String getDetail() {

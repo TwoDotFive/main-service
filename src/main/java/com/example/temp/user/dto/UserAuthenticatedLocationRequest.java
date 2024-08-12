@@ -14,6 +14,7 @@ public class UserAuthenticatedLocationRequest {
     private String sido;
     private String sigungu;
     private String dong;
+    private String dongCd;
 
     public Address toEntity() {
         return Address.builder()
@@ -23,6 +24,7 @@ public class UserAuthenticatedLocationRequest {
                 .zipNo(zipNo)
                 .sido(sido)
                 .sigungu(sigungu)
+                .dongCd(dongCd)
                 .dong(dong)
                 .build();
     }

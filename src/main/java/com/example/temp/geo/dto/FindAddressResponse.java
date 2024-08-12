@@ -15,6 +15,7 @@ public class FindAddressResponse {
     private String sido;
     private String sigungu;
     private String dong;
+    private String dongCd;
 
     public static FindAddressResponse of(Address address) {
         FindAddressResponse ret = new FindAddressResponse();
@@ -25,6 +26,7 @@ public class FindAddressResponse {
         ret.sido = address.getSido();
         ret.sigungu = address.getSigungu();
         ret.dong = address.getDong();
+        ret.dongCd = address.getDongCd();
         return ret;
     }
 }

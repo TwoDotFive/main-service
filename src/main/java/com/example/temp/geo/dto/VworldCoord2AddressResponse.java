@@ -27,7 +27,7 @@ public class VworldCoord2AddressResponse {
                 .y(response.getY())
                 .zipNo(response.getZipNo())
                 .fullText(response.getFullText())
-                .sigungu(response.getSigungu())
+                .sigungu(response.getSigungu().trim())
                 .sido(response.getSido())
                 .dong(response.getEupmyundong())
                 .dongCd(response.getEupmyundongCd())

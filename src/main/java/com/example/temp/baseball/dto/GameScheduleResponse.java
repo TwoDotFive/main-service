@@ -13,16 +13,16 @@ public class GameScheduleResponse {
     public long id;
     public LocalDate startDate;
     public LocalTime startTime;
-    public TeamInformation home;
-    public TeamInformation away;
+    public TeamInformationView home;
+    public TeamInformationView away;
     public Game.State state;
 
     public GameScheduleResponse(Game game) {
         this.id = game.getId();
         this.startDate = game.getStartDate().toLocalDate();
         this.startTime = game.getStartDate().toLocalTime();
-        this.home = new TeamInformation(game.getHomeTeam());
-        this.away = new TeamInformation(game.getAwayTeam());
+        this.home = new TeamInformationView(game.getHomeTeam());
+        this.away = new TeamInformationView(game.getAwayTeam());
         this.state = determineState(game.getStartDate());
     }
 

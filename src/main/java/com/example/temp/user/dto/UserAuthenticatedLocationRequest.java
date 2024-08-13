@@ -1,6 +1,6 @@
 package com.example.temp.user.dto;
 
-import com.example.temp.common.entity.Address;
+import com.example.temp.geo.entity.Address;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

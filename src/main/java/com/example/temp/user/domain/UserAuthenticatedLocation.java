@@ -2,7 +2,7 @@ package com.example.temp.user.domain;
 
 import com.example.temp.common.entity.BaseTimeEntity;
 import com.example.temp.common.util.IdUtil;
-import com.example.temp.geo.entity.AuthenticatedLocation;
+import com.example.temp.geo.entity.Address;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
@@ -20,12 +20,12 @@ public class UserAuthenticatedLocation extends BaseTimeEntity {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private AuthenticatedLocation firstLocation;
+    private Address firstLocation;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private AuthenticatedLocation secondLocation;
+    private Address secondLocation;
 
-    public static UserAuthenticatedLocation build(User user, AuthenticatedLocation firstLocation) {
+    public static UserAuthenticatedLocation build(User user, Address firstLocation) {
         UserAuthenticatedLocation ret = new UserAuthenticatedLocation();
         ret.id = IdUtil.create();
         ret.user = user;
@@ -34,6 +34,6 @@ public class UserAuthenticatedLocation extends BaseTimeEntity {
     }
 
     public String getFirstLocationDongCd() {
-        return firstLocation.getAddress().getDongCd();
+        return firstLocation.getDongCd();
     }
 }

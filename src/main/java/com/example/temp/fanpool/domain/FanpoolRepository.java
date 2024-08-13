@@ -19,6 +19,7 @@ public interface FanpoolRepository extends Repository<Fanpool, Long> {
                 () -> new CustomException(HttpStatus.NOT_FOUND, "Fanpool not found")
         );
     }
-    @Query("SELECT f FROM Fanpool f WHERE f.place.dongCd = :dongCd")
+
+    @Query("SELECT f FROM Fanpool f WHERE f.departFrom.dongCd = :dongCd")
     List<Fanpool> findByDongCd(@Param("dongCd") String dongCd);
 }

@@ -1,6 +1,6 @@
 package com.example.temp.geo.dto;
 
-import com.example.temp.common.entity.Address;
+import com.example.temp.geo.entity.Address;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

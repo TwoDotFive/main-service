@@ -1,7 +1,7 @@
 package com.example.temp.geo.service.impl;
 
-import com.example.temp.common.entity.Address;
 import com.example.temp.geo.dto.FindAddressResponse;
+import com.example.temp.geo.entity.Address;
 import com.example.temp.geo.service.FindAddressByCoordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

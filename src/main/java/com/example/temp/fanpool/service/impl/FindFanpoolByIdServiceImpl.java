@@ -2,7 +2,7 @@ package com.example.temp.fanpool.service.impl;
 
 import com.example.temp.fanpool.domain.Fanpool;
 import com.example.temp.fanpool.domain.FanpoolRepository;
-import com.example.temp.fanpool.dto.FanpoolInformationView;
+import com.example.temp.fanpool.dto.FindFanpoolBasedLocationResponse;
 import com.example.temp.fanpool.service.FindFanpoolByIdService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,9 +13,8 @@ public class FindFanpoolByIdServiceImpl implements FindFanpoolByIdService {
     private final FanpoolRepository fanpoolRepository;
 
     @Override
-    public FanpoolInformationView doService(long id) {
+    public FindFanpoolBasedLocationResponse doService(long id) {
         Fanpool found = fanpoolRepository.findByIdOrElseThrow(id);
-        // TODO 개별 Response 만들기
-        return new FanpoolInformationView(found);
+        return FindFanpoolBasedLocationResponse.build(found);
     }
 }

@@ -35,10 +35,10 @@ public class FanpoolController {
     }
 
     @GetMapping("/{fanpoolId}")
-    public ResponseEntity<FanpoolInformationView> getFanpool(
-            @RequestParam("fanpoolId") long fanpoolId
+    public ResponseEntity<FindFanpoolBasedLocationResponse> getFanpool(
+            @PathVariable("fanpoolId") long fanpoolId
     ) {
-        FanpoolInformationView result = findFanpoolByIdService.doService(fanpoolId);
+        FindFanpoolBasedLocationResponse result = findFanpoolByIdService.doService(fanpoolId);
         return ResponseEntity.ok(result);
     }
 

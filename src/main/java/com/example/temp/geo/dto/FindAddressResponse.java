@@ -26,7 +26,7 @@ public class FindAddressResponse {
         ret.sido = address.getSido();
         ret.sigungu = address.getSigungu();
         ret.dong = address.getDong();
-        ret.dongCd = address.getDongCd();
+        ret.dongCd = address.getDongCd().substring(0, 8);
         return ret;
     }
 }

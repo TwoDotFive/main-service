@@ -40,12 +40,11 @@ public class Fanpool extends BaseTimeEntity {
         ret.id = IdUtil.create();
         ret.game = game;
         ret.hostUser = hostUser;
-        ret.departAt = request.getTime();
+        ret.departAt = request.getDepartAt();
         ret.numberOfPeople = request.getNumberOfPeople();
         ret.currentNumberOfPeople = 0;
         ret.fanpoolType = request.getFanpoolType();
         ret.memo = request.getMemo();
-        // x, y 좌표 변환 후 Address로 저장
         return ret;
     }
 }

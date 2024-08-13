@@ -2,7 +2,6 @@ package com.example.temp.fanpool.dto;
 
 import com.example.temp.baseball.dto.GameInformationView;
 import com.example.temp.fanpool.domain.Fanpool;
-import com.example.temp.user.dto.UserProfileView;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -10,7 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 public class FanpoolInformationView {
     private long id;
-    private UserProfileView hostUser;
+    private long hostUserId;
     private GameInformationView game;
     private LocalDateTime departAt;
     private int numberOfPeople;
@@ -18,7 +17,7 @@ public class FanpoolInformationView {
 
     public FanpoolInformationView(Fanpool fanpool) {
         this.id = fanpool.getId();
-        hostUser = new UserProfileView(fanpool.getHostUser());
+        hostUserId = fanpool.getHostUser().getId();
         game = new GameInformationView(fanpool.getGame());
         departAt = fanpool.getDepartAt();
         numberOfPeople = fanpool.getNumberOfPeople();

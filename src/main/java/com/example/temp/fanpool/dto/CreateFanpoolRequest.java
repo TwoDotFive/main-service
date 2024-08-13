@@ -1,6 +1,7 @@
 package com.example.temp.fanpool.dto;
 
 import com.example.temp.fanpool.domain.value.FanpoolType;
+import com.example.temp.geo.entity.Address;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,11 +15,11 @@ public class CreateFanpoolRequest {
     private Integer numberOfPeople;
     private String memo;
     private FanpoolType fanpoolType;
-    private Address departFrom;
+    private DepartFrom departFrom;
 
     @Getter
     @NoArgsConstructor
-    private static class Address {
+    private static class DepartFrom {
         private String fullText;
         private String zipNo;
         private String sido;
@@ -27,5 +28,18 @@ public class CreateFanpoolRequest {
         private String dongCd;
         private String x;
         private String y;
+    }
+
+    public Address toAddressEntity() {
+        return Address.builder()
+                .fullText(this.departFrom.fullText)
+                .zipNo(this.departFrom.zipNo)
+                .sido(this.departFrom.sido)
+                .sigungu(this.departFrom.sigungu)
+                .dong(this.departFrom.dong)
+                .x(this.departFrom.x)
+                .y(this.departFrom.y)
+                .dongCd(this.departFrom.dongCd)
+                .build();
     }
 }

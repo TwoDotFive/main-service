@@ -38,11 +38,12 @@ public class Fanpool extends BaseTimeEntity {
     private FanpoolType fanpoolType;
     private String memo;
 
-    public static Fanpool build(User hostUser, Game game, CreateFanpoolRequest request) {
+    public static Fanpool build(User hostUser, Game game, Address address, CreateFanpoolRequest request) {
         Fanpool ret = new Fanpool();
         ret.id = IdUtil.create();
         ret.game = game;
         ret.hostUser = hostUser;
+        ret.departFrom = address;
         ret.departAt = request.getDepartAt();
         ret.numberOfPeople = request.getNumberOfPeople();
         ret.currentNumberOfPeople = 1;

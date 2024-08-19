@@ -1,6 +1,7 @@
 package com.example.temp.fanpool.dto;
 
 import com.example.temp.fanpool.domain.value.FanpoolType;
+import com.example.temp.fanpool.domain.value.GenderConstraint;
 import com.example.temp.geo.entity.Address;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ public class CreateFanpoolRequest {
     private Integer numberOfPeople;
     private String memo;
     private FanpoolType fanpoolType;
+    private GenderConstraint genderConstraint;
     private DepartFrom departFrom;
 
     @Getter

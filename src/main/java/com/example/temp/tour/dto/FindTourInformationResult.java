@@ -1,23 +1,26 @@
 package com.example.temp.tour.dto;
 
-import lombok.Getter;
-
 import java.util.List;
 
-@Getter
-public class FindTourInformationResult {
+public record FindTourInformationResult(
+        int numOfRows,
+        int pageNo,
+        int totalCount,
+        List<TourInformation> tourInformation
+) {
 
-    private final int numOfRows;
-    private final int pageNo;
-    private final int totalCount;
-    private final List<TourInformation> tourInformation;
+    public static FindTourInformationResult of(FindTourInformationByLocationHttpResponse response) {
+        return new FindTourInformationResult(
+                response.getNumOfRows(),
+                response.getPageNo(),
+                response.getTotalCount(),
+                extractTourInformation(response)
+        );
+    }
 
-    public FindTourInformationResult(FindTourInformationByLocationHttpResponse response) {
-        this.numOfRows = response.getNumOfRows();
-        this.pageNo = response.getPageNo();
-        this.totalCount = response.getTotalCount();
-
-        this.tourInformation = response.getItems().stream()
+    private static List<TourInformation> extractTourInformation(FindTourInformationByLocationHttpResponse response) {
+        return response.getItems()
+                .stream()
                 .map(item -> TourInformation.builder()
                         .addr1(item.getAddr1())
                         .addr2(item.getAddr2())

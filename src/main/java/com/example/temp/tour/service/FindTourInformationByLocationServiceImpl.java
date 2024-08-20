@@ -60,8 +60,8 @@ public class FindTourInformationByLocationServiceImpl implements FindTourInforma
                 .build(true)
                 .toUri();
 
-        FindTourInformationByLocationHttpResponse result = getBlock(uri);
-        return new FindTourInformationResult(result);
+        FindTourInformationByLocationHttpResponse response = getBlock(uri);
+        return FindTourInformationResult.of(response);
     }
 
     private FindTourInformationByLocationHttpResponse getBlock(URI uri) {

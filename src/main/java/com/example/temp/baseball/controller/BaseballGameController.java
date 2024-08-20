@@ -3,7 +3,7 @@ package com.example.temp.baseball.controller;
 import com.example.temp.baseball.dto.GameScheduleResponse;
 import com.example.temp.baseball.dto.GameSchedulesRequest;
 import com.example.temp.baseball.service.CreateGameSchedulesService;
-import com.example.temp.baseball.service.FindAllSchedulesService;
+import com.example.temp.baseball.service.FindAllSchedulesDuringThisWeekService;
 import com.example.temp.common.entity.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping("/baseball-game")
 public class BaseballGameController {
 
-    private final FindAllSchedulesService findAllSchedulesService;
+    private final FindAllSchedulesDuringThisWeekService findAllSchedulesDuringThisWeekService;
     private final CreateGameSchedulesService createGameSchedulesService;
 
     @GetMapping("/schedules")
@@ -26,7 +26,7 @@ public class BaseballGameController {
             @AuthenticationPrincipal CustomUserDetails authenticatedUser,
             @RequestParam(name = "year", required = true) int year
     ) {
-        List<GameScheduleResponse> result = findAllSchedulesService.doService(authenticatedUser.getFavoriteTeam(), year);
+        List<GameScheduleResponse> result = findAllSchedulesDuringThisWeekService.doService(authenticatedUser.getFavoriteTeam(), year);
         return ResponseEntity.ok(result);
     }
 

@@ -5,8 +5,7 @@ import com.example.temp.baseball.domain.Season;
 import com.example.temp.baseball.domain.SeasonRepository;
 import com.example.temp.baseball.domain.Team;
 import com.example.temp.baseball.dto.GameScheduleResponse;
-import com.example.temp.baseball.dto.GameSchedulesRequest;
-import com.example.temp.baseball.service.FindAllSchedulesService;
+import com.example.temp.baseball.service.FindAllSchedulesDuringThisWeekService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class FindAllSchedulesServiceImpl implements FindAllSchedulesService {
+public class FindAllSchedulesDuringThisWeekServiceImpl implements FindAllSchedulesDuringThisWeekService {
     private final GameRepository gameRepository;
     private final SeasonRepository seasonRepository;
 

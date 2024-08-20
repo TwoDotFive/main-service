@@ -3,7 +3,7 @@ package com.example.temp.tour.service;
 import com.example.temp.common.exception.CustomException;
 import com.example.temp.tour.dto.FindTourInformationByLocationCommand;
 import com.example.temp.tour.dto.FindTourInformationByLocationHttpResponse;
-import com.example.temp.tour.dto.FindTourInformationResult;
+import com.example.temp.tour.dto.FindTourInformationResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -44,7 +44,7 @@ public class FindTourInformationByLocationServiceImpl implements FindTourInforma
     @Value("${tour.knto.info-kor.location-based-list-uri}")
     private String locationBasedListUri;
 
-    public FindTourInformationResult doService(FindTourInformationByLocationCommand command) {
+    public FindTourInformationResponse doService(FindTourInformationByLocationCommand command) {
         URI uri = UriComponentsBuilder.fromHttpUrl(baseUrl)
                 .path(locationBasedListUri)
                 .queryParam(SERVICE_KEY_PARAM, restApiKey)
@@ -61,7 +61,7 @@ public class FindTourInformationByLocationServiceImpl implements FindTourInforma
                 .toUri();
 
         FindTourInformationByLocationHttpResponse response = getBlock(uri);
-        return FindTourInformationResult.of(response);
+        return FindTourInformationResponse.of(response);
     }
 
     private FindTourInformationByLocationHttpResponse getBlock(URI uri) {

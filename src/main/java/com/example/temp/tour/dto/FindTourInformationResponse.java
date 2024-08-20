@@ -2,15 +2,15 @@ package com.example.temp.tour.dto;
 
 import java.util.List;
 
-public record FindTourInformationResult(
+public record FindTourInformationResponse(
         int numOfRows,
         int pageNo,
         int totalCount,
         List<TourInformation> tourInformation
 ) {
 
-    public static FindTourInformationResult of(FindTourInformationByLocationHttpResponse response) {
-        return new FindTourInformationResult(
+    public static FindTourInformationResponse of(FindTourInformationByLocationHttpResponse response) {
+        return new FindTourInformationResponse(
                 response.getNumOfRows(),
                 response.getPageNo(),
                 response.getTotalCount(),

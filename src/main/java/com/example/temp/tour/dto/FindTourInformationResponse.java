@@ -3,8 +3,8 @@ package com.example.temp.tour.dto;
 import java.util.List;
 
 public record FindTourInformationResponse(
-        int numOfRows,
-        int pageNo,
+        int pageSize,
+        int pageNumber,
         int totalCount,
         List<TourInformation> tourInformation
 ) {

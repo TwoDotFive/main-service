@@ -53,8 +53,8 @@ public class FindTourInformationByLocationServiceImpl implements FindTourInforma
                 .queryParam(MAP_X_PARAM, command.x())
                 .queryParam(MAP_Y_PARAM, command.y())
                 .queryParam(RADIUS_PARAM, command.radius()) // 여기까지 필수
-                .queryParam(NUM_OF_ROWS_PARAM, command.numOfRows())
-                .queryParam(PAGE_NO_PARAM, command.pageNo())
+                .queryParam(NUM_OF_ROWS_PARAM, command.pageSize())
+                .queryParam(PAGE_NO_PARAM, command.pageNumber())
                 .queryParam(CONTENT_TYPE_ID_PARAM, command.contentTypeId())
                 .queryParam(TYPE_PARAM, TYPE_PARAM_VALUE)
                 .build(true)

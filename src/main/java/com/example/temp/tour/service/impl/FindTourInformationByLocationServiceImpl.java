@@ -1,9 +1,10 @@
-package com.example.temp.tour.service;
+package com.example.temp.tour.service.impl;
 
 import com.example.temp.common.exception.CustomException;
 import com.example.temp.tour.dto.FindTourInformationByLocationCommand;
 import com.example.temp.tour.dto.FindTourInformationByLocationHttpResponse;
 import com.example.temp.tour.dto.FindTourInformationResponse;
+import com.example.temp.tour.service.FindTourInformationByLocationService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -28,7 +29,7 @@ public class FindTourInformationByLocationServiceImpl implements FindTourInforma
     private static final String LIST_YN_PARAM = "listYN";
     private static final String LIST_YN_PARAM_VALUE_Y = "Y";
     private static final String LIST_YN_PARAM_VALUE_N = "N";
-    // 정렬구분 (A=제목순, C=수정일순, D=생성일순) 대표이미지가반드시있는정렬(O=제목순, Q=수정일순, R=생성일순)
+    // 정렬구분 (A=제목순, C=수정일순, D=생성일순, E=거리순) 대표이미지가반드시있는정렬(O=제목순, Q=수정일순, R=생성일순, S=거리순)
     private static final String ARRANGE_PARAM = "arrange";
     private static final String MAP_X_PARAM = "mapX"; // required
     private static final String MAP_Y_PARAM = "mapY"; //required
@@ -57,6 +58,7 @@ public class FindTourInformationByLocationServiceImpl implements FindTourInforma
                 .queryParam(PAGE_NO_PARAM, command.pageNumber())
                 .queryParam(CONTENT_TYPE_ID_PARAM, command.contentTypeId())
                 .queryParam(TYPE_PARAM, TYPE_PARAM_VALUE)
+                .queryParam(ARRANGE_PARAM, "Q") // 수정일순(최신순) 조회
                 .build(true)
                 .toUri();
 

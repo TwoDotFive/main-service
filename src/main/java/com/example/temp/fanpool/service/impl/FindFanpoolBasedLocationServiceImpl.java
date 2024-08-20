@@ -24,7 +24,7 @@ public class FindFanpoolBasedLocationServiceImpl implements FindFanpoolBasedLoca
     @Override
     public List<FindFanpoolBasedLocationResponse> doService(long userId, FindFanpoolBasedLocationCommand command) {
         User user = userRepository.findByIdOrElseThrow(userId);
-        UserAuthenticatedLocation userAuthenticatedLocation = userAuthenticatedLocationRepository.findByUserOrElseThrow(user);
+        UserAuthenticatedLocation userAuthenticatedLocation = userAuthenticatedLocationRepository.findByUserAndRepresentative(user);
 
         List<Fanpool> found = fanpoolRepository.findByDongCd(userAuthenticatedLocation.getAddressDongCd());
 

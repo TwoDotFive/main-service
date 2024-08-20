@@ -31,7 +31,7 @@ public class UserAuthenticatedLocationRequest {
                 .build();
     }
 
-    public boolean getRepresentative() {
-        return representative;
+    public boolean isRepresentativeLocation() {
+        return this.representative;
     }
 }

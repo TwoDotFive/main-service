@@ -8,10 +8,12 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class UserAuthenticatedLocation extends BaseTimeEntity {
     @Id
     private Long id;
@@ -31,6 +33,10 @@ public class UserAuthenticatedLocation extends BaseTimeEntity {
         ret.address = address;
         ret.representative = representative;
         return ret;
+    }
+
+    public void updateRepresentative(long id) {
+        this.representative = this.id == id;
     }
 
     public String getAddressDongCd() {

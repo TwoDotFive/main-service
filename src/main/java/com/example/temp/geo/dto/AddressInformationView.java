@@ -15,4 +15,16 @@ public record AddressInformationView(
     public AddressInformationView(Address address) {
         this(address.getFullText(), address.getZipNo(), address.getSido(), address.getSigungu(), address.getDong(), address.getDongCd(), address.getX(), address.getY());
     }
+
+    public static AddressInformationView of(Address address) {
+        return new AddressInformationView(
+                address.getFullText(),
+                address.getZipNo(),
+                address.getSido(),
+                address.getSigungu(),
+                address.getDong(),
+                address.getDongCd(),
+                address.getX(),
+                address.getY());
+    }
 }

@@ -6,6 +6,7 @@ import com.example.temp.baseball.service.CreateGameSchedulesService;
 import com.example.temp.baseball.service.FindAllSchedulesService;
 import com.example.temp.common.entity.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class BaseballGameController {
             @RequestBody List<GameSchedulesRequest> request
     ) {
         createGameSchedulesService.doService(authenticatedUser.isAdmin(), request);
-        return null;
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
 }

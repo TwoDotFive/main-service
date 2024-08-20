@@ -1,11 +1,12 @@
 package com.example.temp.fanpool.domain;
 
 import com.example.temp.baseball.domain.Game;
-import com.example.temp.common.entity.Address;
 import com.example.temp.common.entity.BaseTimeEntity;
 import com.example.temp.common.util.IdUtil;
 import com.example.temp.fanpool.domain.value.FanpoolType;
+import com.example.temp.fanpool.domain.value.GenderConstraint;
 import com.example.temp.fanpool.dto.CreateFanpoolRequest;
+import com.example.temp.geo.entity.Address;
 import com.example.temp.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -20,29 +21,37 @@ import java.time.LocalDateTime;
 public class Fanpool extends BaseTimeEntity {
     @Id
     private Long id;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private User hostUser;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Game game;
-    @Embedded
-    private Address place;
-    private LocalDateTime time;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Address departFrom;
+    private LocalDateTime departAt;
     private Integer numberOfPeople;
     private Integer currentNumberOfPeople;
+
+    @Enumerated(EnumType.STRING)
     private FanpoolType fanpoolType;
+    @Enumerated(EnumType.STRING)
+    private GenderConstraint genderConstraint;
     private String memo;
 
-    public static Fanpool build(User hostUser, Game game, CreateFanpoolRequest request) {
+    public static Fanpool build(User hostUser, Game game, Address address, CreateFanpoolRequest request) {
         Fanpool ret = new Fanpool();
         ret.id = IdUtil.create();
         ret.game = game;
         ret.hostUser = hostUser;
-        ret.time = request.getTime();
+        ret.departFrom = address;
+        ret.departAt = request.getDepartAt();
         ret.numberOfPeople = request.getNumberOfPeople();
-        ret.currentNumberOfPeople = 0;
+        ret.currentNumberOfPeople = 1;
         ret.fanpoolType = request.getFanpoolType();
+        ret.genderConstraint = request.getGenderConstraint();
         ret.memo = request.getMemo();
-        // x, y 좌표 변환 후 Address로 저장
         return ret;
     }
 }

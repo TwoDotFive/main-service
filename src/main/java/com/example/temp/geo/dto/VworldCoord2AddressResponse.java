@@ -1,6 +1,6 @@
 package com.example.temp.geo.dto;
 
-import com.example.temp.common.entity.Address;
+import com.example.temp.geo.entity.Address;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -27,9 +27,10 @@ public class VworldCoord2AddressResponse {
                 .y(response.getY())
                 .zipNo(response.getZipNo())
                 .fullText(response.getFullText())
-                .sigungu(response.getSigungu())
+                .sigungu(response.getSigungu().trim())
                 .sido(response.getSido())
                 .dong(response.getEupmyundong())
+                .dongCd(response.getEupmyundongCd())
                 .build();
     }
 
@@ -59,6 +60,10 @@ public class VworldCoord2AddressResponse {
 
         private String getEupmyundong() {
             return result.get(0).structure.eupmyundong;
+        }
+
+        private String getEupmyundongCd() {
+            return result.get(0).structure.eupmyundongCd;
         }
 
         private String getDetail() {

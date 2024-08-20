@@ -1,7 +1,7 @@
 package com.example.temp.fanpool.service;
 
-import com.example.temp.fanpool.dto.FanpoolInformationView;
+import com.example.temp.fanpool.dto.FindFanpoolBasedLocationResponse;
 
 public interface FindFanpoolByIdService {
-    FanpoolInformationView doService(long id);
+    FindFanpoolBasedLocationResponse doService(long id);
 }

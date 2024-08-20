@@ -7,6 +7,8 @@ import com.example.temp.fanpool.domain.FanpoolRepository;
 import com.example.temp.fanpool.dto.CreateFanpoolRequest;
 import com.example.temp.fanpool.dto.FanpoolInformationView;
 import com.example.temp.fanpool.service.CreateFanpoolService;
+import com.example.temp.geo.entity.Address;
+import com.example.temp.geo.entity.AddressRepository;
 import com.example.temp.user.domain.User;
 import com.example.temp.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CreateFanpoolServiceImpl implements CreateFanpoolService {
     private final UserRepository userRepository;
     private final GameRepository gameRepository;
+    private final AddressRepository addressRepository;
     private final FanpoolRepository fanpoolRepository;
 
     @Override
@@ -26,7 +29,9 @@ public class CreateFanpoolServiceImpl implements CreateFanpoolService {
     public FanpoolInformationView doService(long userId, CreateFanpoolRequest request) {
         User hostUser = userRepository.findByIdOrElseThrow(userId);
         Game game = gameRepository.findByIdOrElseThrow(request.getGameId());
-        Fanpool fanpool = Fanpool.build(hostUser, game, request);
+        Address address = addressRepository.save(request.toAddressEntity());
+
+        Fanpool fanpool = Fanpool.build(hostUser, game, address, request);
         Fanpool saved = fanpoolRepository.save(fanpool);
         return new FanpoolInformationView(saved);
     }

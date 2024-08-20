@@ -9,6 +9,8 @@ import com.example.temp.fanpool.service.CreateFanpoolService;
 import com.example.temp.fanpool.service.FindFanpoolBasedLocationService;
 import com.example.temp.fanpool.service.FindFanpoolByIdService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -36,6 +38,7 @@ public class FanpoolController {
 
     @GetMapping("/{fanpoolId}")
     public ResponseEntity<FindFanpoolBasedLocationResponse> getFanpool(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @PathVariable("fanpoolId") long fanpoolId
     ) {
         FindFanpoolBasedLocationResponse result = findFanpoolByIdService.doService(fanpoolId);

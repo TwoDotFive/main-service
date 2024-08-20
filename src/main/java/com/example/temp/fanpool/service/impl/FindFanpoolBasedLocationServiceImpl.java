@@ -26,7 +26,7 @@ public class FindFanpoolBasedLocationServiceImpl implements FindFanpoolBasedLoca
         User user = userRepository.findByIdOrElseThrow(userId);
         UserAuthenticatedLocation userAuthenticatedLocation = userAuthenticatedLocationRepository.findByUserOrElseThrow(user);
 
-        List<Fanpool> found = fanpoolRepository.findByDongCd(userAuthenticatedLocation.getFirstLocationDongCd());
+        List<Fanpool> found = fanpoolRepository.findByDongCd(userAuthenticatedLocation.getAddressDongCd());
 
         return found.stream()
                 .map(FindFanpoolBasedLocationResponse::build)

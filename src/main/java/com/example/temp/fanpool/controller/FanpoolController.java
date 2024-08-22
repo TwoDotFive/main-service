@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -28,10 +29,14 @@ public class FanpoolController {
 
     @GetMapping
     public ResponseEntity<List<FindFanpoolBasedLocationResponse>> getAllFanpool(
-            @AuthenticationPrincipal CustomUserDetails customUserDetails
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @PageableDefault(size = 10, page = 0) Pageable pageable,
+            @RequestParam("dongCd") String dongCd,
+            @RequestParam("gameId") long gameId,
+            @RequestParam("departAt") LocalDateTime departAt
     ) {
-        // TODO 날짜와 경기로 조회하는 기능 추가
-        FindFanpoolBasedLocationCommand command = new FindFanpoolBasedLocationCommand();
+        // TODO 날짜, 경기, 위치, 팀 각각 필터링
+        FindFanpoolBasedLocationCommand command = new FindFanpoolBasedLocationCommand(dongCd, gameId, departAt, pageable);
         List<FindFanpoolBasedLocationResponse> result = findFanpoolBasedLocationService.doService(customUserDetails.getId(), command);
         return ResponseEntity.ok(result);
     }

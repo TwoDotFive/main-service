@@ -3,6 +3,7 @@ package com.example.temp.user.domain;
 import com.example.temp.common.exception.CustomException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
@@ -25,6 +26,6 @@ public interface UserAuthenticatedLocationRepository extends Repository<UserAuth
                 new CustomException(HttpStatus.BAD_REQUEST, "Authenticated Location not Found"));
     }
 
-    @Query("SELECT f FROM fanpool f WHERE f.user_id = :user AND f.representative is TRUE ")
-    UserAuthenticatedLocation findByUserAndRepresentative(User user);
+    @Query("SELECT f FROM UserAuthenticatedLocation f WHERE f.user = :user AND f.representative is TRUE ")
+    UserAuthenticatedLocation findByUserAndRepresentative(@Param("user") User user);
 }

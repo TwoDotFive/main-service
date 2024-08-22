@@ -73,6 +73,8 @@ public class FindTourInformationByLocationHttpResponse {
                 public static class Item {
                     private int totalCnt;
 
+                    @JsonProperty("contentid")
+                    private String contentId;
                     @JsonProperty("contenttypeid")
                     private String contentTypeId;
                     private String areacode;

@@ -22,11 +22,11 @@ public class BaseballGameController {
     private final CreateGameSchedulesService createGameSchedulesService;
 
     @GetMapping("/schedules")
-    public ResponseEntity<List<GameScheduleResponse>> findAllSchedules(
+    public ResponseEntity<GameScheduleResponse> findAllSchedules(
             @AuthenticationPrincipal CustomUserDetails authenticatedUser,
             @RequestParam(name = "year", required = true) int year
     ) {
-        List<GameScheduleResponse> result = findAllSchedulesDuringThisWeekService.doService(authenticatedUser.getFavoriteTeam(), year);
+        GameScheduleResponse result = findAllSchedulesDuringThisWeekService.doService(authenticatedUser.getFavoriteTeam(), year);
         return ResponseEntity.ok(result);
     }
 

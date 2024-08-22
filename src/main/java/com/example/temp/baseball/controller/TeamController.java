@@ -1,6 +1,6 @@
 package com.example.temp.baseball.controller;
 
-import com.example.temp.baseball.dto.TeamInformationView;
+import com.example.temp.baseball.dto.TeamView;
 import com.example.temp.baseball.service.FindAllTeamsInSeasonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +18,10 @@ public class TeamController {
     private final FindAllTeamsInSeasonService findAllTeamsInSeasonService;
 
     @GetMapping("/teams")
-    public ResponseEntity<List<TeamInformationView>> find(
+    public ResponseEntity<List<TeamView>> find(
             @RequestParam(name = "year", required = true) int year
     ) {
-        List<TeamInformationView> result = findAllTeamsInSeasonService.doService(year);
+        List<TeamView> result = findAllTeamsInSeasonService.doService(year);
         return ResponseEntity.ok(result);
     }
 }

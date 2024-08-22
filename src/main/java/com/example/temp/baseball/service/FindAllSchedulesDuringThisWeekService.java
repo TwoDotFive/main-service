@@ -6,5 +6,5 @@ import com.example.temp.baseball.dto.GameScheduleResponse;
 import java.util.List;
 
 public interface FindAllSchedulesDuringThisWeekService {
-    List<GameScheduleResponse> doService(Team team, int year);
+    GameScheduleResponse doService(Team team, int year);
 }

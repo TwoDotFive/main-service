@@ -15,7 +15,7 @@ public record TeamInformationView(
                 team.getName(),
                 team.getRepresentativeImageUrl(),
                 team.getStadium().getStadiumName(),
-                team.getStadium().getAliasAddr()
+                team.getStadium().getShortenName()
         );
     }
 }

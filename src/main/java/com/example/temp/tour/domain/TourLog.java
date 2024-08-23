@@ -41,7 +41,7 @@ public class TourLog extends BaseTimeEntity {
         this.title = title;
     }
 
-    public void addTourLogPlace(TourSchedule tourSchedule) {
+    public void addTourSchedule(TourSchedule tourSchedule) {
         schedules.add(tourSchedule);
     }
 }

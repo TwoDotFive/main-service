@@ -55,7 +55,7 @@ public class RegisterTourLogServiceImpl implements RegisterTourLogService {
             }
 
             // 투어 로그에 일정 추가
-            tourLog.addTourLogPlace(tourSchedule);
+            tourLog.addTourSchedule(tourSchedule);
         }
     }
 

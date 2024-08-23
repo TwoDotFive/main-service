@@ -6,7 +6,7 @@ public record FindTourInformationResponse(
         int pageSize,
         int pageNumber,
         int totalCount,
-        List<TourPlaceView> items
+        List<TourPlaceInfo> items
 ) {
 
     public static FindTourInformationResponse of(FindTourInformationByLocationHttpResponse response) {
@@ -14,14 +14,14 @@ public record FindTourInformationResponse(
                 response.getNumOfRows(),
                 response.getPageNo(),
                 response.getTotalCount(),
-                extractTourInformationItems(response)
+                extractTourPlaceInformationItems(response)
         );
     }
 
-    private static List<TourPlaceView> extractTourInformationItems(FindTourInformationByLocationHttpResponse response) {
+    private static List<TourPlaceInfo> extractTourPlaceInformationItems(FindTourInformationByLocationHttpResponse response) {
         return response.getItems()
                 .stream()
-                .map(item -> TourPlaceView.builder()
+                .map(item -> TourPlaceInfo.builder()
                         .title(item.getTitle())
                         .thumbnail(item.getThumbnail())
                         .address(item.getAddr1())

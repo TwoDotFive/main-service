@@ -9,6 +9,8 @@ public record TourInformationSummary(
         String thumbnail,
         String distance,
         String contentId,
-        String contentType
+        String contentType,
+        String x,
+        String y
 ) {
 }

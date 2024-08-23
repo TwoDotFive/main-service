@@ -28,6 +28,8 @@ public record FindTourInformationResponse(
                         .distance(item.getDist())
                         .contentId(item.getContentId())
                         .contentType(item.getContentTypeId())
+                        .x(item.getX())
+                        .y(item.getY())
                         .build()
                 )
                 .toList();

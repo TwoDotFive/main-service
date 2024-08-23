@@ -4,7 +4,7 @@ import com.example.temp.baseball.domain.Stadium;
 import com.example.temp.baseball.domain.StadiumRepository;
 import com.example.temp.tour.domain.*;
 import com.example.temp.tour.dto.RegisterTourLogRequest;
-import com.example.temp.tour.dto.TourInformationSummary;
+import com.example.temp.tour.dto.TourPlaceView;
 import com.example.temp.tour.dto.TourScheduleDto;
 import com.example.temp.tour.dto.TourScheduleMemoDto;
 import com.example.temp.tour.service.RegisterTourLogService;
@@ -59,7 +59,7 @@ public class RegisterTourLogServiceImpl implements RegisterTourLogService {
         }
     }
 
-    private TourPlace registerTourPlaceIfNotFound(TourInformationSummary place) {
+    private TourPlace registerTourPlaceIfNotFound(TourPlaceView place) {
         int contentId = Integer.parseInt(place.contentId());
         int contentTypeId = Integer.parseInt(place.contentType());
 
@@ -77,7 +77,7 @@ public class RegisterTourLogServiceImpl implements RegisterTourLogService {
         return memoEntity;
     }
 
-    private TourPlace registerTourPlace(TourInformationSummary info) {
+    private TourPlace registerTourPlace(TourPlaceView info) {
         TourPlace tourPlace = new TourPlace(
                 Integer.parseInt(info.contentId()),
                 Integer.parseInt(info.contentType()),

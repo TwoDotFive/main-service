@@ -1,7 +1,7 @@
 package com.example.temp.tour.dto;
 
 public record TourScheduleDto(
-        TourInformationSummary place,
+        TourPlaceView place,
         Integer day,
         Integer sequence,
         TourScheduleMemoDto memo

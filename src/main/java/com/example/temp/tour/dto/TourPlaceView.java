@@ -3,7 +3,7 @@ package com.example.temp.tour.dto;
 import lombok.Builder;
 
 @Builder
-public record TourInformationSummary(
+public record TourPlaceView(
         String title,
         String address,
         String thumbnail,

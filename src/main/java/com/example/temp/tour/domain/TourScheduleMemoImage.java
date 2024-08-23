@@ -11,9 +11,10 @@ import org.hibernate.annotations.SQLRestriction;
 
 @Entity
 @Getter
-@SQLRestriction("deleted = false")
-@SQLDelete(sql = "UPDATE tour_log_place_memo_image SET deleted = true WHERE id = ?")
+@Table(name = "tour_schedule_memo_image")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLRestriction("deleted = false")
+@SQLDelete(sql = "UPDATE tour_schedule_memo_image SET memo_id = null, deleted = true WHERE id = ?")
 public class TourScheduleMemoImage extends BaseTimeEntity {
 
     @Id

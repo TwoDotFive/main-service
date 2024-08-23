@@ -15,4 +15,6 @@ public interface TourLogRepository extends Repository<TourLog, Long> {
     default TourLog findByIdOrElseThrow(Long id) {
         return findById(id).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Invalid Tour Log Id"));
     }
+
+    void delete(TourLog tourLog);
 }

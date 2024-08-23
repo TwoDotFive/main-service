@@ -5,6 +5,7 @@ import com.example.temp.tour.dto.FindTourInformationByLocationCommand;
 import com.example.temp.tour.dto.FindTourInformationResponse;
 import com.example.temp.tour.dto.RegisterTourLogRequest;
 import com.example.temp.tour.dto.TourLogView;
+import com.example.temp.tour.service.DeleteTourLogService;
 import com.example.temp.tour.service.FindTourInformationByLocationService;
 import com.example.temp.tour.service.FindTourLogService;
 import com.example.temp.tour.service.RegisterTourLogService;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class TourController {
 
     private final FindTourLogService findTourLogService;
+    private final DeleteTourLogService deleteTourLogService;
     private final RegisterTourLogService registerTourLogService;
     private final FindTourInformationByLocationService findTourInformationByLocationService;
 
@@ -50,6 +52,15 @@ public class TourController {
     public ResponseEntity<TourLogView> findTourLog(@RequestParam(name = "id") Long tourLogId) {
         TourLogView response = findTourLogService.doService(tourLogId);
         return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/log")
+    public ResponseEntity<Void> deleteTourLog(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @RequestParam(name = "id") Long tourLogId
+    ) {
+        deleteTourLogService.doService(customUserDetails.getId(), tourLogId);
+        return ResponseEntity.ok().build();
     }
 
 }

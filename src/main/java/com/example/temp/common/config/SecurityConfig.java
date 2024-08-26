@@ -36,6 +36,7 @@ public class SecurityConfig {
                         headerConfig.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable
                         )
                 )
+                .cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests((authorizeRequests) ->
                         authorizeRequests
                                 .requestMatchers("/user/**").authenticated()
@@ -54,7 +55,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.addAllowedOriginPattern("*");

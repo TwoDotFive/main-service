@@ -1,6 +1,7 @@
 package com.example.temp.fanpool.domain;
 
 import com.example.temp.common.exception.CustomException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
@@ -21,5 +22,5 @@ public interface FanpoolRepository extends Repository<Fanpool, Long> {
     }
 
     @Query("SELECT f FROM Fanpool f WHERE f.departFrom.dongCd = :dongCd")
-    List<Fanpool> findByDongCd(@Param("dongCd") String dongCd);
+    List<Fanpool> findByDongCd(@Param("dongCd") String dongCd, Pageable pageable);
 }

@@ -2,14 +2,14 @@ package com.example.temp.baseball.dto;
 
 import com.example.temp.baseball.domain.Team;
 
-public record TeamInformationView(
+public record TeamView(
         long id,
         String name,
         String representativeImageUrl,
         String stadiumName,
         String stadiumAliasName
 ) {
-    public TeamInformationView(Team team) {
+    public TeamView(Team team) {
         this(
                 team.getId(),
                 team.getName(),

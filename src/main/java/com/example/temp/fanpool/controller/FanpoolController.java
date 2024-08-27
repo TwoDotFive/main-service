@@ -31,9 +31,10 @@ public class FanpoolController {
             @RequestParam(value = "teamId", required = true) long teamId,
             @RequestParam(value = "dongCd", required = false) String dongCd,
             @RequestParam(value = "gameId", required = false) List<Long> gameId,
-            @RequestParam(value = "departAt", required = false) LocalDateTime departAt
+            @RequestParam(value = "departAt", required = false) LocalDateTime departAt,
+            @RequestParam(value = "onlyGathering", required = false) boolean onlyGathering
     ) {
-        FindFilteredFanpoolCommand command = new FindFilteredFanpoolCommand(teamId, dongCd, gameId, departAt, pageable);
+        FindFilteredFanpoolCommand command = new FindFilteredFanpoolCommand(teamId, dongCd, gameId, departAt, onlyGathering, pageable);
         FindFilteredFanpoolResponse result = findFilteredFanpoolService.doService(customUserDetails.getId(), command);
         return ResponseEntity.ok(result);
     }

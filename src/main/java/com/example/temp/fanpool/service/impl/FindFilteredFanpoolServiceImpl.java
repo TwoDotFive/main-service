@@ -2,6 +2,7 @@ package com.example.temp.fanpool.service.impl;
 
 import com.example.temp.fanpool.domain.Fanpool;
 import com.example.temp.fanpool.domain.QFanpool;
+import com.example.temp.fanpool.domain.value.FanpoolState;
 import com.example.temp.fanpool.dto.FindFilteredFanpoolCommand;
 import com.example.temp.fanpool.dto.FindFilteredFanpoolResponse;
 import com.example.temp.fanpool.service.FindFilteredFanpoolService;
@@ -41,11 +42,14 @@ public class FindFilteredFanpoolServiceImpl implements FindFilteredFanpoolServic
         if (command.dongCd() != null) {
             builder.and(fanpool.departFrom.dongCd.eq(command.dongCd()));
         }
+        if(command.onlyGathering()){
+            builder.and(fanpool.state.eq(FanpoolState.GATHER));
+        }
 
         List<Fanpool> result = queryFactory.selectFrom(fanpool)
                 .where(builder)
                 .offset(command.pageable().getOffset())
-                .limit(command.pageable().getPageSize() + 1)
+                .limit(command.pageable().getPageSize() + 1L)
                 .fetch();
 
         return FindFilteredFanpoolResponse.build(result);

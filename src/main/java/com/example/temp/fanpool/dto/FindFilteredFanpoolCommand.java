@@ -10,6 +10,7 @@ public record FindFilteredFanpoolCommand(
         String dongCd,
         List<Long> gameId,
         LocalDateTime departAt,
+        boolean onlyGathering,
         Pageable pageable
 ) {
 }

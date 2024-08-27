@@ -76,7 +76,11 @@ public class Fanpool extends BaseTimeEntity {
         this.game = game;
     }
 
-    public boolean isHostUser(long userId) {
-        return hostUser.getId() == userId;
+    public boolean isNotHostUser(long userId) {
+        return hostUser.getId() != userId;
+    }
+
+    public void updateState(String state) {
+        this.state = FanpoolState.valueOf(state.toUpperCase());
     }
 }

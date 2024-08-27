@@ -68,4 +68,15 @@ public class FanpoolController {
         updateFanpoolService.doService(command);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+    @PatchMapping("/{fanpoolId}/state")
+    public ResponseEntity<Void> updateInfo(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @PathVariable("fanpoolId") long fanpoolId,
+            @RequestBody UpdateFanpoolStateRequest request
+    ) {
+        UpdateFanpoolCommand command = new UpdateFanpoolCommand(customUserDetails.getId(), fanpoolId, request);
+        updateFanpoolService.doService(command);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }

@@ -3,9 +3,11 @@ package com.example.temp.fanpool.domain;
 import com.example.temp.baseball.domain.Game;
 import com.example.temp.common.entity.BaseTimeEntity;
 import com.example.temp.common.util.IdUtil;
+import com.example.temp.fanpool.domain.value.FanpoolState;
 import com.example.temp.fanpool.domain.value.FanpoolType;
 import com.example.temp.fanpool.domain.value.GenderConstraint;
 import com.example.temp.fanpool.dto.CreateFanpoolRequest;
+import com.example.temp.fanpool.dto.UpdateFanpoolRequest;
 import com.example.temp.geo.entity.Address;
 import com.example.temp.user.domain.User;
 import jakarta.persistence.*;
@@ -39,6 +41,8 @@ public class Fanpool extends BaseTimeEntity {
     private FanpoolType fanpoolType;
     @Enumerated(EnumType.STRING)
     private GenderConstraint genderConstraint;
+    @Enumerated(EnumType.STRING)
+    private FanpoolState state;
     private String memo;
 
     public static Fanpool build(User hostUser, Game game, Address address, CreateFanpoolRequest request) {
@@ -54,6 +58,25 @@ public class Fanpool extends BaseTimeEntity {
         ret.fanpoolType = request.getFanpoolType();
         ret.genderConstraint = request.getGenderConstraint();
         ret.memo = request.getMemo();
+        ret.state = FanpoolState.GATHER;
         return ret;
+    }
+
+    public void updateInfo(UpdateFanpoolRequest req) {
+        title = req.getTitle();
+        departAt = req.getDepartAt();
+        numberOfPeople = req.getNumberOfPeople();
+        fanpoolType = FanpoolType.valueOf(req.getFanpoolType().toUpperCase());
+        genderConstraint = GenderConstraint.valueOf(req.getGenderConstraint().toUpperCase());
+        memo = req.getMemo();
+        departFrom = req.getDepartFrom().toEntity();
+    }
+
+    public void updateGame(Game game) {
+        this.game = game;
+    }
+
+    public boolean isHostUser(long userId) {
+        return hostUser.getId() == userId;
     }
 }

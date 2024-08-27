@@ -5,6 +5,7 @@ import com.example.temp.fanpool.dto.*;
 import com.example.temp.fanpool.service.CreateFanpoolService;
 import com.example.temp.fanpool.service.FindFanpoolByIdService;
 import com.example.temp.fanpool.service.FindFilteredFanpoolService;
+import com.example.temp.fanpool.service.UpdateFanpoolService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -23,6 +24,7 @@ public class FanpoolController {
     private final CreateFanpoolService createFanpoolService;
     private final FindFanpoolByIdService findFanpoolByIdService;
     private final FindFilteredFanpoolService findFilteredFanpoolService;
+    private final UpdateFanpoolService updateFanpoolService;
 
     @GetMapping("/filter")
     public ResponseEntity<FindFilteredFanpoolResponse> getAllFanpool(
@@ -54,5 +56,16 @@ public class FanpoolController {
     ) {
         FanpoolInformationView result = createFanpoolService.doService(userDetails.getId(), request);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
+
+    @PatchMapping("/{fanpoolId}")
+    public ResponseEntity<Void> updateInfo(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @PathVariable("fanpoolId") long fanpoolId,
+            @RequestBody UpdateFanpoolRequest request
+    ) {
+        UpdateFanpoolCommand command = new UpdateFanpoolCommand(customUserDetails.getId(), fanpoolId, request);
+        updateFanpoolService.doService(command);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

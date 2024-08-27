@@ -11,7 +11,8 @@ public record UserProfileView(
         String name,
         String oneLiner,
         UserRole userRole,
-        TeamView favoriteTeam
+        TeamView favoriteTeam,
+        int hostedFanpoolNumber
 ) {
     public UserProfileView(User user) {
         this(
@@ -21,7 +22,8 @@ public record UserProfileView(
                 user.getName(),
                 user.getOneLiner(),
                 user.getUserRole(),
-                new TeamView(user.getFavoriteTeam())
+                new TeamView(user.getFavoriteTeam()),
+                user.getHostedFanpool().size()
         );
     }
 }

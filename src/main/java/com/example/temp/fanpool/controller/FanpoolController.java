@@ -34,7 +34,7 @@ public class FanpoolController {
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<FindFilteredFanpoolResponse> getAllFanpool(
+    public ResponseEntity<FindFilteredFanpoolResponse> getFiltered(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @PageableDefault(size = 10, page = 0) Pageable pageable,
             @RequestParam(value = "teamId", required = true) long teamId,
@@ -49,7 +49,7 @@ public class FanpoolController {
     }
 
     @GetMapping("/{fanpoolId}")
-    public ResponseEntity<FindFanpoolBasedLocationResponse> getFanpool(
+    public ResponseEntity<FindFanpoolBasedLocationResponse> get(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @PathVariable("fanpoolId") long fanpoolId
     ) {
@@ -78,7 +78,7 @@ public class FanpoolController {
     }
 
     @PatchMapping("/{fanpoolId}/state")
-    public ResponseEntity<Void> updateInfo(
+    public ResponseEntity<Void> updateState(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @PathVariable("fanpoolId") long fanpoolId,
             @RequestBody UpdateFanpoolStateRequest request

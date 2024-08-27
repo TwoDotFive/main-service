@@ -5,11 +5,11 @@ import com.example.temp.fanpool.domain.Fanpool;
 import java.util.List;
 
 public record FindLatestFanpoolResponse(
-        List<FanpoolInformationView> fanpoolInformation
+        List<FanpoolView> fanpoolInformation
 ) {
     public static FindLatestFanpoolResponse build(List<Fanpool> fanpools) {
-        List<FanpoolInformationView> result = fanpools.stream()
-                .map(FanpoolInformationView::new)
+        List<FanpoolView> result = fanpools.stream()
+                .map(FanpoolView::new)
                 .toList();
         return new FindLatestFanpoolResponse(result);
     }

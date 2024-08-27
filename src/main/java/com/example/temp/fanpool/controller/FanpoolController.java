@@ -58,11 +58,11 @@ public class FanpoolController {
     }
 
     @PostMapping
-    public ResponseEntity<FanpoolInformationView> save(
+    public ResponseEntity<FanpoolView> save(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @RequestBody CreateFanpoolRequest request
     ) {
-        FanpoolInformationView result = createFanpoolService.doService(userDetails.getId(), request);
+        FanpoolView result = createFanpoolService.doService(userDetails.getId(), request);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 

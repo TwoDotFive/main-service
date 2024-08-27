@@ -7,16 +7,16 @@ import java.util.List;
 
 @Getter
 public class FindFilteredFanpoolResponse {
-    private final List<FanpoolInformationView> result;
+    private final List<FanpoolView> result;
 
     public static FindFilteredFanpoolResponse build(List<Fanpool> fanpools) {
-        List<FanpoolInformationView> result = fanpools.stream()
-                .map(FanpoolInformationView::new)
+        List<FanpoolView> result = fanpools.stream()
+                .map(FanpoolView::new)
                 .toList();
         return new FindFilteredFanpoolResponse(result);
     }
 
-    private FindFilteredFanpoolResponse(List<FanpoolInformationView> result) {
+    private FindFilteredFanpoolResponse(List<FanpoolView> result) {
         this.result = result;
     }
 }

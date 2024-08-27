@@ -5,11 +5,11 @@ import lombok.Getter;
 
 @Getter
 public class FindFanpoolBasedLocationResponse {
-    private FanpoolInformationView fanpoolInformation;
+    private FanpoolView fanpoolInformation;
 
     public static FindFanpoolBasedLocationResponse build(Fanpool fanpool) {
         FindFanpoolBasedLocationResponse ret = new FindFanpoolBasedLocationResponse();
-        ret.fanpoolInformation = new FanpoolInformationView(fanpool);
+        ret.fanpoolInformation = new FanpoolView(fanpool);
         return ret;
     }
 }

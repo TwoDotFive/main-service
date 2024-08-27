@@ -7,7 +7,7 @@ import com.example.temp.geo.dto.AddressInformationView;
 import java.time.LocalDateTime;
 
 
-public record FanpoolInformationView(
+public record FanpoolView(
         long id,
         long hostUserId,
         GameView game,
@@ -20,7 +20,7 @@ public record FanpoolInformationView(
         int numberOfPeople,
         int currentNumberOfPeople
 ) {
-    public FanpoolInformationView(Fanpool fanpool) {
+    public FanpoolView(Fanpool fanpool) {
         this(
                 fanpool.getId(),
                 fanpool.getHostUser().getId(),

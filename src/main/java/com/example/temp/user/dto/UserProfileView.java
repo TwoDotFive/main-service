@@ -1,6 +1,6 @@
 package com.example.temp.user.dto;
 
-import com.example.temp.baseball.domain.Team;
+import com.example.temp.baseball.dto.TeamView;
 import com.example.temp.user.domain.User;
 import com.example.temp.user.domain.value.UserRole;
 
@@ -11,7 +11,7 @@ public record UserProfileView(
         String name,
         String oneLiner,
         UserRole userRole,
-        Team favoriteTeam
+        TeamView favoriteTeam
 ) {
     public UserProfileView(User user) {
         this(
@@ -21,7 +21,7 @@ public record UserProfileView(
                 user.getName(),
                 user.getOneLiner(),
                 user.getUserRole(),
-                user.getFavoriteTeam()
+                new TeamView(user.getFavoriteTeam())
         );
     }
 }

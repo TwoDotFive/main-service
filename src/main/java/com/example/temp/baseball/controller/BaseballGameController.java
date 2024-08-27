@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/baseball-game")
+@RequestMapping("/baseball/game")
 public class BaseballGameController {
     private final FindGamesByTeamService findGamesByTeamService;
     private final FindAllSchedulesDuringThisWeekService findAllSchedulesDuringThisWeekService;

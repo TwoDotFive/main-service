@@ -52,11 +52,11 @@ public class FanpoolController {
     public ResponseEntity<FindFilteredFanpoolResponse> getFiltered(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @PageableDefault(size = 10, page = 0) Pageable pageable,
-            @RequestParam(value = "teamId", required = true) long teamId,
-            @RequestParam(value = "dongCd", required = false) String dongCd,
+            @RequestParam(value = "teamId", required = false) long teamId,
+            @RequestParam(value = "dongCd", required = true) String dongCd,
             @RequestParam(value = "gameId", required = false) List<Long> gameId,
             @RequestParam(value = "departAt", required = false) LocalDateTime departAt,
-            @RequestParam(value = "onlyGathering", required = false) boolean onlyGathering
+            @RequestParam(value = "onlyGathering", required = true) boolean onlyGathering
     ) {
         FindFilteredFanpoolCommand command = new FindFilteredFanpoolCommand(teamId, dongCd, gameId, departAt, onlyGathering, pageable);
         FindFilteredFanpoolResponse result = findFilteredFanpoolService.doService(command);
@@ -112,7 +112,7 @@ public class FanpoolController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @DeleteMapping("/{fanpoolId}")
+    @DeleteMapping("/{fanpoolId}/cancel")
     public ResponseEntity<Void> delete(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @PathVariable("fanpoolId") long fanpoolId

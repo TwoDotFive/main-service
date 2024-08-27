@@ -40,7 +40,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorizeRequests) ->
                         authorizeRequests
                                 .requestMatchers("/user/**").authenticated()
-                                .requestMatchers("/baseball-game/**").authenticated()
+                                .requestMatchers("/geo/**").authenticated()
+                                .requestMatchers("/baseball/**").authenticated()
+                                .requestMatchers("/fanpool/**").authenticated()
                                 .requestMatchers("/chatroom/**").authenticated()
                                 .anyRequest().permitAll()
                 )

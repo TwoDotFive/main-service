@@ -7,11 +7,11 @@ import java.util.List;
 
 @Getter
 public class GameScheduleResponse {
-    private final List<GameView> gameInformation;
+    private final List<GameView> games;
     private int numberOfGame;
 
     public GameScheduleResponse(List<Game> game) {
-        this.gameInformation = game.stream().map(GameView::new).toList();
+        this.games = game.stream().map(GameView::new).toList();
         this.numberOfGame = game.size();
     }
 }

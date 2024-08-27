@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 public class FindFilteredFanpoolResponse {
-    private final List<FanpoolView> result;
+    private final List<FanpoolView> fanpools;
 
     public static FindFilteredFanpoolResponse build(List<Fanpool> fanpools) {
         List<FanpoolView> result = fanpools.stream()
@@ -16,7 +16,7 @@ public class FindFilteredFanpoolResponse {
         return new FindFilteredFanpoolResponse(result);
     }
 
-    private FindFilteredFanpoolResponse(List<FanpoolView> result) {
-        this.result = result;
+    private FindFilteredFanpoolResponse(List<FanpoolView> fanpools) {
+        this.fanpools = fanpools;
     }
 }

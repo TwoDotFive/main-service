@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/baseball")
+@RequestMapping("/baseball/team")
 @RequiredArgsConstructor
 public class TeamController {
     private final FindAllTeamsInSeasonService findAllTeamsInSeasonService;
 
-    @GetMapping("/teams")
+    @GetMapping
     public ResponseEntity<List<TeamView>> find(
             @RequestParam(name = "year", required = true) int year
     ) {

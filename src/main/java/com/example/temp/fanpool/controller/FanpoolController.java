@@ -19,10 +19,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FanpoolController {
     private final CreateFanpoolService createFanpoolService;
+    private final FindLatestFanpoolService findLatestFanpoolService;
     private final FindFanpoolByIdService findFanpoolByIdService;
     private final FindFilteredFanpoolService findFilteredFanpoolService;
     private final UpdateFanpoolService updateFanpoolService;
     private final UpdateFanpoolStateService updateFanpoolStateService;
+
+    @GetMapping
+    public ResponseEntity<FindLatestFanpoolResponse> getLatest(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ) {
+        FindLatestFanpoolResponse result = findLatestFanpoolService.doService(customUserDetails.getId());
+        return ResponseEntity.ok(result);
+    }
 
     @GetMapping("/filter")
     public ResponseEntity<FindFilteredFanpoolResponse> getAllFanpool(

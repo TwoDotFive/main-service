@@ -2,6 +2,7 @@ package com.example.temp.fanpool.controller;
 
 import com.example.temp.common.entity.CustomUserDetails;
 import com.example.temp.fanpool.dto.*;
+import com.example.temp.fanpool.dto.command.*;
 import com.example.temp.fanpool.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -58,7 +59,7 @@ public class FanpoolController {
             @RequestParam(value = "onlyGathering", required = false) boolean onlyGathering
     ) {
         FindFilteredFanpoolCommand command = new FindFilteredFanpoolCommand(teamId, dongCd, gameId, departAt, onlyGathering, pageable);
-        FindFilteredFanpoolResponse result = findFilteredFanpoolService.doService(customUserDetails.getId(), command);
+        FindFilteredFanpoolResponse result = findFilteredFanpoolService.doService(command);
         return ResponseEntity.ok(result);
     }
 

@@ -3,8 +3,8 @@ package com.example.temp.fanpool.service.impl;
 import com.example.temp.fanpool.domain.Fanpool;
 import com.example.temp.fanpool.domain.QFanpool;
 import com.example.temp.fanpool.domain.value.FanpoolState;
-import com.example.temp.fanpool.dto.FindFilteredFanpoolCommand;
 import com.example.temp.fanpool.dto.FindFilteredFanpoolResponse;
+import com.example.temp.fanpool.dto.command.FindFilteredFanpoolCommand;
 import com.example.temp.fanpool.service.FindFilteredFanpoolService;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -19,7 +19,7 @@ public class FindFilteredFanpoolServiceImpl implements FindFilteredFanpoolServic
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public FindFilteredFanpoolResponse doService(long userId, FindFilteredFanpoolCommand command) {
+    public FindFilteredFanpoolResponse doService(FindFilteredFanpoolCommand command) {
         QFanpool fanpool = QFanpool.fanpool;
         BooleanBuilder builder = new BooleanBuilder();
 
@@ -42,7 +42,7 @@ public class FindFilteredFanpoolServiceImpl implements FindFilteredFanpoolServic
         if (command.dongCd() != null) {
             builder.and(fanpool.departFrom.dongCd.eq(command.dongCd()));
         }
-        if(command.onlyGathering()){
+        if (command.onlyGathering()) {
             builder.and(fanpool.state.eq(FanpoolState.GATHER));
         }
 

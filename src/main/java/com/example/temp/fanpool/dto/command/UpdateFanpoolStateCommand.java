@@ -1,5 +1,6 @@
-package com.example.temp.fanpool.dto;
+package com.example.temp.fanpool.dto.command;
 
+import com.example.temp.fanpool.dto.UpdateFanpoolStateRequest;
 import lombok.Getter;
 
 @Getter

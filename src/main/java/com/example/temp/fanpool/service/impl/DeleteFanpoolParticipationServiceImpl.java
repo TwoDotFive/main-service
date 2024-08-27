@@ -4,7 +4,7 @@ import com.example.temp.common.exception.CustomException;
 import com.example.temp.fanpool.domain.Fanpool;
 import com.example.temp.fanpool.domain.FanpoolRepository;
 import com.example.temp.fanpool.domain.FanpoolUserRepository;
-import com.example.temp.fanpool.dto.DeleteFanpoolParticipationCommand;
+import com.example.temp.fanpool.dto.command.DeleteFanpoolParticipationCommand;
 import com.example.temp.fanpool.service.DeleteFanpoolParticipationService;
 import com.example.temp.user.domain.User;
 import com.example.temp.user.domain.UserRepository;

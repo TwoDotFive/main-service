@@ -1,4 +1,4 @@
-package com.example.temp.fanpool.dto;
+package com.example.temp.fanpool.dto.command;
 
 import org.springframework.data.domain.Pageable;
 

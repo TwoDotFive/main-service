@@ -5,7 +5,7 @@ import com.example.temp.baseball.domain.GameRepository;
 import com.example.temp.common.exception.CustomException;
 import com.example.temp.fanpool.domain.Fanpool;
 import com.example.temp.fanpool.domain.FanpoolRepository;
-import com.example.temp.fanpool.dto.UpdateFanpoolCommand;
+import com.example.temp.fanpool.dto.command.UpdateFanpoolCommand;
 import com.example.temp.fanpool.service.UpdateFanpoolService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

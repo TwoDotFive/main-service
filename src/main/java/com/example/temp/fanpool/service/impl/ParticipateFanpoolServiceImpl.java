@@ -5,7 +5,7 @@ import com.example.temp.fanpool.domain.Fanpool;
 import com.example.temp.fanpool.domain.FanpoolRepository;
 import com.example.temp.fanpool.domain.FanpoolUser;
 import com.example.temp.fanpool.domain.FanpoolUserRepository;
-import com.example.temp.fanpool.dto.ParticipateFanpoolCommand;
+import com.example.temp.fanpool.dto.command.ParticipateFanpoolCommand;
 import com.example.temp.fanpool.service.ParticipateFanpoolService;
 import com.example.temp.user.domain.User;
 import com.example.temp.user.domain.UserRepository;

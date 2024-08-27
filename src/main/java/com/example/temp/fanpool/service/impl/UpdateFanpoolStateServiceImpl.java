@@ -3,7 +3,7 @@ package com.example.temp.fanpool.service.impl;
 import com.example.temp.common.exception.CustomException;
 import com.example.temp.fanpool.domain.Fanpool;
 import com.example.temp.fanpool.domain.FanpoolRepository;
-import com.example.temp.fanpool.dto.UpdateFanpoolStateCommand;
+import com.example.temp.fanpool.dto.command.UpdateFanpoolStateCommand;
 import com.example.temp.fanpool.service.UpdateFanpoolStateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

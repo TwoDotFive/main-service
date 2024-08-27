@@ -2,7 +2,7 @@ package com.example.temp.fanpool.service.impl;
 
 import com.example.temp.fanpool.domain.Fanpool;
 import com.example.temp.fanpool.domain.FanpoolRepository;
-import com.example.temp.fanpool.dto.FindHostedFanpoolByUserCommand;
+import com.example.temp.fanpool.dto.command.FindHostedFanpoolByUserCommand;
 import com.example.temp.fanpool.dto.FindHostedFanpoolByUserResponse;
 import com.example.temp.fanpool.service.FindHostedFanpoolByUserService;
 import com.example.temp.user.domain.User;

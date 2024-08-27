@@ -30,20 +30,23 @@ public class Fanpool extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Game game;
 
-    private String title;
     @ManyToOne(fetch = FetchType.LAZY)
     private Address departFrom;
+
+    private String title;
     private LocalDateTime departAt;
-    private Integer numberOfPeople;
-    private Integer currentNumberOfPeople;
+    private int numberOfPeople;
+    private int currentNumberOfPeople;
+    private String memo;
 
     @Enumerated(EnumType.STRING)
     private FanpoolType fanpoolType;
+
     @Enumerated(EnumType.STRING)
     private GenderConstraint genderConstraint;
+
     @Enumerated(EnumType.STRING)
     private FanpoolState state;
-    private String memo;
 
     public static Fanpool build(User hostUser, Game game, Address address, CreateFanpoolRequest request) {
         Fanpool ret = new Fanpool();
@@ -82,5 +85,13 @@ public class Fanpool extends BaseTimeEntity {
 
     public void updateState(String state) {
         this.state = FanpoolState.valueOf(state.toUpperCase());
+    }
+
+    public void updateCurrentNumberOfPeople() {
+        this.currentNumberOfPeople++;
+    }
+
+    public boolean alreadyFull() {
+        return currentNumberOfPeople == numberOfPeople;
     }
 }

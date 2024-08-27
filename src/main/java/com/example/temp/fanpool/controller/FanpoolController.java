@@ -24,6 +24,8 @@ public class FanpoolController {
     private final FindFilteredFanpoolService findFilteredFanpoolService;
     private final UpdateFanpoolService updateFanpoolService;
     private final UpdateFanpoolStateService updateFanpoolStateService;
+    private final ParticipateFanpoolService participateFanpoolService;
+    private final DeleteFanpoolParticipationService deleteFanpoolParticipationService;
 
     @GetMapping
     public ResponseEntity<FindLatestFanpoolResponse> getLatest(
@@ -66,6 +68,15 @@ public class FanpoolController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
+    @PostMapping("/{fanpoolId}")
+    public ResponseEntity<Void> gather(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @PathVariable("fanpoolId") long fanpoolId
+    ) {
+        participateFanpoolService.doService(new ParticipateFanpoolCommand(customUserDetails.getId(), fanpoolId));
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     @PatchMapping("/{fanpoolId}")
     public ResponseEntity<Void> updateInfo(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
@@ -85,6 +96,16 @@ public class FanpoolController {
     ) {
         UpdateFanpoolStateCommand command = new UpdateFanpoolStateCommand(customUserDetails.getId(), fanpoolId, request);
         updateFanpoolStateService.doService(command);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @DeleteMapping("/{fanpoolId}")
+    public ResponseEntity<Void> delete(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @PathVariable("fanpoolId") long fanpoolId
+    ) {
+        deleteFanpoolParticipationService
+                .doService(new DeleteFanpoolParticipationCommand(customUserDetails.getId(), fanpoolId));
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

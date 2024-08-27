@@ -28,6 +28,7 @@ public class Fanpool extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Game game;
 
+    private String title;
     @ManyToOne(fetch = FetchType.LAZY)
     private Address departFrom;
     private LocalDateTime departAt;
@@ -44,6 +45,7 @@ public class Fanpool extends BaseTimeEntity {
         Fanpool ret = new Fanpool();
         ret.id = IdUtil.create();
         ret.game = game;
+        ret.title = request.getTitle();
         ret.hostUser = hostUser;
         ret.departFrom = address;
         ret.departAt = request.getDepartAt();

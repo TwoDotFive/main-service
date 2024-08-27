@@ -19,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FanpoolController {
     private final CreateFanpoolService createFanpoolService;
+    private final FindHostedFanpoolByUserService findHostedFanpoolByUserService;
     private final FindLatestFanpoolService findLatestFanpoolService;
     private final FindFanpoolByIdService findFanpoolByIdService;
     private final FindFilteredFanpoolService findFilteredFanpoolService;
@@ -28,6 +29,17 @@ public class FanpoolController {
     private final DeleteFanpoolParticipationService deleteFanpoolParticipationService;
 
     @GetMapping
+    public ResponseEntity<FindHostedFanpoolByUserResponse> getAllByUser(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @PageableDefault(size = 10, page = 0) Pageable pageable,
+            @RequestParam("userId") long userId
+    ) {
+        FindHostedFanpoolByUserResponse result = findHostedFanpoolByUserService
+                .doService(new FindHostedFanpoolByUserCommand(userId, pageable));
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/latest")
     public ResponseEntity<FindLatestFanpoolResponse> getLatest(
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) {

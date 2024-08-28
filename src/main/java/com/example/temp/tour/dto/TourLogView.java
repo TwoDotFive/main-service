@@ -5,6 +5,7 @@ import com.example.temp.tour.domain.TourLog;
 import java.util.List;
 
 public record TourLogView(
+        String id,
         String title,
         String stadiumName,
         TourLogUserProfileView user,
@@ -18,6 +19,7 @@ public record TourLogView(
                 .toList();
 
         return new TourLogView(
+                tourLog.getId().toString(),
                 tourLog.getTitle(),
                 tourLog.getStadium().getShortenName(),
                 TourLogUserProfileView.of(tourLog.getUser()),

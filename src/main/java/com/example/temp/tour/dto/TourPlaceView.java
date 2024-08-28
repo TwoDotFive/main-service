@@ -6,7 +6,7 @@ import lombok.Builder;
 @Builder
 public record TourPlaceView(
         String id,
-        String title,
+        String name,
         String address,
         String thumbnail,
         String contentId,

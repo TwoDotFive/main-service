@@ -81,7 +81,7 @@ public class RegisterTourLogServiceImpl implements RegisterTourLogService {
         TourPlace tourPlace = new TourPlace(
                 Integer.parseInt(info.contentId()),
                 Integer.parseInt(info.contentType()),
-                info.title(),
+                info.name(),
                 info.address(),
                 Double.parseDouble(info.x()),
                 Double.parseDouble(info.y()),

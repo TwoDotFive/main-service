@@ -26,7 +26,7 @@ public class UpdateTourLogServiceImpl implements UpdateTourLogService {
     @Override
     @Transactional
     public void doService(Long userId, UpdateTourLogRequest request) {
-        TourLog tourLog = tourLogRepository.findByIdWithSchedulesExceptForMemoImage(request.tourLogId())
+        TourLog tourLog = tourLogRepository.findByIdWithAllAssociationsForUpdate(request.tourLogId())
                 .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Invalid Tour Log Id"));
 
         verifyPermission(userId, tourLog);

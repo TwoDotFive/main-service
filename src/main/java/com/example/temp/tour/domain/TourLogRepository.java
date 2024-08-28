@@ -27,6 +27,15 @@ public interface TourLogRepository extends Repository<TourLog, Long> {
             "JOIN FETCH ts.tourPlace tp " +
             "JOIN FETCH ts.memo tsm " +
             "WHERE t.id = :id")
-    Optional<TourLog> findByIdWithSchedulesExceptForMemoImage(@Param("id") Long id);
+    Optional<TourLog> findByIdWithAllAssociationsForUpdate(@Param("id") Long id);
+
+    @Query("SELECT t FROM TourLog t " +
+            "JOIN FETCH t.user u " +
+            "JOIN FETCH t.stadium s " +
+            "JOIN FETCH t.schedules ts " +
+            "JOIN FETCH ts.tourPlace tp " +
+            "JOIN FETCH ts.memo tsm " +
+            "WHERE t.id = :id")
+    Optional<TourLog> findByIdWithAllAssociationsForRead(@Param("id") Long id);
 
 }

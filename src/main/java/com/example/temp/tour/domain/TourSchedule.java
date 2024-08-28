@@ -45,5 +45,4 @@ public class TourSchedule extends BaseTimeEntity {
         this.sequence = sequence;
         this.tourPlace = tourPlace;
     }
-
 }

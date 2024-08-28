@@ -32,7 +32,7 @@ public class TourLog extends BaseTimeEntity {
     private String title;
 
     @OneToMany(mappedBy = "tourLog", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TourSchedule> schedules = new ArrayList<>();
+    private final List<TourSchedule> schedules = new ArrayList<>();
 
     public TourLog(User user, Stadium stadium, String title) {
         this.id = IdUtil.create();
@@ -43,5 +43,14 @@ public class TourLog extends BaseTimeEntity {
 
     public void addTourSchedule(TourSchedule tourSchedule) {
         schedules.add(tourSchedule);
+    }
+
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
+    public void updateTourSchedules(List<TourSchedule> schedules) {
+        this.schedules.clear();
+        this.schedules.addAll(schedules);
     }
 }

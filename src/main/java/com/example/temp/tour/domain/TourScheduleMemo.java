@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +25,9 @@ public class TourScheduleMemo extends BaseTimeEntity {
 
     private String content;
 
-    @OneToMany(mappedBy = "memo", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TourScheduleMemoImage> images = new ArrayList<>();
+    @BatchSize(size = 30)
+    @OneToMany(mappedBy = "memo", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<TourScheduleMemoImage> images = new ArrayList<>();
 
     public TourScheduleMemo(TourSchedule tourSchedule, String content) {
         this.id = IdUtil.create();
@@ -35,5 +37,10 @@ public class TourScheduleMemo extends BaseTimeEntity {
 
     public void addImage(TourScheduleMemoImage image) {
         images.add(image);
+    }
+
+    public void updateImages(List<TourScheduleMemoImage> images) {
+        this.images.clear();
+        this.images.addAll(images);
     }
 }

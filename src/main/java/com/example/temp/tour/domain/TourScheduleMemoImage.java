@@ -32,4 +32,9 @@ public class TourScheduleMemoImage extends BaseTimeEntity {
         this.imageUrl = imageUrl;
         this.sequence = sequence;
     }
+
+    public void update(String imageUrl, int sequence) {
+        this.imageUrl = imageUrl;
+        this.sequence = sequence;
+    }
 }

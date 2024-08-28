@@ -1,14 +1,8 @@
 package com.example.temp.tour.controller;
 
 import com.example.temp.common.entity.CustomUserDetails;
-import com.example.temp.tour.dto.FindTourInformationByLocationCommand;
-import com.example.temp.tour.dto.FindTourInformationResponse;
-import com.example.temp.tour.dto.RegisterTourLogRequest;
-import com.example.temp.tour.dto.TourLogView;
-import com.example.temp.tour.service.DeleteTourLogService;
-import com.example.temp.tour.service.FindTourInformationByLocationService;
-import com.example.temp.tour.service.FindTourLogService;
-import com.example.temp.tour.service.RegisterTourLogService;
+import com.example.temp.tour.dto.*;
+import com.example.temp.tour.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class TourController {
 
     private final FindTourLogService findTourLogService;
+    private final UpdateTourLogService updateTourLogService;
     private final DeleteTourLogService deleteTourLogService;
     private final RegisterTourLogService registerTourLogService;
     private final FindTourInformationByLocationService findTourInformationByLocationService;
@@ -52,6 +47,15 @@ public class TourController {
     public ResponseEntity<TourLogView> findTourLog(@RequestParam(name = "id") Long tourLogId) {
         TourLogView response = findTourLogService.doService(tourLogId);
         return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/log")
+    public ResponseEntity<Void> updateTourLog(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestBody UpdateTourLogRequest request
+    ) {
+        updateTourLogService.doService(userDetails.getId(), request);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/log")

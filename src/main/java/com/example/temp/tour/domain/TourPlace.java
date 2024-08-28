@@ -5,6 +5,7 @@ import com.example.temp.common.util.IdUtil;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,6 +31,7 @@ public class TourPlace extends BaseTimeEntity {
 
     private String thumbnail;
 
+    @Builder
     public TourPlace(Integer contentId, Integer contentTypeId, String name, String address, Double x, Double y, String thumbnail) {
         this.id = IdUtil.create();
         this.contentId = contentId;

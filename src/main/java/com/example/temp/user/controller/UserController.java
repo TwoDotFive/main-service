@@ -2,10 +2,7 @@ package com.example.temp.user.controller;
 
 import com.example.temp.common.entity.CustomUserDetails;
 import com.example.temp.user.dto.*;
-import com.example.temp.user.service.BlockUserService;
-import com.example.temp.user.service.FindUserProfileService;
-import com.example.temp.user.service.SaveUserAuthenticatedLocationService;
-import com.example.temp.user.service.UpdateUserProfileService;
+import com.example.temp.user.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +18,7 @@ public class UserController {
     private final UpdateUserProfileService updateUserProfileService;
     private final SaveUserAuthenticatedLocationService saveUserAuthenticatedLocationService;
     private final BlockUserService blockUserService;
+    private final ReportUserService reportUserService;
 
     @GetMapping("/profile")
     public ResponseEntity<UserProfileView> findProfile(@AuthenticationPrincipal CustomUserDetails authenticatedUser) {
@@ -50,9 +48,19 @@ public class UserController {
     public ResponseEntity<Void> block(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestBody BlockUserRequest request
-    ){
+    ) {
         BlockUserCommand command = new BlockUserCommand(customUserDetails.getId(), request.targetUserId());
         blockUserService.doService(command);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PostMapping("/report")
+    public ResponseEntity<Void> report(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @RequestBody ReportUserRequest request
+    ) {
+        ReportUserCommand command = new ReportUserCommand(customUserDetails.getId(), request.targetUserId(), request.content());
+        reportUserService.doService(command);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

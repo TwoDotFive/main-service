@@ -19,6 +19,7 @@ public class UserController {
     private final SaveUserAuthenticatedLocationService saveUserAuthenticatedLocationService;
     private final BlockUserService blockUserService;
     private final ReportUserService reportUserService;
+    private final DeleteUserBlockingService deleteUserBlockingService;
 
     @GetMapping("/profile")
     public ResponseEntity<UserProfileView> findProfile(@AuthenticationPrincipal CustomUserDetails authenticatedUser) {
@@ -61,6 +62,16 @@ public class UserController {
     ) {
         ReportUserCommand command = new ReportUserCommand(customUserDetails.getId(), request.targetUserId(), request.content());
         reportUserService.doService(command);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @DeleteMapping("/block")
+    public ResponseEntity<Void> deletBlocking(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @RequestParam(value = "targetUserId", required = true) long targetUserId
+    ) {
+        DeleteUserBlockingCommand command = new DeleteUserBlockingCommand(customUserDetails.getId(), targetUserId);
+        deleteUserBlockingService.doService(command);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

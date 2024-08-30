@@ -1,9 +1,8 @@
 package com.example.temp.user.controller;
 
 import com.example.temp.common.entity.CustomUserDetails;
-import com.example.temp.user.dto.UpdatedUserProfileRequest;
-import com.example.temp.user.dto.UserAuthenticatedLocationRequest;
-import com.example.temp.user.dto.UserProfileView;
+import com.example.temp.user.dto.*;
+import com.example.temp.user.service.BlockUserService;
 import com.example.temp.user.service.FindUserProfileService;
 import com.example.temp.user.service.SaveUserAuthenticatedLocationService;
 import com.example.temp.user.service.UpdateUserProfileService;
@@ -21,6 +20,7 @@ public class UserController {
     private final FindUserProfileService findUserProfileService;
     private final UpdateUserProfileService updateUserProfileService;
     private final SaveUserAuthenticatedLocationService saveUserAuthenticatedLocationService;
+    private final BlockUserService blockUserService;
 
     @GetMapping("/profile")
     public ResponseEntity<UserProfileView> findProfile(@AuthenticationPrincipal CustomUserDetails authenticatedUser) {
@@ -44,6 +44,16 @@ public class UserController {
     ) {
         saveUserAuthenticatedLocationService.doService(authenticatedUser.getId(), locationRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PostMapping("/block")
+    public ResponseEntity<Void> block(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @RequestBody BlockUserRequest request
+    ){
+        BlockUserCommand command = new BlockUserCommand(customUserDetails.getId(), request.targetUserId());
+        blockUserService.doService(command);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }

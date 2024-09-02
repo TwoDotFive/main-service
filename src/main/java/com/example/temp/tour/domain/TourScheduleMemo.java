@@ -60,4 +60,8 @@ public class TourScheduleMemo extends BaseTimeEntity {
     public String getContent() {
         return content.getValue();
     }
+
+    public void updateContent(String content) {
+        this.content = new TourScheduleMemoContent(content);
+    }
 }

@@ -79,22 +79,23 @@ public class UpdateTourLogServiceImpl implements UpdateTourLogService {
     // 기존 메모의 수정
     private void updateTourScheduleMemo(TourScheduleMemoView memoView) {
         TourScheduleMemo memo = entityManager.find(TourScheduleMemo.class, Long.valueOf(memoView.id()));
+        memo.updateContent(memoView.content());
 
         Hibernate.initialize(memo.getImages());
 
         List<TourScheduleMemoImage> images = new ArrayList<>();
         for (TourScheduleMemoImageView imageView : memoView.images()) {
             // 기존 메모 이미지의 수정
+            TourScheduleMemoImage memoImage;
             if (StringUtils.hasLength(imageView.id())) {
-                TourScheduleMemoImage memoImage = entityManager.find(TourScheduleMemoImage.class, Long.valueOf(imageView.id()));
+                memoImage = entityManager.find(TourScheduleMemoImage.class, Long.valueOf(imageView.id()));
                 memoImage.update(imageView.url(), imageView.sequence());
-                images.add(memoImage);
             }
             // 새로운 메모 이미지의 추가
             else {
-                TourScheduleMemoImage memoImage = new TourScheduleMemoImage(memo, imageView.url(), imageView.sequence());
-                images.add(memoImage);
+                memoImage = new TourScheduleMemoImage(memo, imageView.url(), imageView.sequence());
             }
+            images.add(memoImage);
         }
         memo.updateImages(images);
     }

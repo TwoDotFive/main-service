@@ -21,9 +21,13 @@ public class UserController {
     private final ReportUserService reportUserService;
     private final DeleteUserBlockingService deleteUserBlockingService;
 
-    @GetMapping("/profile")
-    public ResponseEntity<UserProfileView> findProfile(@AuthenticationPrincipal CustomUserDetails authenticatedUser) {
-        UserProfileView response = findUserProfileService.doService(authenticatedUser.getId());
+    @GetMapping("/profile/{targetUserId}")
+    public ResponseEntity<UserProfileView> findProfile(
+            @AuthenticationPrincipal CustomUserDetails authenticatedUser,
+            @PathVariable("targetUserId") long targetUserId
+    ) {
+        FindUserProfileCommand command = new FindUserProfileCommand(authenticatedUser.getId(), targetUserId);
+        UserProfileView response = findUserProfileService.doService(command);
         return ResponseEntity.ok(response);
     }
 

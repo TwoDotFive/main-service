@@ -28,8 +28,8 @@ public class TourLog extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Stadium stadium;
 
-    @Column(nullable = false)
-    private String title;
+    @Embedded
+    private TourLogTitle title;
 
     @OneToMany(mappedBy = "tourLog", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<TourSchedule> schedules = new ArrayList<>();
@@ -38,7 +38,7 @@ public class TourLog extends BaseTimeEntity {
         this.id = IdUtil.create();
         this.user = user;
         this.stadium = stadium;
-        this.title = title;
+        this.title = new TourLogTitle(title);
     }
 
     public void addTourSchedule(TourSchedule tourSchedule) {
@@ -46,11 +46,15 @@ public class TourLog extends BaseTimeEntity {
     }
 
     public void updateTitle(String title) {
-        this.title = title;
+        this.title = new TourLogTitle(title);
     }
 
     public void updateTourSchedules(List<TourSchedule> schedules) {
         this.schedules.clear();
         this.schedules.addAll(schedules);
+    }
+
+    public String getTitle() {
+        return title.getValue();
     }
 }

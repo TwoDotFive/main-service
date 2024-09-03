@@ -20,6 +20,7 @@ public class TourController {
     private final DeleteTourLogService deleteTourLogService;
     private final RegisterTourLogService registerTourLogService;
     private final FindRecentTourLogListService findRecentTourLogListService;
+    private final DeleteTourLogBookmarkService deleteTourLogBookmarkService;
     private final RegisterTourLogBookmarkService registerTourLogBookmarkService;
     private final FindTourInformationByLocationService findTourInformationByLocationService;
     private final FindRecentTourLogListByStadiumService findRecentTourLogListByStadiumService;
@@ -95,5 +96,14 @@ public class TourController {
     ) {
         Long bookmarkId = registerTourLogBookmarkService.doService(customUserDetails.getId(), request.tourLogId());
         return ResponseEntity.ok(bookmarkId);
+    }
+
+    @DeleteMapping("/bookmark")
+    public ResponseEntity<Void> deleteBookmark(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @RequestParam("id") Long bookmarkId
+    ) {
+        deleteTourLogBookmarkService.doService(customUserDetails.getId(), bookmarkId);
+        return ResponseEntity.ok().build();
     }
 }

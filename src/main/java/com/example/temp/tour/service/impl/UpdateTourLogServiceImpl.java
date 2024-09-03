@@ -46,6 +46,7 @@ public class UpdateTourLogServiceImpl implements UpdateTourLogService {
         }
 
         tourLog.updateTitle(request.title());
+        tourLog.updateImage(request.image());
         tourLog.updateTourSchedules(schedules);
     }
 

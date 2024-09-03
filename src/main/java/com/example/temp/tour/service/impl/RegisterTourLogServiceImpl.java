@@ -31,7 +31,7 @@ public class RegisterTourLogServiceImpl implements RegisterTourLogService {
         User user = userRepository.findByIdOrElseThrow(userId);
         Stadium stadium = stadiumRepository.findByOrElseThrow(Long.parseLong(request.stadiumId()));
 
-        TourLog tourLog = new TourLog(user, stadium, request.title());
+        TourLog tourLog = new TourLog(user, stadium, request.title(), request.image());
 
         // 투어 일정 추가
         if (request.schedules() != null && !request.schedules().isEmpty()) {

@@ -7,6 +7,7 @@ import java.util.List;
 public record UpdateTourLogRequest(
         @JsonProperty("id") Long tourLogId,
         String title,
+        String image,
         List<TourScheduleView> schedules
 ) {
 }

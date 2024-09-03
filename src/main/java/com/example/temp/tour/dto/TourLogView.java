@@ -7,6 +7,7 @@ import java.util.List;
 public record TourLogView(
         String id,
         String title,
+        String image,
         String stadiumName,
         TourLogUserProfileView user,
         List<TourScheduleView> schedules
@@ -21,6 +22,7 @@ public record TourLogView(
         return new TourLogView(
                 tourLog.getId().toString(),
                 tourLog.getTitle(),
+                tourLog.getImage(),
                 tourLog.getStadium().getShortenName(),
                 TourLogUserProfileView.of(tourLog.getUser()),
                 scheduleViews

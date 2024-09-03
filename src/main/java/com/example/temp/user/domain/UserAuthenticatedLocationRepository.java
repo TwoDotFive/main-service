@@ -12,11 +12,14 @@ import java.util.Optional;
 public interface UserAuthenticatedLocationRepository extends Repository<UserAuthenticatedLocation, Long> {
     UserAuthenticatedLocation save(UserAuthenticatedLocation entity);
 
-    Optional<List<UserAuthenticatedLocation>> findByUser(User user);
+    List<UserAuthenticatedLocation> findByUser(User user);
 
     default List<UserAuthenticatedLocation> findByUserOrElseThrow(User user) {
-        return findByUser(user).orElseThrow(() ->
-                new CustomException(HttpStatus.BAD_REQUEST, "장소 인증을 먼저 진행해 주세요"));
+        List<UserAuthenticatedLocation> result = findByUser(user);
+        if (result.isEmpty()) {
+            throw new CustomException(HttpStatus.BAD_REQUEST, "장소 인증을 먼저 진행해 주세요");
+        }
+        return result;
     }
 
     Optional<UserAuthenticatedLocation> findById(Long id);

@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/tour")
@@ -17,7 +19,9 @@ public class TourController {
     private final UpdateTourLogService updateTourLogService;
     private final DeleteTourLogService deleteTourLogService;
     private final RegisterTourLogService registerTourLogService;
+    private final FindRecentTourLogListService findRecentTourLogListService;
     private final FindTourInformationByLocationService findTourInformationByLocationService;
+    private final FindRecentTourLogListByStadiumService findRecentTourLogListByStadiumService;
 
     @GetMapping("/info")
     public ResponseEntity<FindTourInformationResponse> findTourInformation(
@@ -67,4 +71,19 @@ public class TourController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/list")
+    public ResponseEntity<FindRecentTourLogListResponse> findRecentTourLogList(
+            @RequestParam(name = "stadiumId", required = false) Long stadiumId,
+            @RequestParam(name = "lastId", defaultValue = "" + Long.MAX_VALUE) Long lastTourLogId,
+            @RequestParam(name = "pageSize", defaultValue = "6") Integer pageSize
+    ) {
+        List<TourLogPreview> result;
+        if (stadiumId == null) {
+            result = findRecentTourLogListService.doService(lastTourLogId, pageSize);
+        } else {
+            result = findRecentTourLogListByStadiumService.doService(stadiumId, lastTourLogId, pageSize);
+        }
+        FindRecentTourLogListResponse response = new FindRecentTourLogListResponse(result);
+        return ResponseEntity.ok(response);
+    }
 }

@@ -16,4 +16,6 @@ public interface StadiumRepository extends Repository<Stadium, Long> {
     default Stadium findByOrElseThrow(Long id) {
         return findById(id).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "Invalid Stadium Id"));
     }
+
+    boolean existsById(Long id);
 }

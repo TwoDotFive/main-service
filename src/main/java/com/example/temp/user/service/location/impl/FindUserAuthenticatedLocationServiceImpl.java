@@ -9,6 +9,7 @@ import com.example.temp.user.service.dto.FindUserAuthenticatedLocationResponse;
 import com.example.temp.user.service.location.FindUserAuthenticatedLocationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class FindUserAuthenticatedLocationServiceImpl implements FindUserAuthent
     private final UserAuthenticatedLocationRepository userAuthenticatedLocationRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public FindUserAuthenticatedLocationResponse doService(long userId) {
         User user = userRepository.findByIdOrElseThrow(userId);
         List<UserAuthenticatedLocation> userAuthenticatedLocations = userAuthenticatedLocationRepository.findByUserOrElseThrow(user);

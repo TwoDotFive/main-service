@@ -58,4 +58,5 @@ public interface TourLogRepository extends Repository<TourLog, Long> {
             "LIMIT :pageSize")
     List<TourLogPreviewNativeDto> findRecentTourLogListByStadium(@Param("stadiumId") long stadiumId, @Param("lastId") long lastTourLogId, @Param("pageSize") int pageSize);
 
+    boolean existsById(Long id);
 }

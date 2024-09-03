@@ -1,8 +1,8 @@
 package com.example.temp.fanpool.service;
 
 import com.example.temp.fanpool.dto.CreateFanpoolRequest;
-import com.example.temp.fanpool.dto.FanpoolInformationView;
+import com.example.temp.fanpool.dto.FanpoolView;
 
 public interface CreateFanpoolService {
-    FanpoolInformationView doService(long userId, CreateFanpoolRequest request);
+    FanpoolView doService(long userId, CreateFanpoolRequest request);
 }

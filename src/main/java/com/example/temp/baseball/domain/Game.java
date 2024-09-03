@@ -1,5 +1,6 @@
 package com.example.temp.baseball.domain;
 
+import com.example.temp.baseball.domain.value.GameState;
 import com.example.temp.common.util.IdUtil;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,16 +21,7 @@ public class Game {
     private Team awayTeam;
     private LocalDateTime startDate;
     @Enumerated(EnumType.STRING)
-    private State state;
-
-    @RequiredArgsConstructor
-    public enum State {
-        BEFORE_START("경기 전"),
-        IN_PROGRESS("경기중"),
-        TERMINATED("경기종료");
-
-        private final String kor;
-    }
+    private GameState state;
 
     @Builder
     public Game(Season season, Team homeTeam, Team awayTeam, LocalDateTime startDate) {
@@ -38,6 +30,6 @@ public class Game {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
         this.startDate = startDate;
-        this.state = State.BEFORE_START;
+        this.state = GameState.BEFORE_START;
     }
 }

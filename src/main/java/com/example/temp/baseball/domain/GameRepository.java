@@ -24,4 +24,10 @@ public interface GameRepository extends Repository<Game, Long> {
     default Game findByIdOrElseThrow(Long gameId) {
         return findById(gameId).orElseThrow(() -> new CustomException(HttpStatus.BAD_REQUEST, "Game not found"));
     }
+
+    @Query(value = "SELECT g FROM Game g " +
+            "WHERE  (g.awayTeam = :team OR g.homeTeam = :team) " +
+            "AND (g.state = 'BEFORE_START' OR g.state = 'IN_PROGRESS') " +
+            "ORDER BY g.startDate")
+    List<Game> findByTeamOrderByStartDate(Team team);
 }

@@ -36,10 +36,13 @@ public class SecurityConfig {
                         headerConfig.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable
                         )
                 )
+                .cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests((authorizeRequests) ->
                         authorizeRequests
                                 .requestMatchers("/user/**").authenticated()
-                                .requestMatchers("/baseball-game/**").authenticated()
+                                .requestMatchers("/geo/**").authenticated()
+                                .requestMatchers("/baseball/**").authenticated()
+                                .requestMatchers("/fanpool/**").authenticated()
                                 .requestMatchers("/chatroom/**").authenticated()
                                 .anyRequest().permitAll()
                 )
@@ -54,7 +57,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.addAllowedOriginPattern("*");

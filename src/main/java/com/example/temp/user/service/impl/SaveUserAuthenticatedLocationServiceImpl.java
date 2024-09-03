@@ -24,9 +24,9 @@ public class SaveUserAuthenticatedLocationServiceImpl implements SaveUserAuthent
     public void doService(Long userId, UserAuthenticatedLocationRequest request) {
         User user = userRepository.findByIdOrElseThrow(userId);
         Address address = request.toEntity();
-        Address firstAuthenticationLocation = addressRepository.save(address);
+        Address savedAddr = addressRepository.save(address);
 
-        UserAuthenticatedLocation entity = UserAuthenticatedLocation.build(user, firstAuthenticationLocation);
-        userAuthenticatedLocationRepository.save(entity);
+        UserAuthenticatedLocation entity = UserAuthenticatedLocation.build(user, savedAddr, request.isRepresentativeLocation());
+        UserAuthenticatedLocation saved = userAuthenticatedLocationRepository.save(entity);
     }
 }

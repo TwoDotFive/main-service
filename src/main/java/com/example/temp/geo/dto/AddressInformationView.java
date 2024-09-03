@@ -27,4 +27,17 @@ public record AddressInformationView(
                 address.getX(),
                 address.getY());
     }
+
+    public Address toEntity() {
+        return Address.builder()
+                .fullText(fullText)
+                .zipNo(zipNo)
+                .sido(sido)
+                .sigungu(sigungu)
+                .dong(dong)
+                .dongCd(dongCd)
+                .x(x)
+                .y(y)
+                .build();
+    }
 }

@@ -1,8 +1,10 @@
 package com.example.temp.user.controller;
 
 import com.example.temp.common.entity.CustomUserDetails;
+
 import com.example.temp.user.dto.*;
 import com.example.temp.user.service.*;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,9 @@ public class UserController {
     private final BlockUserService blockUserService;
     private final ReportUserService reportUserService;
     private final DeleteUserBlockingService deleteUserBlockingService;
+    private final FindUserAuthenticatedLocationService findUserAuthenticatedLocationService;
+    private final UpdateUserAuthenticatedLocationService updateUserAuthenticatedLocationService;
+
 
     @GetMapping("/profile/{targetUserId}")
     public ResponseEntity<UserProfileView> findProfile(
@@ -40,8 +45,16 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/location")
+    public ResponseEntity<?> findUserLocation(
+            @AuthenticationPrincipal CustomUserDetails authenticatedUser
+    ) {
+        FindUserAuthenticatedLocationResponse response = findUserAuthenticatedLocationService.doService(authenticatedUser.getId());
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/location")
-    public ResponseEntity<Void> updateAuthenticatedLocation(
+    public ResponseEntity<Void> saveAuthenticatedLocation(
             @AuthenticationPrincipal CustomUserDetails authenticatedUser,
             @RequestBody UserAuthenticatedLocationRequest locationRequest
     ) {
@@ -77,6 +90,17 @@ public class UserController {
         DeleteUserBlockingCommand command = new DeleteUserBlockingCommand(customUserDetails.getId(), targetUserId);
         deleteUserBlockingService.doService(command);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+
+    @PatchMapping("/location/{locationId}")
+    public ResponseEntity<Void> updateAuthenticatedLocation(
+            @PathVariable("locationId") long locationId,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @RequestBody UserAuthenticatedLocationRequest request
+    ) {
+        updateUserAuthenticatedLocationService.doService(customUserDetails.getId(), locationId);
+        return ResponseEntity.ok().build();
     }
 
 }

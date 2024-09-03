@@ -1,9 +1,12 @@
 package com.example.temp.baseball.controller;
 
+import com.example.temp.baseball.dto.FindGamesByTeamCommand;
+import com.example.temp.baseball.dto.FindGamesByTeamResponse;
 import com.example.temp.baseball.dto.GameScheduleResponse;
 import com.example.temp.baseball.dto.GameSchedulesRequest;
 import com.example.temp.baseball.service.CreateGameSchedulesService;
-import com.example.temp.baseball.service.FindAllSchedulesService;
+import com.example.temp.baseball.service.FindAllSchedulesDuringThisWeekService;
+import com.example.temp.baseball.service.FindGamesByTeamService;
 import com.example.temp.common.entity.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,18 +18,27 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/baseball-game")
+@RequestMapping("/baseball/game")
 public class BaseballGameController {
-
-    private final FindAllSchedulesService findAllSchedulesService;
+    private final FindGamesByTeamService findGamesByTeamService;
+    private final FindAllSchedulesDuringThisWeekService findAllSchedulesDuringThisWeekService;
     private final CreateGameSchedulesService createGameSchedulesService;
 
+    @GetMapping
+    public ResponseEntity<FindGamesByTeamResponse> findByTeam(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @RequestParam(value = "teamId") long teamId
+    ) {
+        FindGamesByTeamResponse result = findGamesByTeamService.doService(new FindGamesByTeamCommand(teamId));
+        return ResponseEntity.ok(result);
+    }
+
     @GetMapping("/schedules")
-    public ResponseEntity<List<GameScheduleResponse>> findAllSchedules(
+    public ResponseEntity<GameScheduleResponse> findAllSchedules(
             @AuthenticationPrincipal CustomUserDetails authenticatedUser,
             @RequestParam(name = "year", required = true) int year
     ) {
-        List<GameScheduleResponse> result = findAllSchedulesService.doService(authenticatedUser.getFavoriteTeam(), year);
+        GameScheduleResponse result = findAllSchedulesDuringThisWeekService.doService(authenticatedUser.getFavoriteTeam(), year);
         return ResponseEntity.ok(result);
     }
 

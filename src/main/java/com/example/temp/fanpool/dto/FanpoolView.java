@@ -1,16 +1,17 @@
 package com.example.temp.fanpool.dto;
 
-import com.example.temp.baseball.dto.GameInformationView;
+import com.example.temp.baseball.dto.GameView;
 import com.example.temp.fanpool.domain.Fanpool;
 import com.example.temp.geo.dto.AddressInformationView;
 
 import java.time.LocalDateTime;
 
 
-public record FanpoolInformationView(
+public record FanpoolView(
         long id,
         long hostUserId,
-        GameInformationView game,
+        GameView game,
+        String title,
         LocalDateTime departAt,
         AddressInformationView departFrom,
         String fanpoolType,
@@ -19,11 +20,12 @@ public record FanpoolInformationView(
         int numberOfPeople,
         int currentNumberOfPeople
 ) {
-    public FanpoolInformationView(Fanpool fanpool) {
+    public FanpoolView(Fanpool fanpool) {
         this(
                 fanpool.getId(),
                 fanpool.getHostUser().getId(),
-                new GameInformationView(fanpool.getGame()),
+                new GameView(fanpool.getGame()),
+                fanpool.getTitle(),
                 fanpool.getDepartAt(),
                 new AddressInformationView(fanpool.getDepartFrom()),
                 fanpool.getFanpoolType().toString(),

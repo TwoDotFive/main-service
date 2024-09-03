@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 public class CreateFanpoolRequest {
+    private String title;
     private LocalDateTime departAt;
     private Long gameId;
     private Integer numberOfPeople;

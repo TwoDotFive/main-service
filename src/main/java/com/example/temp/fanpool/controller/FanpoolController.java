@@ -1,19 +1,18 @@
 package com.example.temp.fanpool.controller;
 
 import com.example.temp.common.entity.CustomUserDetails;
-import com.example.temp.fanpool.dto.CreateFanpoolRequest;
-import com.example.temp.fanpool.dto.FanpoolInformationView;
-import com.example.temp.fanpool.dto.FindFanpoolBasedLocationCommand;
-import com.example.temp.fanpool.dto.FindFanpoolBasedLocationResponse;
-import com.example.temp.fanpool.service.CreateFanpoolService;
-import com.example.temp.fanpool.service.FindFanpoolBasedLocationService;
-import com.example.temp.fanpool.service.FindFanpoolByIdService;
+import com.example.temp.fanpool.dto.*;
+import com.example.temp.fanpool.dto.command.*;
+import com.example.temp.fanpool.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -21,21 +20,52 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FanpoolController {
     private final CreateFanpoolService createFanpoolService;
+    private final FindHostedFanpoolByUserService findHostedFanpoolByUserService;
+    private final FindLatestFanpoolService findLatestFanpoolService;
     private final FindFanpoolByIdService findFanpoolByIdService;
-    private final FindFanpoolBasedLocationService findFanpoolBasedLocationService;
+    private final FindFilteredFanpoolService findFilteredFanpoolService;
+    private final UpdateFanpoolService updateFanpoolService;
+    private final UpdateFanpoolStateService updateFanpoolStateService;
+    private final ParticipateFanpoolService participateFanpoolService;
+    private final DeleteFanpoolParticipationService deleteFanpoolParticipationService;
 
     @GetMapping
-    public ResponseEntity<List<FindFanpoolBasedLocationResponse>> getAllFanpool(
+    public ResponseEntity<FindHostedFanpoolByUserResponse> getAllByUser(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @PageableDefault(size = 10, page = 0) Pageable pageable,
+            @RequestParam("userId") long userId
+    ) {
+        FindHostedFanpoolByUserResponse result = findHostedFanpoolByUserService
+                .doService(new FindHostedFanpoolByUserCommand(userId, pageable));
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/latest")
+    public ResponseEntity<FindLatestFanpoolResponse> getLatest(
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) {
-        // TODO 날짜와 경기로 조회하는 기능 추가
-        FindFanpoolBasedLocationCommand command = new FindFanpoolBasedLocationCommand();
-        List<FindFanpoolBasedLocationResponse> result = findFanpoolBasedLocationService.doService(customUserDetails.getId(), command);
+        FindLatestFanpoolResponse result = findLatestFanpoolService.doService(customUserDetails.getId());
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<FindFilteredFanpoolResponse> getFiltered(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @PageableDefault(size = 10, page = 0) Pageable pageable,
+            @RequestParam(value = "teamId", required = false) long teamId,
+            @RequestParam(value = "dongCd", required = true) String dongCd,
+            @RequestParam(value = "gameId", required = false) List<Long> gameId,
+            @RequestParam(value = "departAt", required = false) LocalDateTime departAt,
+            @RequestParam(value = "onlyGathering", required = true) boolean onlyGathering
+    ) {
+        FindFilteredFanpoolCommand command = new FindFilteredFanpoolCommand(teamId, dongCd, gameId, departAt, onlyGathering, pageable);
+        FindFilteredFanpoolResponse result = findFilteredFanpoolService.doService(command);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{fanpoolId}")
-    public ResponseEntity<FindFanpoolBasedLocationResponse> getFanpool(
+    public ResponseEntity<FindFanpoolBasedLocationResponse> get(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @PathVariable("fanpoolId") long fanpoolId
     ) {
         FindFanpoolBasedLocationResponse result = findFanpoolByIdService.doService(fanpoolId);
@@ -43,11 +73,52 @@ public class FanpoolController {
     }
 
     @PostMapping
-    public ResponseEntity<FanpoolInformationView> save(
+    public ResponseEntity<FanpoolView> save(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @RequestBody CreateFanpoolRequest request
     ) {
-        FanpoolInformationView result = createFanpoolService.doService(userDetails.getId(), request);
+        FanpoolView result = createFanpoolService.doService(userDetails.getId(), request);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
+
+    @PostMapping("/{fanpoolId}")
+    public ResponseEntity<Void> gather(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @PathVariable("fanpoolId") long fanpoolId
+    ) {
+        participateFanpoolService.doService(new ParticipateFanpoolCommand(customUserDetails.getId(), fanpoolId));
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PatchMapping("/{fanpoolId}")
+    public ResponseEntity<Void> updateInfo(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @PathVariable("fanpoolId") long fanpoolId,
+            @RequestBody UpdateFanpoolRequest request
+    ) {
+        UpdateFanpoolCommand command = new UpdateFanpoolCommand(customUserDetails.getId(), fanpoolId, request);
+        updateFanpoolService.doService(command);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PatchMapping("/{fanpoolId}/state")
+    public ResponseEntity<Void> updateState(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @PathVariable("fanpoolId") long fanpoolId,
+            @RequestBody UpdateFanpoolStateRequest request
+    ) {
+        UpdateFanpoolStateCommand command = new UpdateFanpoolStateCommand(customUserDetails.getId(), fanpoolId, request);
+        updateFanpoolStateService.doService(command);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @DeleteMapping("/{fanpoolId}/cancel")
+    public ResponseEntity<Void> delete(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @PathVariable("fanpoolId") long fanpoolId
+    ) {
+        deleteFanpoolParticipationService
+                .doService(new DeleteFanpoolParticipationCommand(customUserDetails.getId(), fanpoolId));
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

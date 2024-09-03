@@ -5,7 +5,7 @@ import com.example.temp.baseball.domain.GameRepository;
 import com.example.temp.fanpool.domain.Fanpool;
 import com.example.temp.fanpool.domain.FanpoolRepository;
 import com.example.temp.fanpool.dto.CreateFanpoolRequest;
-import com.example.temp.fanpool.dto.FanpoolInformationView;
+import com.example.temp.fanpool.dto.FanpoolView;
 import com.example.temp.fanpool.service.CreateFanpoolService;
 import com.example.temp.geo.entity.Address;
 import com.example.temp.geo.entity.AddressRepository;
@@ -26,13 +26,16 @@ public class CreateFanpoolServiceImpl implements CreateFanpoolService {
 
     @Override
     @Transactional
-    public FanpoolInformationView doService(long userId, CreateFanpoolRequest request) {
+    public FanpoolView doService(long userId, CreateFanpoolRequest request) {
         User hostUser = userRepository.findByIdOrElseThrow(userId);
+
         Game game = gameRepository.findByIdOrElseThrow(request.getGameId());
         Address address = addressRepository.save(request.toAddressEntity());
 
         Fanpool fanpool = Fanpool.build(hostUser, game, address, request);
         Fanpool saved = fanpoolRepository.save(fanpool);
-        return new FanpoolInformationView(saved);
+        hostUser.updateHostedFanpool(saved);
+
+        return new FanpoolView(saved);
     }
 }

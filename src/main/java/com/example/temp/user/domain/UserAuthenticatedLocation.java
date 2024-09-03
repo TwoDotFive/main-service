@@ -8,10 +8,12 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class UserAuthenticatedLocation extends BaseTimeEntity {
     @Id
     private Long id;
@@ -20,20 +22,24 @@ public class UserAuthenticatedLocation extends BaseTimeEntity {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Address firstLocation;
+    private Address address;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Address secondLocation;
+    private boolean representative;
 
-    public static UserAuthenticatedLocation build(User user, Address firstLocation) {
+    public static UserAuthenticatedLocation build(User user, Address address, boolean representative) {
         UserAuthenticatedLocation ret = new UserAuthenticatedLocation();
         ret.id = IdUtil.create();
         ret.user = user;
-        ret.firstLocation = firstLocation;
+        ret.address = address;
+        ret.representative = representative;
         return ret;
     }
 
-    public String getFirstLocationDongCd() {
-        return firstLocation.getDongCd();
+    public void updateRepresentative(long id) {
+        this.representative = this.id == id;
+    }
+
+    public String getAddressDongCd() {
+        return address.getDongCd();
     }
 }

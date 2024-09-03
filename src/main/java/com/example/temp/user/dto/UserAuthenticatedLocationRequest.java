@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class UserAuthenticatedLocationRequest {
+    private boolean representative;
+
     private String x;
     private String y;
     private String fullText;
@@ -27,5 +29,9 @@ public class UserAuthenticatedLocationRequest {
                 .dongCd(dongCd)
                 .dong(dong)
                 .build();
+    }
+
+    public boolean isRepresentativeLocation() {
+        return this.representative;
     }
 }

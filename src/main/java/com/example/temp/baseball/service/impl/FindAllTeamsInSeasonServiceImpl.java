@@ -4,7 +4,7 @@ import com.example.temp.baseball.domain.Season;
 import com.example.temp.baseball.domain.SeasonRepository;
 import com.example.temp.baseball.domain.Team;
 import com.example.temp.baseball.domain.TeamRepository;
-import com.example.temp.baseball.dto.TeamInformationView;
+import com.example.temp.baseball.dto.TeamView;
 import com.example.temp.baseball.service.FindAllTeamsInSeasonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ public class FindAllTeamsInSeasonServiceImpl implements FindAllTeamsInSeasonServ
     private final SeasonRepository seasonRepository;
 
     @Override
-    public List<TeamInformationView> doService(int year) {
+    public List<TeamView> doService(int year) {
         Optional<Season> found = seasonRepository.findByYear(year);
         if (found.isEmpty()) {
             return List.of();
@@ -28,7 +28,7 @@ public class FindAllTeamsInSeasonServiceImpl implements FindAllTeamsInSeasonServ
         List<Team> teams = teamRepository.findBySeason(found.get());
 
         return teams.stream()
-                .map(TeamInformationView::new)
+                .map(TeamView::new)
                 .toList();
     }
 }

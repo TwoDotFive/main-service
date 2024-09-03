@@ -7,6 +7,9 @@ import com.example.temp.user.dto.UserProfileView;
 import com.example.temp.user.service.FindUserProfileService;
 import com.example.temp.user.service.SaveUserAuthenticatedLocationService;
 import com.example.temp.user.service.UpdateUserProfileService;
+import com.example.temp.user.service.dto.FindUserAuthenticatedLocationResponse;
+import com.example.temp.user.service.location.FindUserAuthenticatedLocationService;
+import com.example.temp.user.service.location.UpdateUserAuthenticatedLocationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,8 @@ public class UserController {
     private final FindUserProfileService findUserProfileService;
     private final UpdateUserProfileService updateUserProfileService;
     private final SaveUserAuthenticatedLocationService saveUserAuthenticatedLocationService;
+    private final FindUserAuthenticatedLocationService findUserAuthenticatedLocationService;
+    private final UpdateUserAuthenticatedLocationService updateUserAuthenticatedLocationService;
 
     @GetMapping("/profile")
     public ResponseEntity<UserProfileView> findProfile(@AuthenticationPrincipal CustomUserDetails authenticatedUser) {
@@ -37,8 +42,16 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/location")
+    public ResponseEntity<?> findUserLocation(
+            @AuthenticationPrincipal CustomUserDetails authenticatedUser
+    ) {
+        FindUserAuthenticatedLocationResponse response = findUserAuthenticatedLocationService.doService(authenticatedUser.getId());
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/location")
-    public ResponseEntity<Void> updateAuthenticatedLocation(
+    public ResponseEntity<Void> saveAuthenticatedLocation(
             @AuthenticationPrincipal CustomUserDetails authenticatedUser,
             @RequestBody UserAuthenticatedLocationRequest locationRequest
     ) {
@@ -46,4 +59,13 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PatchMapping("/location/{locationId}")
+    public ResponseEntity<Void> updateAuthenticatedLocation(
+            @PathVariable("locationId") long locationId,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @RequestBody UserAuthenticatedLocationRequest request
+    ) {
+        updateUserAuthenticatedLocationService.doService(customUserDetails.getId(), locationId);
+        return ResponseEntity.ok().build();
+    }
 }

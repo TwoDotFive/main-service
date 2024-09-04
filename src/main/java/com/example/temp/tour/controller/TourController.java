@@ -38,12 +38,10 @@ public class TourController {
 
     @GetMapping("/info/details")
     public ResponseEntity<FindTourInformationDetailsResponse> findDetails(
-            @RequestParam(name = "pageSize") int pageSize,
-            @RequestParam(name = "pageNumber") int pageNumber,
             @RequestParam(name = "contentTypeId") String contentTypeId,
             @RequestParam(name = "contentId") String contentId
     ) {
-        FindTourInformationDetailsCommand command = new FindTourInformationDetailsCommand(pageSize, pageNumber, contentId, contentTypeId);
+        FindTourInformationDetailsCommand command = new FindTourInformationDetailsCommand(contentId, contentTypeId);
         FindTourInformationDetailsResponse response = findTourDetailsService.doService(command);
         return ResponseEntity.ok(response);
     }

@@ -17,7 +17,9 @@ import java.net.URI;
 @RequiredArgsConstructor
 public class TourDetailsClients {
     private static final String NUM_OF_ROWS_PARAM = "numOfRows";
+    private static final int NUM_OF_ROWS_PARAM_VALUE = 10;
     private static final String PAGE_NO_PARAM = "pageNo";
+    private static final int PAGE_NO_PARAM_VALUE = 0;
     private static final String MOBILE_OS_PARAM = "MobileOS"; // required
     private static final String MOBILE_OS_PARAM_VALUE = "WEB"; // required
     private static final String MOBILE_APP_PARAM = "MobileApp"; // required
@@ -43,8 +45,8 @@ public class TourDetailsClients {
                 .queryParam(MOBILE_OS_PARAM, MOBILE_OS_PARAM_VALUE)
                 .queryParam(MOBILE_APP_PARAM, MOBILE_APP_PARAM_VALUE)
                 .queryParam(TYPE_PARAM, TYPE_PARAM_VALUE)
-                .queryParam(NUM_OF_ROWS_PARAM, command.pageSize())
-                .queryParam(PAGE_NO_PARAM, command.pageNo())
+                .queryParam(NUM_OF_ROWS_PARAM, NUM_OF_ROWS_PARAM_VALUE)
+                .queryParam(PAGE_NO_PARAM, PAGE_NO_PARAM_VALUE)
                 .queryParam(CONTENT_ID_PARAM, command.contentId())
                 .queryParam(CONTENT_TYPE_ID_PARAM, command.contentTypeId())
                 .build(true)

@@ -90,7 +90,7 @@ public class TourController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/bookmark")
+    @PostMapping("/log/bookmark")
     public ResponseEntity<Long> registerBookmark(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestBody RegisterTourLogBookmarkRequest request
@@ -99,7 +99,7 @@ public class TourController {
         return ResponseEntity.ok(bookmarkId);
     }
 
-    @DeleteMapping("/bookmark")
+    @DeleteMapping("/log/bookmark")
     public ResponseEntity<Void> deleteBookmark(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestParam("id") Long bookmarkId
@@ -108,7 +108,7 @@ public class TourController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/bookmark")
+    @GetMapping("/log/bookmark")
     public ResponseEntity<FindUserBookmarkedTourLogListResponse> findUserBookmarkedTourLogList(
             @RequestParam(name = "lastId", defaultValue = "" + Long.MAX_VALUE) Long lastBookmarkId,
             @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,

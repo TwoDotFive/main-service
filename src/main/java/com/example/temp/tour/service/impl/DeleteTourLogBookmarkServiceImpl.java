@@ -17,8 +17,8 @@ public class DeleteTourLogBookmarkServiceImpl implements DeleteTourLogBookmarkSe
 
     @Override
     @Transactional
-    public void doService(Long userId, Long bookmarkId) {
-        TourLogBookmark bookmark = tourLogBookmarkRepository.findByIdOrElseThrow(bookmarkId);
+    public void doService(Long userId, Long tourLogId) {
+        TourLogBookmark bookmark = tourLogBookmarkRepository.findByUserIdAndTourLogIdOrElseThrow(userId, tourLogId);
         if (!bookmark.getUserId().equals(userId)) {
             throw new CustomException(HttpStatus.FORBIDDEN, "Illegal Request");
         }

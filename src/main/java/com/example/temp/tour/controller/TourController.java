@@ -90,21 +90,21 @@ public class TourController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/log/bookmark")
+    @PostMapping("/log/{tourLogId}/bookmark")
     public ResponseEntity<Long> registerBookmark(
-            @AuthenticationPrincipal CustomUserDetails customUserDetails,
-            @RequestBody RegisterTourLogBookmarkRequest request
+            @PathVariable("tourLogId") Long tourLogId,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) {
-        Long bookmarkId = registerTourLogBookmarkService.doService(customUserDetails.getId(), request.tourLogId());
+        Long bookmarkId = registerTourLogBookmarkService.doService(customUserDetails.getId(), tourLogId);
         return ResponseEntity.ok(bookmarkId);
     }
 
-    @DeleteMapping("/log/bookmark")
+    @DeleteMapping("/log/{tourLogId}/bookmark")
     public ResponseEntity<Void> deleteBookmark(
-            @AuthenticationPrincipal CustomUserDetails customUserDetails,
-            @RequestParam("id") Long bookmarkId
+            @PathVariable("tourLogId") Long tourLogId,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) {
-        deleteTourLogBookmarkService.doService(customUserDetails.getId(), bookmarkId);
+        deleteTourLogBookmarkService.doService(customUserDetails.getId(), tourLogId);
         return ResponseEntity.ok().build();
     }
 

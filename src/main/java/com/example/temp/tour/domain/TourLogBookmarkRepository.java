@@ -22,6 +22,13 @@ public interface TourLogBookmarkRepository extends Repository<TourLogBookmark, L
 
     boolean existsByUserIdAndTourLogId(Long userId, Long tourLogId);
 
+    Optional<TourLogBookmark> findByUserIdAndTourLogId(Long userId, Long tourLogId);
+
+    default TourLogBookmark findByUserIdAndTourLogIdOrElseThrow(Long userId, Long tourLogId) {
+        return findByUserIdAndTourLogId(userId, tourLogId)
+                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "No Bookmark Exists"));
+    }
+
     void delete(TourLogBookmark entity);
 
     @Query(nativeQuery = true, value = "SELECT b.id as bookmarkId, t.id as tourLogId, t.image_url as image, t.title as title, u.nickname as userNickname, u.profile_image_url as userProfileImage, s.shorten_name as stadiumName " +

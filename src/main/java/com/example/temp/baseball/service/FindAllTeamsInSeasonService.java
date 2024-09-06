@@ -1,9 +1,9 @@
 package com.example.temp.baseball.service;
 
-import com.example.temp.baseball.dto.TeamInformationView;
+import com.example.temp.baseball.dto.TeamView;
 
 import java.util.List;
 
 public interface FindAllTeamsInSeasonService {
-    List<TeamInformationView> doService(int year);
+    List<TeamView> doService(int year);
 }

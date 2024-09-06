@@ -1,25 +1,34 @@
 package com.example.temp.tour.controller;
 
-import com.example.temp.tour.dto.FindTourInformationByLocationCommand;
-import com.example.temp.tour.dto.FindTourInformationDetailsCommand;
-import com.example.temp.tour.dto.FindTourInformationDetailsResponse;
-import com.example.temp.tour.dto.FindTourInformationResponse;
-import com.example.temp.tour.service.FindTourInformationByLocationService;
+import com.example.temp.common.entity.CustomUserDetails;
+import com.example.temp.tour.dto.*;
+import com.example.temp.tour.service.*;
 import com.example.temp.tour.service.impl.FindTourDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/tour")
 public class TourController {
 
-    private final FindTourInformationByLocationService findTourInformationByLocationService;
+    private final FindTourLogService findTourLogService;
+    private final UpdateTourLogService updateTourLogService;
+    private final DeleteTourLogService deleteTourLogService;
+    private final RegisterTourLogService registerTourLogService;
     private final FindTourDetailsServiceImpl findTourDetailsService;
+    private final FindRecentTourLogListService findRecentTourLogListService;
+    private final FindTourLogBookmarkIdService findTourLogBookmarkIdService;
+    private final DeleteTourLogBookmarkService deleteTourLogBookmarkService;
+    private final RegisterTourLogBookmarkService registerTourLogBookmarkService;
+    private final FindTourInformationByLocationService findTourInformationByLocationService;
+    private final FindUserBookmarkedTourLogListService findUserBookmarkedTourLogListService;
+    private final FindRecentTourLogListByStadiumService findRecentTourLogListByStadiumService;
+
 
     @GetMapping("/info")
     public ResponseEntity<FindTourInformationResponse> findTourInformation(
@@ -36,6 +45,7 @@ public class TourController {
         return ResponseEntity.ok(response);
     }
 
+
     @GetMapping("/info/details")
     public ResponseEntity<FindTourInformationDetailsResponse> findDetails(
             @RequestParam(name = "contentTypeId") String contentTypeId,
@@ -43,6 +53,92 @@ public class TourController {
     ) {
         FindTourInformationDetailsCommand command = new FindTourInformationDetailsCommand(contentId, contentTypeId);
         FindTourInformationDetailsResponse response = findTourDetailsService.doService(command);
+
+    @PostMapping("/log")
+    public ResponseEntity<Long> registerTourLog(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestBody RegisterTourLogRequest request
+    ) {
+        Long tourLogId = registerTourLogService.doService(userDetails.getId(), request);
+        return ResponseEntity.ok(tourLogId);
+    }
+
+    @GetMapping("/log")
+    public ResponseEntity<TourLogView> findTourLog(@RequestParam(name = "id") Long tourLogId) {
+        TourLogView response = findTourLogService.doService(tourLogId);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/log")
+    public ResponseEntity<Void> updateTourLog(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestBody UpdateTourLogRequest request
+    ) {
+        updateTourLogService.doService(userDetails.getId(), request);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/log")
+    public ResponseEntity<Void> deleteTourLog(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @RequestParam(name = "id") Long tourLogId
+    ) {
+        deleteTourLogService.doService(customUserDetails.getId(), tourLogId);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<FindRecentTourLogListResponse> findRecentTourLogList(
+            @RequestParam(name = "stadiumId", required = false) Long stadiumId,
+            @RequestParam(name = "lastId", defaultValue = "" + Long.MAX_VALUE) Long lastTourLogId,
+            @RequestParam(name = "pageSize", defaultValue = "6") Integer pageSize
+    ) {
+        List<TourLogPreview> result;
+        if (stadiumId == null) {
+            result = findRecentTourLogListService.doService(lastTourLogId, pageSize);
+        } else {
+            result = findRecentTourLogListByStadiumService.doService(stadiumId, lastTourLogId, pageSize);
+        }
+        FindRecentTourLogListResponse response = new FindRecentTourLogListResponse(result);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/log/{tourLogId}/bookmark")
+    public ResponseEntity<Long> registerBookmark(
+            @PathVariable("tourLogId") Long tourLogId,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ) {
+        Long bookmarkId = registerTourLogBookmarkService.doService(customUserDetails.getId(), tourLogId);
+        return ResponseEntity.ok(bookmarkId);
+    }
+
+    @DeleteMapping("/log/{tourLogId}/bookmark")
+    public ResponseEntity<Void> deleteBookmark(
+            @PathVariable("tourLogId") Long tourLogId,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ) {
+        deleteTourLogBookmarkService.doService(customUserDetails.getId(), tourLogId);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/log/{tourLogId}/bookmark")
+    public ResponseEntity<String> findBookmarkId(
+            @PathVariable("tourLogId") Long tourLogId,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ) {
+        Long bookmarkId = findTourLogBookmarkIdService.doService(customUserDetails.getId(), tourLogId);
+        return ResponseEntity.ok(String.valueOf(bookmarkId));
+    }
+
+    @GetMapping("/log/bookmark")
+    public ResponseEntity<FindUserBookmarkedTourLogListResponse> findUserBookmarkedTourLogList(
+            @RequestParam(name = "lastId", defaultValue = "" + Long.MAX_VALUE) Long lastBookmarkId,
+            @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ) {
+        List<BookmarkedTourLogPreview> result = findUserBookmarkedTourLogListService.doService(
+                userDetails.getId(), lastBookmarkId, pageSize);
+        FindUserBookmarkedTourLogListResponse response = new FindUserBookmarkedTourLogListResponse(result);
         return ResponseEntity.ok(response);
     }
 }

@@ -1,6 +1,6 @@
 package com.example.temp.baseball.controller;
 
-import com.example.temp.baseball.dto.TeamInformationView;
+import com.example.temp.baseball.dto.TeamView;
 import com.example.temp.baseball.service.FindAllTeamsInSeasonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/baseball")
+@RequestMapping("/baseball/team")
 @RequiredArgsConstructor
 public class TeamController {
     private final FindAllTeamsInSeasonService findAllTeamsInSeasonService;
 
-    @GetMapping("/teams")
-    public ResponseEntity<List<TeamInformationView>> find(
+    @GetMapping
+    public ResponseEntity<List<TeamView>> find(
             @RequestParam(name = "year", required = true) int year
     ) {
-        List<TeamInformationView> result = findAllTeamsInSeasonService.doService(year);
+        List<TeamView> result = findAllTeamsInSeasonService.doService(year);
         return ResponseEntity.ok(result);
     }
 }

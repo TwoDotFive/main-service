@@ -53,6 +53,8 @@ public class TourController {
     ) {
         FindTourInformationDetailsCommand command = new FindTourInformationDetailsCommand(contentId, contentTypeId);
         FindTourInformationDetailsResponse response = findTourDetailsService.doService(command);
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping("/log")
     public ResponseEntity<Long> registerTourLog(

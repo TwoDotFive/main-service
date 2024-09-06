@@ -3,7 +3,6 @@ package com.example.temp.tour.controller;
 import com.example.temp.common.entity.CustomUserDetails;
 import com.example.temp.tour.dto.*;
 import com.example.temp.tour.service.*;
-import com.example.temp.tour.service.impl.FindTourDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,7 +19,7 @@ public class TourController {
     private final UpdateTourLogService updateTourLogService;
     private final DeleteTourLogService deleteTourLogService;
     private final RegisterTourLogService registerTourLogService;
-    private final FindTourDetailsServiceImpl findTourDetailsService;
+    private final FindTourDetailsService findTourDetailsService;
     private final FindRecentTourLogListService findRecentTourLogListService;
     private final FindTourLogBookmarkIdService findTourLogBookmarkIdService;
     private final DeleteTourLogBookmarkService deleteTourLogBookmarkService;

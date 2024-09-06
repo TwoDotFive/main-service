@@ -1,10 +1,11 @@
 package com.example.temp.user.controller;
 
 import com.example.temp.common.entity.CustomUserDetails;
-
 import com.example.temp.user.dto.*;
 import com.example.temp.user.service.*;
-
+import com.example.temp.user.service.dto.FindUserAuthenticatedLocationResponse;
+import com.example.temp.user.service.location.FindUserAuthenticatedLocationService;
+import com.example.temp.user.service.location.UpdateUserAuthenticatedLocationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -85,7 +86,7 @@ public class UserController {
     @DeleteMapping("/block")
     public ResponseEntity<Void> deletBlocking(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
-            @RequestParam(value = "targetUserId", required = true) long targetUserId
+            @RequestParam(value = "targetUserId") long targetUserId
     ) {
         DeleteUserBlockingCommand command = new DeleteUserBlockingCommand(customUserDetails.getId(), targetUserId);
         deleteUserBlockingService.doService(command);
@@ -96,8 +97,7 @@ public class UserController {
     @PatchMapping("/location/{locationId}")
     public ResponseEntity<Void> updateAuthenticatedLocation(
             @PathVariable("locationId") long locationId,
-            @AuthenticationPrincipal CustomUserDetails customUserDetails,
-            @RequestBody UserAuthenticatedLocationRequest request
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) {
         updateUserAuthenticatedLocationService.doService(customUserDetails.getId(), locationId);
         return ResponseEntity.ok().build();

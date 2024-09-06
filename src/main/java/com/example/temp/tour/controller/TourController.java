@@ -20,7 +20,11 @@ public class TourController {
     private final DeleteTourLogService deleteTourLogService;
     private final RegisterTourLogService registerTourLogService;
     private final FindRecentTourLogListService findRecentTourLogListService;
+    private final FindTourLogBookmarkIdService findTourLogBookmarkIdService;
+    private final DeleteTourLogBookmarkService deleteTourLogBookmarkService;
+    private final RegisterTourLogBookmarkService registerTourLogBookmarkService;
     private final FindTourInformationByLocationService findTourInformationByLocationService;
+    private final FindUserBookmarkedTourLogListService findUserBookmarkedTourLogListService;
     private final FindRecentTourLogListByStadiumService findRecentTourLogListByStadiumService;
 
     @GetMapping("/info")
@@ -84,6 +88,45 @@ public class TourController {
             result = findRecentTourLogListByStadiumService.doService(stadiumId, lastTourLogId, pageSize);
         }
         FindRecentTourLogListResponse response = new FindRecentTourLogListResponse(result);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/log/{tourLogId}/bookmark")
+    public ResponseEntity<Long> registerBookmark(
+            @PathVariable("tourLogId") Long tourLogId,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ) {
+        Long bookmarkId = registerTourLogBookmarkService.doService(customUserDetails.getId(), tourLogId);
+        return ResponseEntity.ok(bookmarkId);
+    }
+
+    @DeleteMapping("/log/{tourLogId}/bookmark")
+    public ResponseEntity<Void> deleteBookmark(
+            @PathVariable("tourLogId") Long tourLogId,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ) {
+        deleteTourLogBookmarkService.doService(customUserDetails.getId(), tourLogId);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/log/{tourLogId}/bookmark")
+    public ResponseEntity<String> findBookmarkId(
+            @PathVariable("tourLogId") Long tourLogId,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ) {
+        Long bookmarkId = findTourLogBookmarkIdService.doService(customUserDetails.getId(), tourLogId);
+        return ResponseEntity.ok(String.valueOf(bookmarkId));
+    }
+
+    @GetMapping("/log/bookmark")
+    public ResponseEntity<FindUserBookmarkedTourLogListResponse> findUserBookmarkedTourLogList(
+            @RequestParam(name = "lastId", defaultValue = "" + Long.MAX_VALUE) Long lastBookmarkId,
+            @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ) {
+        List<BookmarkedTourLogPreview> result = findUserBookmarkedTourLogListService.doService(
+                userDetails.getId(), lastBookmarkId, pageSize);
+        FindUserBookmarkedTourLogListResponse response = new FindUserBookmarkedTourLogListResponse(result);
         return ResponseEntity.ok(response);
     }
 }

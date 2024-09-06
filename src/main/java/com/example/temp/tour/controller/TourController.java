@@ -3,6 +3,7 @@ package com.example.temp.tour.controller;
 import com.example.temp.common.entity.CustomUserDetails;
 import com.example.temp.tour.dto.*;
 import com.example.temp.tour.service.*;
+import com.example.temp.tour.service.impl.FindTourDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,6 +20,7 @@ public class TourController {
     private final UpdateTourLogService updateTourLogService;
     private final DeleteTourLogService deleteTourLogService;
     private final RegisterTourLogService registerTourLogService;
+    private final FindTourDetailsServiceImpl findTourDetailsService;
     private final FindRecentTourLogListService findRecentTourLogListService;
     private final FindTourLogBookmarkIdService findTourLogBookmarkIdService;
     private final DeleteTourLogBookmarkService deleteTourLogBookmarkService;
@@ -26,6 +28,7 @@ public class TourController {
     private final FindTourInformationByLocationService findTourInformationByLocationService;
     private final FindUserBookmarkedTourLogListService findUserBookmarkedTourLogListService;
     private final FindRecentTourLogListByStadiumService findRecentTourLogListByStadiumService;
+
 
     @GetMapping("/info")
     public ResponseEntity<FindTourInformationResponse> findTourInformation(
@@ -39,6 +42,17 @@ public class TourController {
         FindTourInformationByLocationCommand command = new FindTourInformationByLocationCommand(
                 pageSize, pageNumber, x, y, radius, contentTypeId);
         FindTourInformationResponse response = findTourInformationByLocationService.doService(command);
+        return ResponseEntity.ok(response);
+    }
+
+
+    @GetMapping("/info/details")
+    public ResponseEntity<FindTourInformationDetailsResponse> findDetails(
+            @RequestParam(name = "contentTypeId") String contentTypeId,
+            @RequestParam(name = "contentId") String contentId
+    ) {
+        FindTourInformationDetailsCommand command = new FindTourInformationDetailsCommand(contentId, contentTypeId);
+        FindTourInformationDetailsResponse response = findTourDetailsService.doService(command);
         return ResponseEntity.ok(response);
     }
 

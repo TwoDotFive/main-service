@@ -44,6 +44,8 @@ public class SecurityConfig {
                                 .requestMatchers("/baseball/**").authenticated()
                                 .requestMatchers("/fanpool/**").authenticated()
                                 .requestMatchers("/chatroom/**").authenticated()
+                                .requestMatchers("/tour/**").authenticated()
+                                .requestMatchers("/file/**").authenticated()
                                 .anyRequest().permitAll()
                 )
                 .exceptionHandling((exceptionConfig) ->

@@ -56,12 +56,12 @@ public class TourController {
     }
 
     @PostMapping("/log")
-    public ResponseEntity<Long> registerTourLog(
+    public ResponseEntity<String> registerTourLog(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @RequestBody RegisterTourLogRequest request
     ) {
         Long tourLogId = registerTourLogService.doService(userDetails.getId(), request);
-        return ResponseEntity.ok(tourLogId);
+        return ResponseEntity.ok(String.valueOf(tourLogId));
     }
 
     @GetMapping("/log")
@@ -105,12 +105,12 @@ public class TourController {
     }
 
     @PostMapping("/log/{tourLogId}/bookmark")
-    public ResponseEntity<Long> registerBookmark(
+    public ResponseEntity<String> registerBookmark(
             @PathVariable("tourLogId") Long tourLogId,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) {
         Long bookmarkId = registerTourLogBookmarkService.doService(customUserDetails.getId(), tourLogId);
-        return ResponseEntity.ok(bookmarkId);
+        return ResponseEntity.ok(String.valueOf(bookmarkId));
     }
 
     @DeleteMapping("/log/{tourLogId}/bookmark")

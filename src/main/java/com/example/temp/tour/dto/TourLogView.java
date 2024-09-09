@@ -8,7 +8,7 @@ public record TourLogView(
         String id,
         String title,
         String image,
-        String stadiumName,
+        String stadium,
         TourLogUserProfileView user,
         List<TourScheduleView> schedules
 ) {

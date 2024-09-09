@@ -58,6 +58,9 @@ dependencies {
 
     // AWS SDK for Java
     implementation 'com.amazonaws:aws-java-sdk:1.12.771'
+
+    // Web 문자 발송 SDK
+    implementation 'net.nurigo:sdk:4.3.0'
 }
 
 tasks.named('test') {

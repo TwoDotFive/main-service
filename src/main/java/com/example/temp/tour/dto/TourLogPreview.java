@@ -4,7 +4,7 @@ public record TourLogPreview(
         String id,
         String image,
         String title,
-        String stadiumName,
+        String stadium,
         UserProfileView profile
 ) {
 

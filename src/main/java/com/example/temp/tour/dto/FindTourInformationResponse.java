@@ -22,7 +22,7 @@ public record FindTourInformationResponse(
         return response.getItems()
                 .stream()
                 .map(item -> TourPlaceInfo.builder()
-                        .title(item.getTitle())
+                        .name(item.getTitle())
                         .thumbnail(item.getThumbnail())
                         .address(item.getAddr1())
                         .distance(item.getDist())

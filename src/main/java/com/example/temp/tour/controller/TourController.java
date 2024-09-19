@@ -36,7 +36,7 @@ public class TourController {
             @RequestParam(name = "x") String x,
             @RequestParam(name = "y") String y,
             @RequestParam(name = "radius") String radius,
-            @RequestParam(name = "contentType") String contentTypeId
+            @RequestParam(name = "contentTypeId", required = false) String contentTypeId
     ) {
         FindTourInformationByLocationCommand command = new FindTourInformationByLocationCommand(
                 pageSize, pageNumber, x, y, radius, contentTypeId);

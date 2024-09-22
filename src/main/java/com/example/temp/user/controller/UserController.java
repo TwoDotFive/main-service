@@ -32,6 +32,7 @@ public class UserController {
             @AuthenticationPrincipal CustomUserDetails authenticatedUser,
             @PathVariable("targetUserId") long targetUserId
     ) {
+        if (targetUserId == 0) targetUserId = authenticatedUser.getId();
         FindUserProfileCommand command = new FindUserProfileCommand(authenticatedUser.getId(), targetUserId);
         UserProfileView response = findUserProfileService.doService(command);
         return ResponseEntity.ok(response);

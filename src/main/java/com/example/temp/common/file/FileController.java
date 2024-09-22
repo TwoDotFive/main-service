@@ -11,7 +11,7 @@ public class FileController {
 
     private final FileService fileService;
 
-    @GetMapping("/file/presinged-url")
+    @GetMapping("/file/presigned-url")
     public ResponseEntity<String> getPresignedUrl() {
         return ResponseEntity.ok(fileService.generatePresignedUrl());
     }

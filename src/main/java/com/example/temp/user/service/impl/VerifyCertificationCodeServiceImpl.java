@@ -14,7 +14,7 @@ public class VerifyCertificationCodeServiceImpl implements VerifyCertificationCo
 
     @Override
     public void doService(String code, String phoneNumber) {
-        if (hasKey(phoneNumber)) {
+        if (!hasKey(phoneNumber)) {
             throw new CustomException(HttpStatus.BAD_REQUEST, "휴대폰 번호를 다시 확인해 주세요.");
         }
 

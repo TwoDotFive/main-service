@@ -5,6 +5,7 @@ import com.example.temp.user.domain.User;
 import com.example.temp.user.domain.value.UserRole;
 
 public record UserProfileView(
+        String id,
         String email,
         String nickname,
         String profileImageUrl,
@@ -16,6 +17,7 @@ public record UserProfileView(
 ) {
     public UserProfileView(User user) {
         this(
+                user.getId().toString(),
                 user.getEmail(),
                 user.getNickname(),
                 user.getProfileImageUrl(),

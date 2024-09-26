@@ -19,7 +19,7 @@ public class VerifyCertificationCodeServiceImpl implements VerifyCertificationCo
         }
 
         String savedCode = getSmsCertification(phoneNumber);
-        if (equalsSavedCode(code, savedCode)) {
+        if (!equalsSavedCode(code, savedCode)) {
             throw new CustomException(HttpStatus.BAD_REQUEST, "유효 시간이 만료되었거나 인증번호가 일치하지 않습니다.");
         }
 

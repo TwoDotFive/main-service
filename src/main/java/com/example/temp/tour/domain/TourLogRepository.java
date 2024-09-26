@@ -25,18 +25,18 @@ public interface TourLogRepository extends Repository<TourLog, Long> {
     // 페치 조인은 최대 1개의 OneToMany 연관 관계만 가능해서 TourScheduleMemoImage까지는 페치 조인이 불가능
     // TourScheduleMemo - TourScheduleMemoImage 간에 N+1 문제를 해결하고자 Batch Size 설정
     @Query("SELECT t FROM TourLog t " +
-            "JOIN FETCH t.schedules ts " +
-            "JOIN FETCH ts.tourPlace tp " +
-            "JOIN FETCH ts.memo tsm " +
+            "LEFT JOIN FETCH t.schedules ts " +
+            "LEFT JOIN FETCH ts.tourPlace tp " +
+            "LEFT JOIN FETCH ts.memo tsm " +
             "WHERE t.id = :id")
     Optional<TourLog> findByIdWithAllAssociationsForUpdate(@Param("id") Long id);
 
     @Query("SELECT t FROM TourLog t " +
             "JOIN FETCH t.user u " +
             "JOIN FETCH t.stadium s " +
-            "JOIN FETCH t.schedules ts " +
-            "JOIN FETCH ts.tourPlace tp " +
-            "JOIN FETCH ts.memo tsm " +
+            "LEFT JOIN FETCH t.schedules ts " +
+            "LEFT JOIN FETCH ts.tourPlace tp " +
+            "LEFT JOIN FETCH ts.memo tsm " +
             "WHERE t.id = :id")
     Optional<TourLog> findByIdWithAllAssociationsForRead(@Param("id") Long id);
 

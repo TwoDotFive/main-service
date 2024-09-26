@@ -1,6 +1,5 @@
 package com.example.temp.tour.domain;
 
-import com.example.temp.baseball.domain.Stadium;
 import com.example.temp.common.entity.BaseTimeEntity;
 import com.example.temp.common.util.IdUtil;
 import com.example.temp.user.domain.User;
@@ -26,7 +25,7 @@ public class TourLog extends BaseTimeEntity {
 
     @JoinColumn(name = "stadium_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private Stadium stadium;
+    private TourLogStadium stadium;
 
     @Embedded
     private TourLogTitle title;
@@ -37,7 +36,7 @@ public class TourLog extends BaseTimeEntity {
     @OneToMany(mappedBy = "tourLog", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<TourSchedule> schedules = new ArrayList<>();
 
-    public TourLog(User user, Stadium stadium, String title, String image) {
+    public TourLog(User user, TourLogStadium stadium, String title, String image) {
         this.id = IdUtil.create();
         this.user = user;
         this.stadium = stadium;

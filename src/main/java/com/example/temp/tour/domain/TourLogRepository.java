@@ -43,7 +43,7 @@ public interface TourLogRepository extends Repository<TourLog, Long> {
     @Query(nativeQuery = true, value = "SELECT t.id as id, t.image_url as image, t.title as title, u.nickname as userNickname, u.profile_image_url as userProfileImage, s.shorten_name as stadiumName " +
             "FROM tour_log t " +
             "JOIN user u ON t.user_id = u.id " +
-            "JOIN stadium s ON t.stadium_id = s.id " +
+            "JOIN tour_log_stadium s ON t.stadium_id = s.id " +
             "WHERE t.id < :lastId " +
             "ORDER BY t.id DESC " +
             "LIMIT :pageSize")
@@ -52,7 +52,7 @@ public interface TourLogRepository extends Repository<TourLog, Long> {
     @Query(nativeQuery = true, value = "SELECT t.id as id, t.image_url as image, t.title as title, u.nickname as userNickname, u.profile_image_url as userProfileImage, s.shorten_name as stadiumName " +
             "FROM tour_log t " +
             "JOIN user u ON t.user_id = u.id " +
-            "JOIN stadium s ON t.stadium_id = s.id " +
+            "JOIN tour_log_stadium s ON t.stadium_id = s.id " +
             "WHERE t.id < :lastId AND t.stadium_id = :stadiumId " +
             "ORDER BY t.id DESC " +
             "LIMIT :pageSize")

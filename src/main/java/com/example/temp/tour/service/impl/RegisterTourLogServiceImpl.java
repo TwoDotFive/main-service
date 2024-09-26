@@ -1,7 +1,5 @@
 package com.example.temp.tour.service.impl;
 
-import com.example.temp.baseball.domain.Stadium;
-import com.example.temp.baseball.domain.StadiumRepository;
 import com.example.temp.tour.domain.*;
 import com.example.temp.tour.dto.RegisterTourLogRequest;
 import com.example.temp.tour.dto.TourPlaceView;
@@ -21,15 +19,15 @@ import java.util.List;
 public class RegisterTourLogServiceImpl implements RegisterTourLogService {
 
     private final UserRepository userRepository;
-    private final StadiumRepository stadiumRepository;
     private final TourLogRepository tourLogRepository;
     private final TourPlaceRepository tourPlaceRepository;
+    private final TourLogStadiumRepository tourLogStadiumRepository;
 
     @Override
     @Transactional
     public Long doService(Long userId, RegisterTourLogRequest request) {
         User user = userRepository.findByIdOrElseThrow(userId);
-        Stadium stadium = stadiumRepository.findByOrElseThrow(Long.parseLong(request.stadiumId()));
+        TourLogStadium stadium = tourLogStadiumRepository.findByIdOrElseThrow(Long.valueOf(request.stadiumId()));
 
         TourLog tourLog = new TourLog(user, stadium, request.title(), request.image());
 

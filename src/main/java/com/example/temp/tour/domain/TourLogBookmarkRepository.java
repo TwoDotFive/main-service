@@ -35,7 +35,7 @@ public interface TourLogBookmarkRepository extends Repository<TourLogBookmark, L
             "FROM tour_log_bookmark b " +
             "JOIN tour_log t on t.id = b.tour_log_id " +
             "JOIN user u ON t.user_id = u.id " +
-            "JOIN stadium s ON t.stadium_id = s.id " +
+            "JOIN tour_log_stadium s ON t.stadium_id = s.id " +
             "WHERE b.user_id = :userId AND b.id < :lastId " +
             "ORDER BY b.id DESC " +
             "LIMIT :pageSize")

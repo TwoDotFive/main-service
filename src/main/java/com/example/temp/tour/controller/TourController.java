@@ -1,6 +1,7 @@
 package com.example.temp.tour.controller;
 
 import com.example.temp.common.entity.CustomUserDetails;
+import com.example.temp.tour.controller.dto.TourLogStadiumView;
 import com.example.temp.tour.dto.*;
 import com.example.temp.tour.service.*;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class TourController {
     private final FindTourDetailsService findTourDetailsService;
     private final FindRecentTourLogListService findRecentTourLogListService;
     private final FindTourLogBookmarkIdService findTourLogBookmarkIdService;
+    private final FindAllTourLogStadiumService findAllTourLogStadiumService;
     private final DeleteTourLogBookmarkService deleteTourLogBookmarkService;
     private final RegisterTourLogBookmarkService registerTourLogBookmarkService;
     private final FindTourInformationByLocationService findTourInformationByLocationService;
@@ -142,4 +144,12 @@ public class TourController {
         FindUserBookmarkedTourLogListResponse response = new FindUserBookmarkedTourLogListResponse(result);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/stadium/list")
+    public ResponseEntity<FindAllTourLogStadiumResponse> findAllStadium() {
+        List<TourLogStadiumView> stadiumViews = findAllTourLogStadiumService.doService();
+        FindAllTourLogStadiumResponse response = new FindAllTourLogStadiumResponse(stadiumViews);
+        return ResponseEntity.ok(response);
+    }
+
 }

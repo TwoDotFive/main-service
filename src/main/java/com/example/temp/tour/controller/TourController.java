@@ -1,5 +1,6 @@
 package com.example.temp.tour.controller;
 
+import com.example.temp.common.dto.IdResponse;
 import com.example.temp.common.entity.CustomUserDetails;
 import com.example.temp.tour.controller.dto.TourLogStadiumView;
 import com.example.temp.tour.dto.*;
@@ -58,12 +59,12 @@ public class TourController {
     }
 
     @PostMapping("/log")
-    public ResponseEntity<String> registerTourLog(
+    public ResponseEntity<IdResponse> registerTourLog(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @RequestBody RegisterTourLogRequest request
     ) {
         Long tourLogId = registerTourLogService.doService(userDetails.getId(), request);
-        return ResponseEntity.ok(String.valueOf(tourLogId));
+        return ResponseEntity.ok(IdResponse.build(tourLogId));
     }
 
     @GetMapping("/log")
@@ -107,12 +108,12 @@ public class TourController {
     }
 
     @PostMapping("/log/{tourLogId}/bookmark")
-    public ResponseEntity<String> registerBookmark(
+    public ResponseEntity<IdResponse> registerBookmark(
             @PathVariable("tourLogId") Long tourLogId,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) {
         Long bookmarkId = registerTourLogBookmarkService.doService(customUserDetails.getId(), tourLogId);
-        return ResponseEntity.ok(String.valueOf(bookmarkId));
+        return ResponseEntity.ok(IdResponse.build(bookmarkId));
     }
 
     @DeleteMapping("/log/{tourLogId}/bookmark")
@@ -125,12 +126,12 @@ public class TourController {
     }
 
     @GetMapping("/log/{tourLogId}/bookmark")
-    public ResponseEntity<String> findBookmarkId(
+    public ResponseEntity<IdResponse> findBookmarkId(
             @PathVariable("tourLogId") Long tourLogId,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) {
         Long bookmarkId = findTourLogBookmarkIdService.doService(customUserDetails.getId(), tourLogId);
-        return ResponseEntity.ok(String.valueOf(bookmarkId));
+        return ResponseEntity.ok(IdResponse.build(bookmarkId));
     }
 
     @GetMapping("/log/bookmark")

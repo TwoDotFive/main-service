@@ -4,6 +4,7 @@ import com.example.temp.baseball.domain.Team;
 import com.example.temp.common.entity.BaseTimeEntity;
 import com.example.temp.common.util.IdUtil;
 import com.example.temp.fanpool.domain.Fanpool;
+import com.example.temp.tour.domain.TourLog;
 import com.example.temp.user.domain.value.Nickname;
 import com.example.temp.user.domain.value.PlatformType;
 import com.example.temp.user.domain.value.UserRole;
@@ -40,6 +41,8 @@ public class User extends BaseTimeEntity {
 
     @OneToMany
     private List<Fanpool> hostedFanpool;
+    @OneToMany
+    private List<TourLog> hostedTourLog;
 
     public static User build(OAuthResponse response) {
         User user = new User();
@@ -70,5 +73,9 @@ public class User extends BaseTimeEntity {
 
     public void updateHostedFanpool(Fanpool fanpool) {
         hostedFanpool.add(fanpool);
+    }
+
+    public void updateHostedTourLog(TourLog tourLog) {
+        hostedTourLog.add(tourLog);
     }
 }

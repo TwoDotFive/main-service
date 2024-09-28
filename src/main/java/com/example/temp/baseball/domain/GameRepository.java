@@ -11,7 +11,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GameRepository extends Repository<Game, Long> {
-    @Query("SELECT g FROM Game g WHERE g.season = :season AND (g.homeTeam = :team OR g.awayTeam = :team) AND g.startDate >= :startOfWeek AND g.startDate < :endOfWeek")
+    @Query("SELECT g " +
+            "FROM Game g " +
+            "WHERE g.season = :season " +
+            "   AND (:team IS NULL OR g.homeTeam = :team OR g.awayTeam = :team) " +
+            "   AND g.startDate >= :startOfWeek AND g.startDate < :endOfWeek")
     List<Game> findAllByTeamAndCurrentWeekInYear(@Param("season") Season season,
                                                  @Param("team") Team team,
                                                  @Param("startOfWeek") LocalDateTime startOfWeek,

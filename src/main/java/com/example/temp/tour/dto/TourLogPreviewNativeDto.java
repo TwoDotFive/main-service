@@ -13,4 +13,6 @@ public interface TourLogPreviewNativeDto {
     String getUserProfileImage();
 
     String getStadiumName();
+
+    String getPlaces();
 }

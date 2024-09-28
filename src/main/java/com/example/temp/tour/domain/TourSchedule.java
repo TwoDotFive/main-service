@@ -33,6 +33,12 @@ public class TourSchedule extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private TourPlace tourPlace;
 
+    private String tourPlaceName;
+
+    private Integer tourPlaceContentId;
+
+    private Integer tourPlaceContentTypeId;
+
     @Setter
     @OneToOne(mappedBy = "tourSchedule", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
     private TourScheduleMemo memo;
@@ -44,5 +50,8 @@ public class TourSchedule extends BaseTimeEntity {
         this.day = day;
         this.sequence = sequence;
         this.tourPlace = tourPlace;
+        this.tourPlaceName = tourPlace.getName();
+        this.tourPlaceContentId = tourPlace.getContentId();
+        this.tourPlaceContentTypeId = tourPlace.getContentTypeId();
     }
 }

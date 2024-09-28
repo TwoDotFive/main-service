@@ -10,7 +10,9 @@ public record BookmarkedTourLogPreview(
                 vo.getImage(),
                 vo.getTitle(),
                 vo.getStadiumName(),
-                new UserProfileView(vo.getUserNickname(), vo.getUserProfileImage()));
+                new UserProfileView(vo.getUserNickname(), vo.getUserProfileImage()),
+                vo.getPlaces()
+        );
 
         return new BookmarkedTourLogPreview(vo.getBookmarkId(), tourLogPreview);
     }

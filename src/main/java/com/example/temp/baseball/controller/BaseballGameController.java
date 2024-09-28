@@ -4,9 +4,11 @@ import com.example.temp.baseball.dto.FindGamesByTeamCommand;
 import com.example.temp.baseball.dto.FindGamesByTeamResponse;
 import com.example.temp.baseball.dto.GameScheduleResponse;
 import com.example.temp.baseball.dto.GameSchedulesRequest;
+import com.example.temp.baseball.service.CountFanpoolRelatedFanpoolService;
 import com.example.temp.baseball.service.CreateGameSchedulesService;
 import com.example.temp.baseball.service.FindAllSchedulesDuringThisWeekService;
 import com.example.temp.baseball.service.FindGamesByTeamService;
+import com.example.temp.common.dto.IdResponse;
 import com.example.temp.common.entity.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,7 @@ public class BaseballGameController {
     private final FindGamesByTeamService findGamesByTeamService;
     private final FindAllSchedulesDuringThisWeekService findAllSchedulesDuringThisWeekService;
     private final CreateGameSchedulesService createGameSchedulesService;
+    private final CountFanpoolRelatedFanpoolService countFanpoolRelatedFanpoolService;
 
     @GetMapping
     public ResponseEntity<FindGamesByTeamResponse> findByTeam(
@@ -35,6 +38,14 @@ public class BaseballGameController {
         FindGamesByTeamCommand command = new FindGamesByTeamCommand(Long.parseLong(teamId), startDate, endDate);
         FindGamesByTeamResponse result = findGamesByTeamService.doService(command);
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/{gameId}")
+    public ResponseEntity<IdResponse> countFanpool(
+            @PathVariable(value = "gameId") String gameId
+    ) {
+        long result = countFanpoolRelatedFanpoolService.doService(Long.parseLong(gameId));
+        return ResponseEntity.ok(IdResponse.build(result));
     }
 
     @GetMapping("/schedules")

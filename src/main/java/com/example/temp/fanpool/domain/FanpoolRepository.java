@@ -29,4 +29,10 @@ public interface FanpoolRepository extends Repository<Fanpool, Long> {
 
     @Query("SELECT COUNT(f) FROM Fanpool f WHERE f.hostUser.id = :userId")
     Long countByUserId(@Param("userId") Long userId);
+
+    @Query("SELECT COUNT(f) " +
+            "FROM Fanpool f " +
+            "WHERE f.game.id = :gameId" +
+            "   AND f.state = 'GATHER' ")
+    Long countByGame(@Param("gameId") Long gameId);
 }

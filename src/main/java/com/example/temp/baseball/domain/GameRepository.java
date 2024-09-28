@@ -29,16 +29,13 @@ public interface GameRepository extends Repository<Game, Long> {
         return findById(gameId).orElseThrow(() -> new CustomException(HttpStatus.BAD_REQUEST, "Game not found"));
     }
 
-    @Query(value = "SELECT g FROM Game g " +
-            "WHERE  (g.awayTeam = :team OR g.homeTeam = :team) " +
-            "AND (g.state = 'BEFORE_START' OR g.state = 'IN_PROGRESS') " +
+    @Query("SELECT g FROM Game g " +
+            "WHERE (:team IS NULL OR g.awayTeam = :team OR g.homeTeam = :team) " +
+            "   AND (:startDate IS NULL OR DATE(g.startDate) >= :startDate) " +
+            "   AND (:endDate IS NULL OR DATE(g.startDate) <= :endDate) " +
+            "   AND (g.state = 'BEFORE_START' OR g.state = 'IN_PROGRESS') " +
             "ORDER BY g.startDate")
-    List<Game> findByTeamOrderByStartDate(Team team);
-
-    @Query(value = "SELECT g FROM Game g " +
-            "WHERE  (g.awayTeam = :team OR g.homeTeam = :team) " +
-            "AND DATE(g.startDate) BETWEEN :startDate AND :endDate " +
-            "AND (g.state = 'BEFORE_START' OR g.state = 'IN_PROGRESS') " +
-            "ORDER BY g.startDate")
-    List<Game> findByTeamAndDateOrderByStartDate(Team team, LocalDateTime startDate, LocalDateTime endDate);
+    List<Game> findByTeamOrDateOrderByStartDate(@Param("team") Team team,
+                                                @Param("startDate") LocalDateTime startDate,
+                                                @Param("endDate") LocalDateTime endDate);
 }

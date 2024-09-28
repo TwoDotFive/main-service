@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 
 public record FanpoolView(
-        long id,
+        String id,
         long hostUserId,
         GameView game,
         String title,
@@ -23,7 +23,7 @@ public record FanpoolView(
 ) {
     public FanpoolView(Fanpool fanpool) {
         this(
-                fanpool.getId(),
+                fanpool.getId().toString(),
                 fanpool.getHostUser().getId(),
                 new GameView(fanpool.getGame()),
                 fanpool.getTitle(),

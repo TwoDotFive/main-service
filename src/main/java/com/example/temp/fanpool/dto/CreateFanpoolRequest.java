@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class CreateFanpoolRequest {
     private String title;
     private LocalDateTime departAt;
-    private Long gameId;
+    private String gameId;
     private Integer numberOfPeople;
     private String memo;
     private FanpoolType fanpoolType;
@@ -22,7 +22,7 @@ public class CreateFanpoolRequest {
 
     @Getter
     @NoArgsConstructor
-    private static class DepartFrom {
+    public static class DepartFrom {
         private String fullText;
         private String zipNo;
         private String sido;

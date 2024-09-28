@@ -8,7 +8,6 @@ import com.example.temp.tour.domain.TourLog;
 import com.example.temp.user.domain.value.Nickname;
 import com.example.temp.user.domain.value.PlatformType;
 import com.example.temp.user.domain.value.UserRole;
-import com.example.temp.user.dto.UpdatedUserProfileRequest;
 import com.example.temp.user.service.oauth.response.OAuthResponse;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -61,10 +60,10 @@ public class User extends BaseTimeEntity {
         return nickname.getValue();
     }
 
-    public void updateProfile(UpdatedUserProfileRequest request) {
-        this.nickname = new Nickname(request.getNickname());
-        this.oneLiner = request.getOneLiner();
-        this.profileImageUrl = request.getProfileImageUrl();
+    public void updateProfile(String nickname, String oneLiner, String profileImageUrl) {
+        this.nickname = new Nickname(nickname);
+        this.oneLiner = oneLiner;
+        this.profileImageUrl = profileImageUrl;
     }
 
     public void updateFavoriteTeam(Team team) {

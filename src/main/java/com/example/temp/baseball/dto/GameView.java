@@ -6,7 +6,7 @@ import com.example.temp.baseball.domain.value.GameState;
 import java.time.LocalDateTime;
 
 public record GameView(
-        long id,
+        String id,
         TeamView awayTeam,
         TeamView homeTeam,
         LocalDateTime startDate,
@@ -15,7 +15,7 @@ public record GameView(
 ) {
     public GameView(Game game) {
         this(
-                game.getId(),
+                Long.toString(game.getId()),
                 new TeamView(game.getAwayTeam()),
                 new TeamView(game.getHomeTeam()),
                 game.getStartDate(),

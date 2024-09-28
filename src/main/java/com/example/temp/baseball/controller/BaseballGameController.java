@@ -1,6 +1,9 @@
 package com.example.temp.baseball.controller;
 
-import com.example.temp.baseball.dto.*;
+import com.example.temp.baseball.dto.FindGamesByTeamCommand;
+import com.example.temp.baseball.dto.FindGamesByTeamResponse;
+import com.example.temp.baseball.dto.GameScheduleResponse;
+import com.example.temp.baseball.dto.GameSchedulesRequest;
 import com.example.temp.baseball.service.CreateGameSchedulesService;
 import com.example.temp.baseball.service.FindAllSchedulesDuringThisWeekService;
 import com.example.temp.baseball.service.FindGamesByTeamService;
@@ -25,11 +28,12 @@ public class BaseballGameController {
     @GetMapping
     public ResponseEntity<FindGamesByTeamResponse> findByTeam(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
-            @RequestParam(value = "teamId") long teamId,
+            @RequestParam(value = "teamId", required = false) String teamId,
             @RequestParam(value = "startDate", required = false) LocalDateTime startDate,
             @RequestParam(value = "endDate", required = false) LocalDateTime endDate
     ) {
-        FindGamesByTeamResponse result = findGamesByTeamService.doService(new FindGamesByTeamCommand(teamId, startDate, endDate));
+        FindGamesByTeamCommand command = new FindGamesByTeamCommand(Long.parseLong(teamId), startDate, endDate);
+        FindGamesByTeamResponse result = findGamesByTeamService.doService(command);
         return ResponseEntity.ok(result);
     }
 

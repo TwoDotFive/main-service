@@ -33,10 +33,10 @@ public class FanpoolController {
     public ResponseEntity<FindHostedFanpoolByUserResponse> getAllByUser(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @PageableDefault(size = 10, page = 0) Pageable pageable,
-            @RequestParam("userId") long userId
+            @RequestParam("userId") String userId
     ) {
         FindHostedFanpoolByUserResponse result = findHostedFanpoolByUserService
-                .doService(new FindHostedFanpoolByUserCommand(userId, pageable));
+                .doService(new FindHostedFanpoolByUserCommand(Long.parseLong(userId), pageable));
         return ResponseEntity.ok(result);
     }
 
@@ -66,9 +66,9 @@ public class FanpoolController {
     @GetMapping("/{fanpoolId}")
     public ResponseEntity<FindFanpoolBasedLocationResponse> get(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
-            @PathVariable("fanpoolId") long fanpoolId
+            @PathVariable("fanpoolId") String fanpoolId
     ) {
-        FindFanpoolBasedLocationResponse result = findFanpoolByIdService.doService(fanpoolId);
+        FindFanpoolBasedLocationResponse result = findFanpoolByIdService.doService(Long.parseLong(fanpoolId));
         return ResponseEntity.ok(result);
     }
 
@@ -84,19 +84,19 @@ public class FanpoolController {
     @PostMapping("/{fanpoolId}")
     public ResponseEntity<Void> gather(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
-            @PathVariable("fanpoolId") long fanpoolId
+            @PathVariable("fanpoolId") String fanpoolId
     ) {
-        participateFanpoolService.doService(new ParticipateFanpoolCommand(customUserDetails.getId(), fanpoolId));
+        participateFanpoolService.doService(new ParticipateFanpoolCommand(customUserDetails.getId(), Long.parseLong(fanpoolId)));
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PatchMapping("/{fanpoolId}")
     public ResponseEntity<Void> updateInfo(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
-            @PathVariable("fanpoolId") long fanpoolId,
+            @PathVariable("fanpoolId") String fanpoolId,
             @RequestBody UpdateFanpoolRequest request
     ) {
-        UpdateFanpoolCommand command = new UpdateFanpoolCommand(customUserDetails.getId(), fanpoolId, request);
+        UpdateFanpoolCommand command = new UpdateFanpoolCommand(customUserDetails.getId(), Long.parseLong(fanpoolId), request);
         updateFanpoolService.doService(command);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
@@ -104,10 +104,10 @@ public class FanpoolController {
     @PatchMapping("/{fanpoolId}/state")
     public ResponseEntity<Void> updateState(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
-            @PathVariable("fanpoolId") long fanpoolId,
+            @PathVariable("fanpoolId") String fanpoolId,
             @RequestBody UpdateFanpoolStateRequest request
     ) {
-        UpdateFanpoolStateCommand command = new UpdateFanpoolStateCommand(customUserDetails.getId(), fanpoolId, request);
+        UpdateFanpoolStateCommand command = new UpdateFanpoolStateCommand(customUserDetails.getId(), Long.parseLong(fanpoolId), request);
         updateFanpoolStateService.doService(command);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
@@ -115,10 +115,10 @@ public class FanpoolController {
     @DeleteMapping("/{fanpoolId}/cancel")
     public ResponseEntity<Void> delete(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
-            @PathVariable("fanpoolId") long fanpoolId
+            @PathVariable("fanpoolId") String fanpoolId
     ) {
         deleteFanpoolParticipationService
-                .doService(new DeleteFanpoolParticipationCommand(customUserDetails.getId(), fanpoolId));
+                .doService(new DeleteFanpoolParticipationCommand(customUserDetails.getId(), Long.parseLong(fanpoolId)));
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

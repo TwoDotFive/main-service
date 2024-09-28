@@ -1,9 +1,6 @@
 package com.example.temp.baseball.controller;
 
-import com.example.temp.baseball.dto.FindGamesByTeamCommand;
-import com.example.temp.baseball.dto.FindGamesByTeamResponse;
-import com.example.temp.baseball.dto.GameScheduleResponse;
-import com.example.temp.baseball.dto.GameSchedulesRequest;
+import com.example.temp.baseball.dto.*;
 import com.example.temp.baseball.service.CreateGameSchedulesService;
 import com.example.temp.baseball.service.FindAllSchedulesDuringThisWeekService;
 import com.example.temp.baseball.service.FindGamesByTeamService;
@@ -14,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -27,9 +25,11 @@ public class BaseballGameController {
     @GetMapping
     public ResponseEntity<FindGamesByTeamResponse> findByTeam(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
-            @RequestParam(value = "teamId") long teamId
+            @RequestParam(value = "teamId") long teamId,
+            @RequestParam(value = "startDate", required = false) LocalDateTime startDate,
+            @RequestParam(value = "endDate", required = false) LocalDateTime endDate
     ) {
-        FindGamesByTeamResponse result = findGamesByTeamService.doService(new FindGamesByTeamCommand(teamId));
+        FindGamesByTeamResponse result = findGamesByTeamService.doService(new FindGamesByTeamCommand(teamId, startDate, endDate));
         return ResponseEntity.ok(result);
     }
 

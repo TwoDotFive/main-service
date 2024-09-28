@@ -6,6 +6,7 @@ import com.example.temp.user.service.impl.OAuthService;
 import com.example.temp.user.service.oauth.response.OAuthResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +33,8 @@ public class OAuthController {
     ) {
         OAuthResponse profileResponse = oAuthService.login(platformType, code);
         AuthLoginResponse authLoginResponse = createUserService.doService(profileResponse);
-        return ResponseEntity.ok(authLoginResponse);
+
+        HttpStatus status = (authLoginResponse.isFirstLogin()) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return ResponseEntity.status(status).body(authLoginResponse);
     }
 }

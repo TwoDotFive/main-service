@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -27,9 +28,12 @@ public class BaseballGameController {
     @GetMapping
     public ResponseEntity<FindGamesByTeamResponse> findByTeam(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
-            @RequestParam(value = "teamId") long teamId
+            @RequestParam(value = "teamId", required = false) String teamId,
+            @RequestParam(value = "startDate", required = false) LocalDateTime startDate,
+            @RequestParam(value = "endDate", required = false) LocalDateTime endDate
     ) {
-        FindGamesByTeamResponse result = findGamesByTeamService.doService(new FindGamesByTeamCommand(teamId));
+        FindGamesByTeamCommand command = new FindGamesByTeamCommand(Long.parseLong(teamId), startDate, endDate);
+        FindGamesByTeamResponse result = findGamesByTeamService.doService(command);
         return ResponseEntity.ok(result);
     }
 

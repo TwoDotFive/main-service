@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 
 public record FanpoolView(
-        long id,
+        String id,
         long hostUserId,
         GameView game,
         String title,
@@ -18,11 +18,12 @@ public record FanpoolView(
         String fanpoolTypeKor,
         String genderConstraint,
         int numberOfPeople,
-        int currentNumberOfPeople
+        int currentNumberOfPeople,
+        String memo
 ) {
     public FanpoolView(Fanpool fanpool) {
         this(
-                fanpool.getId(),
+                fanpool.getId().toString(),
                 fanpool.getHostUser().getId(),
                 new GameView(fanpool.getGame()),
                 fanpool.getTitle(),
@@ -32,7 +33,8 @@ public record FanpoolView(
                 fanpool.getFanpoolType().getTypeKor(),
                 fanpool.getGenderConstraint().getKor(),
                 fanpool.getNumberOfPeople(),
-                fanpool.getCurrentNumberOfPeople()
+                fanpool.getCurrentNumberOfPeople(),
+                fanpool.getMemo()
         );
     }
 }

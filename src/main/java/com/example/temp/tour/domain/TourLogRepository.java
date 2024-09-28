@@ -59,4 +59,7 @@ public interface TourLogRepository extends Repository<TourLog, Long> {
     List<TourLogPreviewNativeDto> findRecentTourLogListByStadium(@Param("stadiumId") long stadiumId, @Param("lastId") long lastTourLogId, @Param("pageSize") int pageSize);
 
     boolean existsById(Long id);
+
+    @Query("SELECT COUNT(t) FROM TourLog t WHERE t.user.id = :userId")
+    Long countByUserId(@Param("userId") Long userId);
 }

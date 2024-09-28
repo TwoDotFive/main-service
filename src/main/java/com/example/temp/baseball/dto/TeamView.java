@@ -3,7 +3,7 @@ package com.example.temp.baseball.dto;
 import com.example.temp.baseball.domain.Team;
 
 public record TeamView(
-        long id,
+        String id,
         String name,
         String representativeImageUrl,
         String stadiumName,
@@ -11,7 +11,7 @@ public record TeamView(
 ) {
     public TeamView(Team team) {
         this(
-                team.getId(),
+                team.getId().toString(),
                 team.getName(),
                 team.getRepresentativeImageUrl(),
                 team.getStadium().getStadiumName(),

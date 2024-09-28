@@ -27,6 +27,7 @@ public class TourController {
     private final FindAllTourLogStadiumService findAllTourLogStadiumService;
     private final DeleteTourLogBookmarkService deleteTourLogBookmarkService;
     private final RegisterTourLogBookmarkService registerTourLogBookmarkService;
+    private final FindTourLogListByTourPlaceService findTourLogListByTourPlaceService;
     private final FindTourInformationByLocationService findTourInformationByLocationService;
     private final FindUserBookmarkedTourLogListService findUserBookmarkedTourLogListService;
     private final FindRecentTourLogListByStadiumService findRecentTourLogListByStadiumService;
@@ -92,7 +93,7 @@ public class TourController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<FindRecentTourLogListResponse> findRecentTourLogList(
+    public ResponseEntity<FindTourLogListResponse> findRecentTourLogList(
             @RequestParam(name = "stadiumId", required = false) Long stadiumId,
             @RequestParam(name = "lastId", defaultValue = "" + Long.MAX_VALUE) Long lastTourLogId,
             @RequestParam(name = "pageSize", defaultValue = "6") Integer pageSize
@@ -103,8 +104,17 @@ public class TourController {
         } else {
             result = findRecentTourLogListByStadiumService.doService(stadiumId, lastTourLogId, pageSize);
         }
-        FindRecentTourLogListResponse response = new FindRecentTourLogListResponse(result);
+        FindTourLogListResponse response = new FindTourLogListResponse(result);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/log/find-by-place")
+    public ResponseEntity<FindTourLogListResponse> findTourLogListByTourPlace(
+            @RequestParam(name = "contentId") Integer contentId,
+            @RequestParam(name = "contentTypeId") Integer contentTypeId
+    ) {
+        List<TourLogPreview> response = findTourLogListByTourPlaceService.doService(contentId, contentTypeId);
+        return ResponseEntity.ok(new FindTourLogListResponse(response));
     }
 
     @PostMapping("/log/{tourLogId}/bookmark")
@@ -152,5 +162,6 @@ public class TourController {
         FindAllTourLogStadiumResponse response = new FindAllTourLogStadiumResponse(stadiumViews);
         return ResponseEntity.ok(response);
     }
+
 
 }

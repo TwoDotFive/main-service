@@ -36,7 +36,6 @@ public class RegisterTourLogServiceImpl implements RegisterTourLogService {
             addTourSchedulesToTourLog(user.getId(), tourLog, request.schedules());
         }
 
-        user.updateHostedTourLog(tourLog);
         return tourLogRepository.save(tourLog).getId();
     }
 

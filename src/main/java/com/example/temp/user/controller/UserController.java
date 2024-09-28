@@ -41,13 +41,13 @@ public class UserController {
     }
 
     @PatchMapping("/profile")
-    public ResponseEntity<UserProfileView> updateProfile(
+    public ResponseEntity<Void> updateProfile(
             @AuthenticationPrincipal CustomUserDetails authenticatedUser,
             @RequestBody UpdatedUserProfileRequest userProfile
     ) {
         UpdatedUserProfileCommand command = new UpdatedUserProfileCommand(authenticatedUser.getId(), userProfile);
-        UserProfileView response = updateUserProfileService.doService(authenticatedUser.getId(), command);
-        return ResponseEntity.ok(response);
+        updateUserProfileService.doService(authenticatedUser.getId(), command);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/location")

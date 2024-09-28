@@ -18,7 +18,8 @@ public record FanpoolView(
         String fanpoolTypeKor,
         String genderConstraint,
         int numberOfPeople,
-        int currentNumberOfPeople
+        int currentNumberOfPeople,
+        String memo
 ) {
     public FanpoolView(Fanpool fanpool) {
         this(
@@ -32,7 +33,8 @@ public record FanpoolView(
                 fanpool.getFanpoolType().getTypeKor(),
                 fanpool.getGenderConstraint().getKor(),
                 fanpool.getNumberOfPeople(),
-                fanpool.getCurrentNumberOfPeople()
+                fanpool.getCurrentNumberOfPeople(),
+                fanpool.getMemo()
         );
     }
 }

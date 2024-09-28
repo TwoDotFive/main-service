@@ -53,7 +53,7 @@ public class FanpoolController {
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @PageableDefault(size = 10, page = 0) Pageable pageable,
             @RequestParam(value = "teamId", required = false) long teamId,
-            @RequestParam(value = "dongCd", required = true) String dongCd,
+            @RequestParam(value = "dongCd", required = false) String dongCd,
             @RequestParam(value = "gameId", required = false) List<Long> gameId,
             @RequestParam(value = "departAt", required = false) LocalDateTime departAt,
             @RequestParam(value = "onlyGathering", required = true) boolean onlyGathering

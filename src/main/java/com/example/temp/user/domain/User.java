@@ -3,8 +3,6 @@ package com.example.temp.user.domain;
 import com.example.temp.baseball.domain.Team;
 import com.example.temp.common.entity.BaseTimeEntity;
 import com.example.temp.common.util.IdUtil;
-import com.example.temp.fanpool.domain.Fanpool;
-import com.example.temp.tour.domain.TourLog;
 import com.example.temp.user.domain.value.Nickname;
 import com.example.temp.user.domain.value.PlatformType;
 import com.example.temp.user.domain.value.UserRole;
@@ -13,8 +11,6 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Getter
 @Entity
@@ -38,10 +34,6 @@ public class User extends BaseTimeEntity {
     private Team favoriteTeam;
     private String oneLiner; // 한 줄 소개
 
-    @OneToMany
-    private List<Fanpool> hostedFanpool;
-    @OneToMany
-    private List<TourLog> hostedTourLog;
 
     public static User build(OAuthResponse response) {
         User user = new User();
@@ -68,13 +60,5 @@ public class User extends BaseTimeEntity {
 
     public void updateFavoriteTeam(Team team) {
         this.favoriteTeam = team;
-    }
-
-    public void updateHostedFanpool(Fanpool fanpool) {
-        hostedFanpool.add(fanpool);
-    }
-
-    public void updateHostedTourLog(TourLog tourLog) {
-        hostedTourLog.add(tourLog);
     }
 }

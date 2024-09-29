@@ -34,7 +34,7 @@ public class OAuthController {
         OAuthResponse profileResponse = oAuthService.login(platformType, code);
         AuthLoginResponse authLoginResponse = createUserService.doService(profileResponse);
 
-        HttpStatus status = (authLoginResponse.isFirstLogin()) ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        HttpStatus status = (authLoginResponse.isFirstLogin()) ? HttpStatus.CREATED : HttpStatus.OK;
         return ResponseEntity.status(status).body(authLoginResponse);
     }
 }

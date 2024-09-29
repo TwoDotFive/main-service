@@ -15,8 +15,8 @@ public record UpdatedUserProfileCommand(
                 id,
                 userProfile.getNickname(),
                 Long.parseLong(userProfile.getFavoriteTeam()),
-                userProfile.getOneLiner(),
-                userProfile.getProfileImageUrl()
+                userProfile.getProfileImageUrl(),
+                userProfile.getOneLiner()
         );
     }
 }

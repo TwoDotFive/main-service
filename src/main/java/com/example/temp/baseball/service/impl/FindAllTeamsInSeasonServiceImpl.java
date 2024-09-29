@@ -8,6 +8,7 @@ import com.example.temp.baseball.dto.TeamView;
 import com.example.temp.baseball.service.FindAllTeamsInSeasonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,7 @@ public class FindAllTeamsInSeasonServiceImpl implements FindAllTeamsInSeasonServ
     private final SeasonRepository seasonRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public List<TeamView> doService(int year) {
         Optional<Season> found = seasonRepository.findByYear(year);
         if (found.isEmpty()) {

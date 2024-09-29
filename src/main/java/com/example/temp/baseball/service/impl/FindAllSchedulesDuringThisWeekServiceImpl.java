@@ -5,6 +5,7 @@ import com.example.temp.baseball.dto.GameScheduleResponse;
 import com.example.temp.baseball.service.FindAllSchedulesDuringThisWeekService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ public class FindAllSchedulesDuringThisWeekServiceImpl implements FindAllSchedul
     private final SeasonRepository seasonRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public GameScheduleResponse doService(Team team, int year) {
         Season season = seasonRepository.findByYearOrElseThrow(year);
 

@@ -11,6 +11,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class FindLatestFanpoolServiceImpl implements FindLatestFanpoolService {
     private final JPAQueryFactory queryFactory;
 
     @Override
+    @Transactional(readOnly = true)
     public FindLatestFanpoolResponse doService(long userId) {
         User user = userRepository.findByIdOrElseThrow(userId);
         Team favoriteTeam = user.getFavoriteTeam();

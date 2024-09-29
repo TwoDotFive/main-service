@@ -20,7 +20,8 @@ public class UpdateUserProfileServiceImpl implements UpdateUserProfileService {
     @Override
     public void doService(long userId, UpdatedUserProfileCommand command) {
         User user = userRepository.findByIdOrElseThrow(userId);
-        Team team = teamRepository.findByIdOrElseThrow(command.favoriteTeam());
+        Team team = teamRepository.findById(command.favoriteTeam());
+
         user.updateProfile(command.nickname(), command.oneLiner(), command.profileImageUrl());
         user.updateFavoriteTeam(team);
     }

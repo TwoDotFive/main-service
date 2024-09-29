@@ -11,6 +11,7 @@ import com.example.temp.baseball.service.FindGamesByTeamService;
 import com.example.temp.common.dto.IdResponse;
 import com.example.temp.common.entity.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -32,8 +33,12 @@ public class BaseballGameController {
     public ResponseEntity<FindGamesByTeamResponse> findByTeam(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestParam(value = "teamId", required = false) String teamId,
-            @RequestParam(value = "startDate", required = false) LocalDateTime startDate,
-            @RequestParam(value = "endDate", required = false) LocalDateTime endDate
+
+            @RequestParam(value = "startDate", required = false)
+            @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime startDate,
+
+            @RequestParam(value = "endDate", required = false)
+            @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime endDate
     ) {
         FindGamesByTeamCommand command = new FindGamesByTeamCommand(Long.parseLong(teamId), startDate, endDate);
         FindGamesByTeamResponse result = findGamesByTeamService.doService(command);

@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class BlockUserServiceImpl implements BlockUserService {
@@ -21,6 +23,11 @@ public class BlockUserServiceImpl implements BlockUserService {
     public void doService(BlockUserCommand command) {
         User user = userRepository.findByIdOrElseThrow(command.userId());
         User targetUser = userRepository.findByIdOrElseThrow(command.targetUserId());
+
+        Optional<BlockedUser> found = blockedUserRepository.findByUserAndTargetUser(user, targetUser);
+        if (found.isPresent()) {
+            return;
+        }
 
         BlockedUser blocked = BlockedUser.build(user, targetUser);
         blockedUserRepository.save(blocked);

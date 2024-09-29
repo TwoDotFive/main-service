@@ -31,4 +31,6 @@ public interface UserAuthenticatedLocationRepository extends Repository<UserAuth
 
     @Query("SELECT f FROM UserAuthenticatedLocation f WHERE f.user = :user AND f.representative is TRUE ")
     Optional<UserAuthenticatedLocation> findByUserAndRepresentative(@Param("user") User user);
+
+    UserAuthenticatedLocation findByIdAndUser(long id, User user);
 }

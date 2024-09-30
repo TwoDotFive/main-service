@@ -66,7 +66,8 @@ public class FanpoolController {
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @PathVariable("fanpoolId") String fanpoolId
     ) {
-        FindFanpoolBasedLocationResponse result = findFanpoolByIdService.doService(Long.parseLong(fanpoolId));
+        FindFanpoolBasedLocationResponse result = findFanpoolByIdService
+                .doService(Long.parseLong(fanpoolId), customUserDetails.getId());
         return ResponseEntity.ok(result);
     }
 

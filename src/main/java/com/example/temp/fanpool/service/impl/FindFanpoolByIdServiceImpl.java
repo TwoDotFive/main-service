@@ -2,6 +2,7 @@ package com.example.temp.fanpool.service.impl;
 
 import com.example.temp.fanpool.domain.Fanpool;
 import com.example.temp.fanpool.domain.FanpoolRepository;
+import com.example.temp.fanpool.domain.FanpoolUserRepository;
 import com.example.temp.fanpool.dto.FindFanpoolBasedLocationResponse;
 import com.example.temp.fanpool.service.FindFanpoolByIdService;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +16,8 @@ public class FindFanpoolByIdServiceImpl implements FindFanpoolByIdService {
 
     @Override
     @Transactional(readOnly = true)
-    public FindFanpoolBasedLocationResponse doService(long id) {
+    public FindFanpoolBasedLocationResponse doService(long id, long userId) {
         Fanpool found = fanpoolRepository.findByIdOrElseThrow(id);
-        return FindFanpoolBasedLocationResponse.build(found);
+        return FindFanpoolBasedLocationResponse.build(found, userId);
     }
 }

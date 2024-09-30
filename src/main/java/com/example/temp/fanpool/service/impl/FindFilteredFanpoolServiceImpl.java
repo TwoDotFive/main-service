@@ -50,9 +50,9 @@ public class FindFilteredFanpoolServiceImpl implements FindFilteredFanpoolServic
 
         List<Fanpool> result = queryFactory.select(fanpool)
                 .from(fanpool)
-                .join(fanpool.game).fetchJoin()
-                .join(fanpool.hostUser).fetchJoin()
-                .join(fanpool.departFrom).fetchJoin()
+//                .join(fanpool.game).fetchJoin()
+//                .join(fanpool.hostUser).fetchJoin()
+//                .join(fanpool.departFrom).fetchJoin()
                 .where(builder)
                 .offset(command.pageable().getOffset())
                 .limit(command.pageable().getPageSize() + 1L)

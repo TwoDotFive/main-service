@@ -53,7 +53,7 @@ public class FanpoolController {
     public ResponseEntity<FindFilteredFanpoolResponse> getFiltered(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @PageableDefault(size = 10, page = 0) Pageable pageable,
-            @RequestParam(value = "teamId", required = false) long teamId,
+            @RequestParam(value = "teamId", required = false) Long teamId,
             @RequestParam(value = "dongCd", required = false) String dongCd,
             @RequestParam(value = "gameId", required = false) List<Long> gameId,
             @RequestParam(value = "onlyGathering", required = true) boolean onlyGathering,

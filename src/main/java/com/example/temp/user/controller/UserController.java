@@ -91,7 +91,7 @@ public class UserController {
     }
 
     @DeleteMapping("/block")
-    public ResponseEntity<Void> deletBlocking(
+    public ResponseEntity<Void> deleteBlocking(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestParam(value = "targetUserId") String targetUserId
     ) {

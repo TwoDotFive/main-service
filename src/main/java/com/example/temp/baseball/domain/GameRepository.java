@@ -31,8 +31,8 @@ public interface GameRepository extends Repository<Game, Long> {
 
     @Query("SELECT g FROM Game g " +
             "WHERE (:team IS NULL OR g.awayTeam = :team OR g.homeTeam = :team) " +
-            "   AND (:startDate IS NULL OR DATE(g.startDate) >= :startDate) " +
-            "   AND (:endDate IS NULL OR DATE(g.startDate) <= :endDate) " +
+            "   AND (:startDate IS NULL OR g.startDate >= :startDate) " +
+            "   AND (:endDate IS NULL OR g.startDate <= :endDate) " +
             "   AND (g.state = 'BEFORE_START' OR g.state = 'IN_PROGRESS') " +
             "ORDER BY g.startDate")
     List<Game> findByTeamOrDateOrderByStartDate(@Param("team") Team team,

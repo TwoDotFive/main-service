@@ -5,6 +5,7 @@ import com.example.temp.common.entity.CustomUserDetails;
 import com.example.temp.user.dto.*;
 import com.example.temp.user.service.*;
 import com.example.temp.user.service.dto.FindUserAuthenticatedLocationResponse;
+import com.example.temp.user.service.location.DeleteUserAuthenticatedLocationService;
 import com.example.temp.user.service.location.FindUserAuthenticatedLocationService;
 import com.example.temp.user.service.location.UpdateUserAuthenticatedLocationService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,8 @@ public class UserController {
     private final FindUserAuthenticatedLocationService findUserAuthenticatedLocationService;
     private final UpdateUserAuthenticatedLocationService updateUserAuthenticatedLocationService;
     private final DeleteUserService deleteUserService;
+    private final DeleteUserAuthenticatedLocationService deleteUserAuthenticatedLocationService;
+
 
     @DeleteMapping()
     public ResponseEntity<Void> delete(
@@ -117,6 +120,15 @@ public class UserController {
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) {
         updateUserAuthenticatedLocationService.doService(customUserDetails.getId(), Long.parseLong(locationId));
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/location/{locationId}")
+    public ResponseEntity<Void> deleteAuthenticatedLocation(
+            @PathVariable("locationId") String locationId,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ) {
+        deleteUserAuthenticatedLocationService.doService(customUserDetails.getId(), Long.parseLong(locationId));
         return ResponseEntity.ok().build();
     }
 

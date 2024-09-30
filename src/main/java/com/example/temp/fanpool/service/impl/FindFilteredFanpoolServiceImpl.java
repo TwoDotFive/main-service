@@ -28,13 +28,6 @@ public class FindFilteredFanpoolServiceImpl implements FindFilteredFanpoolServic
         if (command.gameId() != null && !command.gameId().isEmpty()) {
             builder.and(fanpool.game.id.in(command.gameId()));
         }
-        if (command.departAt() != null) {
-            builder.and(
-                    fanpool.departAt.year().eq(command.departAt().getYear())
-                            .and(fanpool.departAt.month().eq(command.departAt().getMonthValue()))
-                            .and(fanpool.departAt.dayOfMonth().eq(command.departAt().getDayOfMonth()))
-            );
-        }
         if (command.teamId() != null) {
             builder.and(
                     (fanpool.game.awayTeam.id.eq(command.teamId()))

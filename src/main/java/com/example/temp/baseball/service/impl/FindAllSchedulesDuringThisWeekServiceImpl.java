@@ -5,11 +5,10 @@ import com.example.temp.baseball.dto.GameScheduleResponse;
 import com.example.temp.baseball.service.FindAllSchedulesDuringThisWeekService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 
 @Service
@@ -19,12 +18,13 @@ public class FindAllSchedulesDuringThisWeekServiceImpl implements FindAllSchedul
     private final SeasonRepository seasonRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public GameScheduleResponse doService(Team team, int year) {
         Season season = seasonRepository.findByYearOrElseThrow(year);
 
         LocalDate now = LocalDate.now();
-        LocalDate startOfWeek = now.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
-        LocalDate endOfWeek = startOfWeek.plusDays(7); // 다음 주 일요일 (exclusive)
+        LocalDate startOfWeek = now.minusDays(1);
+        LocalDate endOfWeek = startOfWeek.plusDays(7);
 
         LocalDateTime startOfWeekDateTime = startOfWeek.atStartOfDay();
         LocalDateTime endOfWeekDateTime = endOfWeek.atStartOfDay();

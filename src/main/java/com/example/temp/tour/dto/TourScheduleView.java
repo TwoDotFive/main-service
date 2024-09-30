@@ -15,7 +15,7 @@ public record TourScheduleView(
                 TourPlaceView.of(tourSchedule.getTourPlace()),
                 tourSchedule.getDay(),
                 tourSchedule.getSequence(),
-                TourScheduleMemoView.of(tourSchedule.getMemo())
+                tourSchedule.getMemo() != null ? TourScheduleMemoView.of(tourSchedule.getMemo()) : null
         );
     }
 }

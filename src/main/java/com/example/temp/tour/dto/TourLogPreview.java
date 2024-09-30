@@ -4,8 +4,9 @@ public record TourLogPreview(
         String id,
         String image,
         String title,
-        String stadiumName,
-        UserProfileView profile
+        String stadium,
+        UserProfileView profile,
+        String places
 ) {
 
     public static TourLogPreview build(TourLogPreviewNativeDto vo) {
@@ -14,6 +15,8 @@ public record TourLogPreview(
                 vo.getImage(),
                 vo.getTitle(),
                 vo.getStadiumName(),
-                new UserProfileView(vo.getUserNickname(), vo.getUserProfileImage()));
+                new UserProfileView(vo.getUserNickname(), vo.getUserProfileImage()),
+                vo.getPlaces()
+        );
     }
 }

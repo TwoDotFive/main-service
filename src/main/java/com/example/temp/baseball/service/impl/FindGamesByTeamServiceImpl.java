@@ -22,8 +22,9 @@ public class FindGamesByTeamServiceImpl implements FindGamesByTeamService {
     @Override
     @Transactional(readOnly = true)
     public FindGamesByTeamResponse doService(FindGamesByTeamCommand command) {
-        Team team = teamRepository.findByIdOrElseThrow(command.teamId());
-        List<Game> games = gameRepository.findByTeamOrderByStartDate(team);
+        Team team = teamRepository.findById(command.teamId());
+        List<Game> games = gameRepository.findByTeamOrDateOrderByStartDate(team, command.startDate(), command.endDate());
+
         return FindGamesByTeamResponse.build(games);
     }
 }

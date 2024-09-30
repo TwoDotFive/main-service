@@ -1,9 +1,11 @@
 package com.example.temp.user.controller;
 
+import com.example.temp.baseball.dto.UpdatedUserProfileCommand;
 import com.example.temp.common.entity.CustomUserDetails;
 import com.example.temp.user.dto.*;
 import com.example.temp.user.service.*;
 import com.example.temp.user.service.dto.FindUserAuthenticatedLocationResponse;
+import com.example.temp.user.service.location.DeleteUserAuthenticatedLocationService;
 import com.example.temp.user.service.location.FindUserAuthenticatedLocationService;
 import com.example.temp.user.service.location.UpdateUserAuthenticatedLocationService;
 import lombok.RequiredArgsConstructor;
@@ -25,29 +27,33 @@ public class UserController {
     private final DeleteUserBlockingService deleteUserBlockingService;
     private final FindUserAuthenticatedLocationService findUserAuthenticatedLocationService;
     private final UpdateUserAuthenticatedLocationService updateUserAuthenticatedLocationService;
+    private final DeleteUserAuthenticatedLocationService deleteUserAuthenticatedLocationService;
 
 
     @GetMapping("/profile/{targetUserId}")
     public ResponseEntity<UserProfileView> findProfile(
             @AuthenticationPrincipal CustomUserDetails authenticatedUser,
-            @PathVariable("targetUserId") long targetUserId
+            @PathVariable("targetUserId") String targetUserId
     ) {
-        FindUserProfileCommand command = new FindUserProfileCommand(authenticatedUser.getId(), targetUserId);
+        long longTargetUserId = Long.parseLong(targetUserId);
+        if (longTargetUserId == 0) longTargetUserId = authenticatedUser.getId();
+        FindUserProfileCommand command = new FindUserProfileCommand(authenticatedUser.getId(), longTargetUserId);
         UserProfileView response = findUserProfileService.doService(command);
         return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/profile")
-    public ResponseEntity<UserProfileView> updateProfile(
+    public ResponseEntity<Void> updateProfile(
             @AuthenticationPrincipal CustomUserDetails authenticatedUser,
             @RequestBody UpdatedUserProfileRequest userProfile
     ) {
-        UserProfileView response = updateUserProfileService.doService(authenticatedUser.getId(), userProfile);
-        return ResponseEntity.ok(response);
+        UpdatedUserProfileCommand command = new UpdatedUserProfileCommand(authenticatedUser.getId(), userProfile);
+        updateUserProfileService.doService(authenticatedUser.getId(), command);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/location")
-    public ResponseEntity<?> findUserLocation(
+    public ResponseEntity<FindUserAuthenticatedLocationResponse> findUserLocation(
             @AuthenticationPrincipal CustomUserDetails authenticatedUser
     ) {
         FindUserAuthenticatedLocationResponse response = findUserAuthenticatedLocationService.doService(authenticatedUser.getId());
@@ -68,7 +74,7 @@ public class UserController {
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestBody BlockUserRequest request
     ) {
-        BlockUserCommand command = new BlockUserCommand(customUserDetails.getId(), request.targetUserId());
+        BlockUserCommand command = new BlockUserCommand(customUserDetails.getId(), Long.parseLong(request.targetUserId()));
         blockUserService.doService(command);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
@@ -78,17 +84,18 @@ public class UserController {
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestBody ReportUserRequest request
     ) {
-        ReportUserCommand command = new ReportUserCommand(customUserDetails.getId(), request.targetUserId(), request.content());
+        ReportUserCommand command =
+                new ReportUserCommand(customUserDetails.getId(), Long.parseLong(request.targetUserId()), request.content());
         reportUserService.doService(command);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @DeleteMapping("/block")
-    public ResponseEntity<Void> deletBlocking(
+    public ResponseEntity<Void> deleteBlocking(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
-            @RequestParam(value = "targetUserId") long targetUserId
+            @RequestParam(value = "targetUserId") String targetUserId
     ) {
-        DeleteUserBlockingCommand command = new DeleteUserBlockingCommand(customUserDetails.getId(), targetUserId);
+        DeleteUserBlockingCommand command = new DeleteUserBlockingCommand(customUserDetails.getId(), Long.parseLong(targetUserId));
         deleteUserBlockingService.doService(command);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
@@ -96,10 +103,19 @@ public class UserController {
 
     @PatchMapping("/location/{locationId}")
     public ResponseEntity<Void> updateAuthenticatedLocation(
-            @PathVariable("locationId") long locationId,
+            @PathVariable("locationId") String locationId,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) {
-        updateUserAuthenticatedLocationService.doService(customUserDetails.getId(), locationId);
+        updateUserAuthenticatedLocationService.doService(customUserDetails.getId(), Long.parseLong(locationId));
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/location/{locationId}")
+    public ResponseEntity<Void> deleteAuthenticatedLocation(
+            @PathVariable("locationId") String locationId,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ) {
+        deleteUserAuthenticatedLocationService.doService(customUserDetails.getId(), Long.parseLong(locationId));
         return ResponseEntity.ok().build();
     }
 

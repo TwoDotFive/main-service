@@ -3,18 +3,14 @@ package com.example.temp.user.domain;
 import com.example.temp.baseball.domain.Team;
 import com.example.temp.common.entity.BaseTimeEntity;
 import com.example.temp.common.util.IdUtil;
-import com.example.temp.fanpool.domain.Fanpool;
 import com.example.temp.user.domain.value.Nickname;
 import com.example.temp.user.domain.value.PlatformType;
 import com.example.temp.user.domain.value.UserRole;
-import com.example.temp.user.dto.UpdatedUserProfileRequest;
 import com.example.temp.user.service.oauth.response.OAuthResponse;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Getter
 @Entity
@@ -38,8 +34,6 @@ public class User extends BaseTimeEntity {
     private Team favoriteTeam;
     private String oneLiner; // 한 줄 소개
 
-    @OneToMany
-    private List<Fanpool> hostedFanpool;
 
     public static User build(OAuthResponse response) {
         User user = new User();
@@ -58,17 +52,13 @@ public class User extends BaseTimeEntity {
         return nickname.getValue();
     }
 
-    public void updateProfile(UpdatedUserProfileRequest request) {
-        this.nickname = new Nickname(request.getNickname());
-        this.oneLiner = request.getOneLiner();
-        this.profileImageUrl = request.getProfileImageUrl();
+    public void updateProfile(String nickname, String oneLiner, String profileImageUrl) {
+        this.nickname = new Nickname(nickname);
+        this.oneLiner = oneLiner;
+        this.profileImageUrl = profileImageUrl;
     }
 
     public void updateFavoriteTeam(Team team) {
         this.favoriteTeam = team;
-    }
-
-    public void updateHostedFanpool(Fanpool fanpool) {
-        hostedFanpool.add(fanpool);
     }
 }

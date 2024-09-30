@@ -29,12 +29,11 @@ public class CreateFanpoolServiceImpl implements CreateFanpoolService {
     public FanpoolView doService(long userId, CreateFanpoolRequest request) {
         User hostUser = userRepository.findByIdOrElseThrow(userId);
 
-        Game game = gameRepository.findByIdOrElseThrow(request.getGameId());
+        Game game = gameRepository.findByIdOrElseThrow(Long.parseLong(request.getGameId()));
         Address address = addressRepository.save(request.toAddressEntity());
 
         Fanpool fanpool = Fanpool.build(hostUser, game, address, request);
         Fanpool saved = fanpoolRepository.save(fanpool);
-        hostUser.updateHostedFanpool(saved);
 
         return new FanpoolView(saved);
     }

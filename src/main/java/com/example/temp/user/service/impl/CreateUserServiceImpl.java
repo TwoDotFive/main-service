@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -23,9 +25,11 @@ public class CreateUserServiceImpl implements CreateUserService {
     @Transactional
     public AuthLoginResponse doService(OAuthResponse oAuthResponse) {
         // OAuth 로그인을 시도한 사용자 정보가 DB에 존재하는지 확인 후 없다면 등록
+        AtomicBoolean firstLogin = new AtomicBoolean(false);
         User findUser = userRepository.findByPlatformTypeAndPlatformId(oAuthResponse.getPlatformType(), oAuthResponse.getPlatformId())
                 .orElseGet(() -> {
                     User saveUser = User.build(oAuthResponse);
+                    firstLogin.set(true);
                     return userRepository.save(saveUser);
                 });
 
@@ -38,6 +42,7 @@ public class CreateUserServiceImpl implements CreateUserService {
                 .accessToken(tokens.getAccessToken())
                 .refreshToken(tokens.getRefreshToken())
                 .role(findUser.getUserRole())
+                .firstLogin(firstLogin.get())
                 .build();
     }
 

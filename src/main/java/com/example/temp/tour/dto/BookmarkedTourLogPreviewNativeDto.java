@@ -15,4 +15,6 @@ public interface BookmarkedTourLogPreviewNativeDto {
     String getUserProfileImage();
 
     String getStadiumName();
+
+    String getPlaces();
 }

@@ -4,13 +4,13 @@ import com.example.temp.geo.dto.AddressInformationView;
 import com.example.temp.user.domain.UserAuthenticatedLocation;
 
 public record UserAuthenticatedLocationView(
-        long id,
+        String id,
         boolean representative,
         AddressInformationView addressInformation
 ) {
     public UserAuthenticatedLocationView(UserAuthenticatedLocation location) {
         this(
-                location.getId(),
+                location.getId().toString(),
                 location.isRepresentative(),
                 new AddressInformationView(location.getAddress())
         );

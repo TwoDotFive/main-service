@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 public class UpdateFanpoolRequest {
     private String title;
-    private long gameId;
+    private String gameId;
     private LocalDateTime departAt;
     private AddressInformationView departFrom;
     private String fanpoolType;

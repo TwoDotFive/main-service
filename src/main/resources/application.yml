@@ -1,7 +1,8 @@
 spring:
   application:
     name: temp
-
+  profiles:
+    active: prod
 server:
   shutdown: graceful
 
@@ -11,3 +12,9 @@ spring:
     activate:
       on-profile: local
     import: secret/application-local.yml
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+    import: secret/application-prod.yml

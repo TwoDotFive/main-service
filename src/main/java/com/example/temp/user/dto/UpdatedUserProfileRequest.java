@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class UpdatedUserProfileRequest {
     private String nickname;
-    private Long favoriteTeam;
+    private String favoriteTeam;
     private String profileImageUrl;
     private String oneLiner; // 한 줄 소개
 }

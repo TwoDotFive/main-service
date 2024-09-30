@@ -56,8 +56,8 @@ dependencies {
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
-    // AWS SDK for Java
-    implementation 'com.amazonaws:aws-java-sdk:1.12.771'
+    // AWS Java SDK For Amazon S3
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.772'
 
     // Redis
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '3.3.1'

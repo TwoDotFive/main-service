@@ -39,7 +39,9 @@ public class OAuthController {
     ) {
         OAuthResponse profileResponse = oAuthService.login(platformType, code);
         AuthLoginResponse authLoginResponse = createUserService.doService(profileResponse);
-        return ResponseEntity.ok(authLoginResponse);
+
+        HttpStatus status = (authLoginResponse.isFirstLogin()) ? HttpStatus.CREATED : HttpStatus.OK;
+        return ResponseEntity.status(status).body(authLoginResponse);
     }
 
     @PostMapping("/phone")

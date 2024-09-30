@@ -29,7 +29,7 @@ public class UpdateFanpoolServiceImpl implements UpdateFanpoolService {
 
         target.updateInfo(command.getBody());
 
-        Game game = gameRepository.findByIdOrElseThrow(command.getBody().getGameId());
+        Game game = gameRepository.findByIdOrElseThrow(Long.parseLong(command.getBody().getGameId()));
         target.updateGame(game);
     }
 }

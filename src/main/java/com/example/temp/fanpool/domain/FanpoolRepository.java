@@ -26,4 +26,13 @@ public interface FanpoolRepository extends Repository<Fanpool, Long> {
     List<Fanpool> findByDongCd(@Param("dongCd") String dongCd, Pageable pageable);
 
     List<Fanpool> findByHostUserOrderByCreatedAtDesc(User user, Pageable pageable);
+
+    @Query("SELECT COUNT(f) FROM Fanpool f WHERE f.hostUser.id = :userId")
+    Long countByUserId(@Param("userId") Long userId);
+
+    @Query("SELECT COUNT(f) " +
+            "FROM Fanpool f " +
+            "WHERE f.game.id = :gameId" +
+            "   AND f.state = 'GATHER' ")
+    Long countByGame(@Param("gameId") Long gameId);
 }

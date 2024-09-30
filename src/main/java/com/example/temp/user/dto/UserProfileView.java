@@ -5,6 +5,7 @@ import com.example.temp.user.domain.User;
 import com.example.temp.user.domain.value.UserRole;
 
 public record UserProfileView(
+        String id,
         String email,
         String nickname,
         String profileImageUrl,
@@ -12,10 +13,12 @@ public record UserProfileView(
         String oneLiner,
         UserRole userRole,
         TeamView favoriteTeam,
-        int hostedFanpoolNumber
+        Long hostedFanpoolNumber,
+        Long hostedTourLogNumber
 ) {
-    public UserProfileView(User user) {
+    public UserProfileView(User user, Long hostedFanpoolNumber, Long hostedTourLogNumber) {
         this(
+                user.getId().toString(),
                 user.getEmail(),
                 user.getNickname(),
                 user.getProfileImageUrl(),
@@ -23,7 +26,8 @@ public record UserProfileView(
                 user.getOneLiner(),
                 user.getUserRole(),
                 new TeamView(user.getFavoriteTeam()),
-                user.getHostedFanpool().size()
+                hostedFanpoolNumber,
+                hostedTourLogNumber
         );
     }
 }

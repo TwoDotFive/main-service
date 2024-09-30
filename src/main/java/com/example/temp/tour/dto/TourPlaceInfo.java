@@ -4,7 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record TourPlaceInfo(
-        String title,
+        String name,
         String address,
         String thumbnail,
         String distance,

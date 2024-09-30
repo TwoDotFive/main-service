@@ -10,6 +10,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class FindFilteredFanpoolServiceImpl implements FindFilteredFanpoolServic
     private final JPAQueryFactory queryFactory;
 
     @Override
+    @Transactional(readOnly = true)
     public FindFilteredFanpoolResponse doService(FindFilteredFanpoolCommand command) {
         QFanpool fanpool = QFanpool.fanpool;
         BooleanBuilder builder = new BooleanBuilder();
@@ -46,7 +48,11 @@ public class FindFilteredFanpoolServiceImpl implements FindFilteredFanpoolServic
             builder.and(fanpool.state.eq(FanpoolState.GATHER));
         }
 
-        List<Fanpool> result = queryFactory.selectFrom(fanpool)
+        List<Fanpool> result = queryFactory.select(fanpool)
+                .from(fanpool)
+//                .join(fanpool.game).fetchJoin()
+//                .join(fanpool.hostUser).fetchJoin()
+//                .join(fanpool.departFrom).fetchJoin()
                 .where(builder)
                 .offset(command.pageable().getOffset())
                 .limit(command.pageable().getPageSize() + 1L)

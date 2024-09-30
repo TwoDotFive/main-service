@@ -1,6 +1,8 @@
 package com.example.temp.tour.controller;
 
+import com.example.temp.common.dto.IdResponse;
 import com.example.temp.common.entity.CustomUserDetails;
+import com.example.temp.tour.controller.dto.TourLogStadiumView;
 import com.example.temp.tour.dto.*;
 import com.example.temp.tour.service.*;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +24,11 @@ public class TourController {
     private final FindTourDetailsService findTourDetailsService;
     private final FindRecentTourLogListService findRecentTourLogListService;
     private final FindTourLogBookmarkIdService findTourLogBookmarkIdService;
+    private final FindAllTourLogStadiumService findAllTourLogStadiumService;
     private final DeleteTourLogBookmarkService deleteTourLogBookmarkService;
+    private final FindTourLogListByUserService findTourLogListByUserService;
     private final RegisterTourLogBookmarkService registerTourLogBookmarkService;
+    private final FindTourLogListByTourPlaceService findTourLogListByTourPlaceService;
     private final FindTourInformationByLocationService findTourInformationByLocationService;
     private final FindUserBookmarkedTourLogListService findUserBookmarkedTourLogListService;
     private final FindRecentTourLogListByStadiumService findRecentTourLogListByStadiumService;
@@ -36,7 +41,7 @@ public class TourController {
             @RequestParam(name = "x") String x,
             @RequestParam(name = "y") String y,
             @RequestParam(name = "radius") String radius,
-            @RequestParam(name = "contentType") String contentTypeId
+            @RequestParam(name = "contentTypeId", required = false) String contentTypeId
     ) {
         FindTourInformationByLocationCommand command = new FindTourInformationByLocationCommand(
                 pageSize, pageNumber, x, y, radius, contentTypeId);
@@ -56,12 +61,12 @@ public class TourController {
     }
 
     @PostMapping("/log")
-    public ResponseEntity<Long> registerTourLog(
+    public ResponseEntity<IdResponse> registerTourLog(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @RequestBody RegisterTourLogRequest request
     ) {
         Long tourLogId = registerTourLogService.doService(userDetails.getId(), request);
-        return ResponseEntity.ok(tourLogId);
+        return ResponseEntity.ok(IdResponse.build(tourLogId));
     }
 
     @GetMapping("/log")
@@ -89,7 +94,7 @@ public class TourController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<FindRecentTourLogListResponse> findRecentTourLogList(
+    public ResponseEntity<FindTourLogListResponse> findRecentTourLogList(
             @RequestParam(name = "stadiumId", required = false) Long stadiumId,
             @RequestParam(name = "lastId", defaultValue = "" + Long.MAX_VALUE) Long lastTourLogId,
             @RequestParam(name = "pageSize", defaultValue = "6") Integer pageSize
@@ -100,17 +105,36 @@ public class TourController {
         } else {
             result = findRecentTourLogListByStadiumService.doService(stadiumId, lastTourLogId, pageSize);
         }
-        FindRecentTourLogListResponse response = new FindRecentTourLogListResponse(result);
+        FindTourLogListResponse response = new FindTourLogListResponse(result);
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/log/find-by-place")
+    public ResponseEntity<FindTourLogListResponse> findTourLogListByTourPlace(
+            @RequestParam(name = "contentId") Integer contentId,
+            @RequestParam(name = "contentTypeId") Integer contentTypeId
+    ) {
+        List<TourLogPreview> response = findTourLogListByTourPlaceService.doService(contentId, contentTypeId);
+        return ResponseEntity.ok(new FindTourLogListResponse(response));
+    }
+
+    @GetMapping("/log/find-by-user/{userId}")
+    public ResponseEntity<FindTourLogListResponse> findTourLogListByUser(
+            @PathVariable(name = "userId") Long userId,
+            @RequestParam(name = "lastId", defaultValue = "" + Long.MAX_VALUE) Long lastTourLogId,
+            @RequestParam(name = "pageSize", defaultValue = "6") Integer pageSize
+    ) {
+        List<TourLogPreview> response = findTourLogListByUserService.doService(userId, lastTourLogId, pageSize);
+        return ResponseEntity.ok(new FindTourLogListResponse(response));
+    }
+
     @PostMapping("/log/{tourLogId}/bookmark")
-    public ResponseEntity<Long> registerBookmark(
+    public ResponseEntity<IdResponse> registerBookmark(
             @PathVariable("tourLogId") Long tourLogId,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) {
         Long bookmarkId = registerTourLogBookmarkService.doService(customUserDetails.getId(), tourLogId);
-        return ResponseEntity.ok(bookmarkId);
+        return ResponseEntity.ok(IdResponse.build(bookmarkId));
     }
 
     @DeleteMapping("/log/{tourLogId}/bookmark")
@@ -123,12 +147,12 @@ public class TourController {
     }
 
     @GetMapping("/log/{tourLogId}/bookmark")
-    public ResponseEntity<String> findBookmarkId(
+    public ResponseEntity<IdResponse> findBookmarkId(
             @PathVariable("tourLogId") Long tourLogId,
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) {
         Long bookmarkId = findTourLogBookmarkIdService.doService(customUserDetails.getId(), tourLogId);
-        return ResponseEntity.ok(String.valueOf(bookmarkId));
+        return ResponseEntity.ok(IdResponse.build(bookmarkId));
     }
 
     @GetMapping("/log/bookmark")
@@ -142,4 +166,13 @@ public class TourController {
         FindUserBookmarkedTourLogListResponse response = new FindUserBookmarkedTourLogListResponse(result);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/stadium/list")
+    public ResponseEntity<FindAllTourLogStadiumResponse> findAllStadium() {
+        List<TourLogStadiumView> stadiumViews = findAllTourLogStadiumService.doService();
+        FindAllTourLogStadiumResponse response = new FindAllTourLogStadiumResponse(stadiumViews);
+        return ResponseEntity.ok(response);
+    }
+
+
 }

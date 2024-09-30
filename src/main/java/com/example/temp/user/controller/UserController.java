@@ -26,7 +26,15 @@ public class UserController {
     private final DeleteUserBlockingService deleteUserBlockingService;
     private final FindUserAuthenticatedLocationService findUserAuthenticatedLocationService;
     private final UpdateUserAuthenticatedLocationService updateUserAuthenticatedLocationService;
+    private final DeleteUserService deleteUserService;
 
+    @DeleteMapping()
+    public ResponseEntity<Void> delete(
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ) {
+        deleteUserService.doService(userDetails.getId());
+        return ResponseEntity.ok().build();
+    }
 
     @GetMapping("/profile/{targetUserId}")
     public ResponseEntity<UserProfileView> findProfile(
@@ -97,7 +105,6 @@ public class UserController {
         deleteUserBlockingService.doService(command);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
-
 
     @PatchMapping("/location/{locationId}")
     public ResponseEntity<Void> updateAuthenticatedLocation(

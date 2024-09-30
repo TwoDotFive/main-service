@@ -21,5 +21,4 @@ public interface UserRepository extends Repository<User, Long> {
         return findById(id).orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, "회원 조회 실패"));
     }
 
-    void delete(UserAuthenticatedLocation location);
 }

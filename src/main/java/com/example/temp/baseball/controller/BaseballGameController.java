@@ -32,15 +32,15 @@ public class BaseballGameController {
     @GetMapping
     public ResponseEntity<FindGamesByTeamResponse> findByTeam(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
-            @RequestParam(value = "teamId", required = false) String teamId,
+            @RequestParam(value = "teamId", required = false, defaultValue = "0") Long teamId,
 
             @RequestParam(value = "startDate", required = false)
-            @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime startDate,
+            @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDateTime startDate,
 
             @RequestParam(value = "endDate", required = false)
-            @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime endDate
+            @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDateTime endDate
     ) {
-        FindGamesByTeamCommand command = new FindGamesByTeamCommand(Long.parseLong(teamId), startDate, endDate);
+        FindGamesByTeamCommand command = new FindGamesByTeamCommand(teamId, startDate, endDate);
         FindGamesByTeamResponse result = findGamesByTeamService.doService(command);
         return ResponseEntity.ok(result);
     }

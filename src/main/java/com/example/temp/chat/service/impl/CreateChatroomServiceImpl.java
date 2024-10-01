@@ -59,11 +59,11 @@ public class CreateChatroomServiceImpl implements CreateChatroomService {
                 .build();
     }
 
-    private ChatroomUser createChatroomUser(Chatroom chatroom, long userId, LocalDateTime lastEnterTime) {
+    private ChatroomUser createChatroomUser(Chatroom chatroom, long userId, LocalDateTime lastActivityTime) {
         return ChatroomUser.builder()
                 .chatroomId(chatroom.getId())
                 .userId(userId)
-                .lastEnterTime(lastEnterTime)
+                .lastActivityTime(lastActivityTime)
                 .build();
     }
 }

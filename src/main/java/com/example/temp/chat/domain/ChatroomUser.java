@@ -22,13 +22,13 @@ public class ChatroomUser {
 
     private Long userId;
 
-    private LocalDateTime lastEnterTime;
+    private LocalDateTime lastActivityTime;
 
     @Builder
-    public ChatroomUser(Long chatroomId, Long userId, LocalDateTime lastEnterTime) {
+    public ChatroomUser(Long chatroomId, Long userId, LocalDateTime lastActivityTime) {
         this.id = IdUtil.create();
         this.chatroomId = chatroomId;
         this.userId = userId;
-        this.lastEnterTime = lastEnterTime;
+        this.lastActivityTime = lastActivityTime;
     }
 }

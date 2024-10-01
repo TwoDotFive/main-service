@@ -22,7 +22,7 @@ public class FindChatroomMessagesServiceImpl implements FindChatroomMessagesServ
     @Override
     public List<ChatMessageView> doService(long roomId, long userId, long lastMessageId, int pageSize) {
 
-        if (!chatroomUserRepository.existsByUserId(userId)) {
+        if (!chatroomUserRepository.existsByUserIdAndRoomId(userId, roomId)) {
             throw new CustomException(HttpStatus.FORBIDDEN, "Illegal Request");
         }
 

@@ -15,5 +15,5 @@ public interface ChatroomUserRepository extends Repository<ChatroomUser, Long> {
     @Query("UPDATE ChatroomUser c SET c.lastActivityTime = :time WHERE c.userId = :userId AND c.roomId = :chatroomId")
     void updateLastActivityTime(@Param("userId") long userId, @Param("chatroomId") long chatroomId, LocalDateTime time);
 
-    boolean existsByUserId(long userId);
+    boolean existsByUserIdAndRoomId(long userId, long roomId);
 }

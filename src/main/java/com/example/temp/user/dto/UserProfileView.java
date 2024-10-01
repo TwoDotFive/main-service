@@ -4,6 +4,8 @@ import com.example.temp.baseball.dto.TeamView;
 import com.example.temp.user.domain.User;
 import com.example.temp.user.domain.value.UserRole;
 
+import java.util.Optional;
+
 public record UserProfileView(
         String id,
         String email,
@@ -25,7 +27,7 @@ public record UserProfileView(
                 user.getName(),
                 user.getOneLiner(),
                 user.getUserRole(),
-                new TeamView(user.getFavoriteTeam()),
+                Optional.ofNullable(user.getFavoriteTeam()).map(TeamView::new).orElse(null),
                 hostedFanpoolNumber,
                 hostedTourLogNumber
         );

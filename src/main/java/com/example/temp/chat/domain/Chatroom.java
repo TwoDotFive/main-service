@@ -40,4 +40,8 @@ public class Chatroom extends BaseTimeEntity {
         this.guestUserId = guestUserId;
         this.teams = teams;
     }
+
+    public void updateLastMessage(ChatMessagePreview message) {
+        this.lastMessage = message;
+    }
 }

@@ -41,4 +41,12 @@ public class ChatMessage {
         this.time = LocalDateTime.now();
     }
 
+    public ChatMessagePreview getPreview() {
+        String contentPreview = switch (type) {
+            case TEXT -> content;
+            case IMAGE -> "이미지";
+        };
+        return new ChatMessagePreview(contentPreview, time);
+    }
+
 }

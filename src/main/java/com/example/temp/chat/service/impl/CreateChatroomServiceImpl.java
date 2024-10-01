@@ -25,8 +25,8 @@ public class CreateChatroomServiceImpl implements CreateChatroomService {
 
         Chatroom chatroom = createChatroom(command);
         ChatMessage chatMessage = createChatMessage(command, chatroom);
-        ChatroomUser hostChatroom = createChatroomUser(chatroom, command.hostUserId(), chatMessage.getTime());
-        ChatroomUser guestChatroom = createChatroomUser(chatroom, command.guestUserId(), LocalDateTime.of(2024, 10, 1, 0, 0));
+        ChatroomUser hostChatroom = createChatroomUser(chatroom, command.hostUserId(), LocalDateTime.of(2024, 10, 1, 0, 0));
+        ChatroomUser guestChatroom = createChatroomUser(chatroom, command.guestUserId(), chatMessage.getTime());
 
         chatroom.updateLastMessage(chatMessage.getPreview());
 

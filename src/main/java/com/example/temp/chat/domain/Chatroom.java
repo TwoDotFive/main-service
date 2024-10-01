@@ -18,8 +18,10 @@ public class Chatroom extends BaseTimeEntity {
 
     private Long fanpoolId;
 
+    // 팬풀 주최자 ID
     private Long hostUserId;
 
+    // 팬풀 참여자 ID (= 채팅방 생성자, 채팅 메시지 최초 전송자)
     private Long guestUserId;
 
     // 팬풀 관련 경기 참여 팀 이름 (ex : 키움히어로즈 vs KIA타이거즈)

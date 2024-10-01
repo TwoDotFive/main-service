@@ -18,7 +18,7 @@ public class ChatController {
 
     private final CreateChatroomService createChatroomService;
 
-    @PostMapping("room")
+    @PostMapping("/room")
     public ResponseEntity<IdResponse> createRoom(
             @RequestBody CreateChatroomRequest request,
             @AuthenticationPrincipal CustomUserDetails userDetails

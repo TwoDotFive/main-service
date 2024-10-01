@@ -20,7 +20,7 @@ public class ChatMessage {
     @Id
     private Long id;
 
-    private Long chatroomId;
+    private Long roomId;
 
     private Long userId;
 
@@ -32,9 +32,9 @@ public class ChatMessage {
     private LocalDateTime time;
 
     @Builder
-    public ChatMessage(Long chatroomId, Long userId, ChatMessageType type, String content) {
+    public ChatMessage(Long roomId, Long userId, ChatMessageType type, String content) {
         this.id = IdUtil.create();
-        this.chatroomId = chatroomId;
+        this.roomId = roomId;
         this.userId = userId;
         this.type = type;
         this.content = content;

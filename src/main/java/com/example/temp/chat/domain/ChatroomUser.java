@@ -18,16 +18,16 @@ public class ChatroomUser {
     @Id
     private Long id;
 
-    private Long chatroomId;
+    private Long roomId;
 
     private Long userId;
 
     private LocalDateTime lastActivityTime;
 
     @Builder
-    public ChatroomUser(Long chatroomId, Long userId, LocalDateTime lastActivityTime) {
+    public ChatroomUser(Long roomId, Long userId, LocalDateTime lastActivityTime) {
         this.id = IdUtil.create();
-        this.chatroomId = chatroomId;
+        this.roomId = roomId;
         this.userId = userId;
         this.lastActivityTime = lastActivityTime;
     }

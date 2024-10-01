@@ -32,7 +32,7 @@ public interface ChatroomRepository extends Repository<Chatroom, Long> {
                     "       cr.last_message_content as lastMessageContent, " +
                     "       cr.last_message_time as lastMessageTime " +
                     "FROM chatroom_user cu " +
-                    "JOIN chatroom cr ON cr.id = cu.chatroom_id " +
+                    "JOIN chatroom cr ON cr.id = cu.room_id " +
                     "LEFT JOIN user u ON " +
                     "   CASE " +
                     "       WHEN cr.host_user_id = :userId THEN cr.guest_user_id = u.id " +

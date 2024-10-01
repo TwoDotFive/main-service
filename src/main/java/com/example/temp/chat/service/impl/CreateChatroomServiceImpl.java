@@ -52,7 +52,7 @@ public class CreateChatroomServiceImpl implements CreateChatroomService {
 
     private ChatMessage createChatMessage(CreateChatroomCommand command, Chatroom chatroom) {
         return ChatMessage.builder()
-                .chatroomId(chatroom.getId())
+                .roomId(chatroom.getId())
                 .userId(command.hostUserId())
                 .type(command.message().type())
                 .content(command.message().content())
@@ -61,7 +61,7 @@ public class CreateChatroomServiceImpl implements CreateChatroomService {
 
     private ChatroomUser createChatroomUser(Chatroom chatroom, long userId, LocalDateTime lastActivityTime) {
         return ChatroomUser.builder()
-                .chatroomId(chatroom.getId())
+                .roomId(chatroom.getId())
                 .userId(userId)
                 .lastActivityTime(lastActivityTime)
                 .build();

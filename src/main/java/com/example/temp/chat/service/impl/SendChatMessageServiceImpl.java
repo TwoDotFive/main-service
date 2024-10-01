@@ -44,7 +44,7 @@ public class SendChatMessageServiceImpl implements SendChatMessageService {
                 .content(message.content())
                 .type(message.type())
                 .userId(senderId)
-                .chatroomId(chatroomId)
+                .roomId(chatroomId)
                 .build();
 
         chatMessageRepository.save(chatMessage);

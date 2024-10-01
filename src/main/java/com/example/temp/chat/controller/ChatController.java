@@ -1,10 +1,7 @@
 package com.example.temp.chat.controller;
 
 import com.example.temp.chat.dto.*;
-import com.example.temp.chat.service.CreateChatroomService;
-import com.example.temp.chat.service.FindChatroomListService;
-import com.example.temp.chat.service.FindChatroomMessagesService;
-import com.example.temp.chat.service.SendChatMessageService;
+import com.example.temp.chat.service.*;
 import com.example.temp.common.dto.IdResponse;
 import com.example.temp.common.entity.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +17,7 @@ import java.util.List;
 @RequestMapping("/chat")
 public class ChatController {
 
+    private final ExitChatroomService exitChatroomService;
     private final CreateChatroomService createChatroomService;
     private final SendChatMessageService sendChatMessageService;
     private final FindChatroomListService findChatroomListService;
@@ -63,4 +61,12 @@ public class ChatController {
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping("/room")
+    public ResponseEntity<Void> exitChatroom(
+            @RequestParam(name = "id") long roomId,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ) {
+        exitChatroomService.doService(userDetails.getId(), roomId);
+        return ResponseEntity.ok().build();
+    }
 }

@@ -16,4 +16,6 @@ public interface ChatroomUserRepository extends Repository<ChatroomUser, Long> {
     void updateLastActivityTime(@Param("userId") long userId, @Param("chatroomId") long chatroomId, LocalDateTime time);
 
     boolean existsByUserIdAndRoomId(long userId, long roomId);
+
+    void deleteByUserIdAndRoomId(long userId, long roomId);
 }

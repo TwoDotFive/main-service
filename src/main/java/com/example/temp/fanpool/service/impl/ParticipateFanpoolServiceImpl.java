@@ -42,7 +42,6 @@ public class ParticipateFanpoolServiceImpl implements ParticipateFanpoolService 
         }
 
         FanpoolUser fanpoolUser = FanpoolUser.build(fanpool, user);
-        fanpool.updateCurrentNumberOfPeople();
         fanpoolUserRepository.save(fanpoolUser);
     }
 }

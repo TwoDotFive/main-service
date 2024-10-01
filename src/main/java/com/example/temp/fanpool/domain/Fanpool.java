@@ -57,7 +57,7 @@ public class Fanpool extends BaseTimeEntity {
         ret.departFrom = address;
         ret.departAt = request.getDepartAt();
         ret.numberOfPeople = request.getNumberOfPeople();
-        ret.currentNumberOfPeople = 1;
+        ret.currentNumberOfPeople = 0;
         ret.fanpoolType = request.getFanpoolType();
         ret.genderConstraint = request.getGenderConstraint();
         ret.memo = request.getMemo();
@@ -73,6 +73,7 @@ public class Fanpool extends BaseTimeEntity {
         genderConstraint = GenderConstraint.valueOf(req.getGenderConstraint().toUpperCase());
         memo = req.getMemo();
         departFrom = req.getDepartFrom().toEntity();
+        currentNumberOfPeople = req.getCurrentOfPeople();
     }
 
     public void updateGame(Game game) {
@@ -85,10 +86,6 @@ public class Fanpool extends BaseTimeEntity {
 
     public void updateState(String state) {
         this.state = FanpoolState.valueOf(state.toUpperCase());
-    }
-
-    public void updateCurrentNumberOfPeople() {
-        this.currentNumberOfPeople++;
     }
 
     public boolean alreadyFull() {

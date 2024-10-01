@@ -54,9 +54,14 @@ public class UserController {
 
     @GetMapping("/location")
     public ResponseEntity<FindUserAuthenticatedLocationResponse> findUserLocation(
-            @AuthenticationPrincipal CustomUserDetails authenticatedUser
+            @AuthenticationPrincipal CustomUserDetails authenticatedUser,
+            @RequestParam(value = "userId") Long userId
     ) {
-        FindUserAuthenticatedLocationResponse response = findUserAuthenticatedLocationService.doService(authenticatedUser.getId());
+        if (userId == 0L) {
+            userId = authenticatedUser.getId();
+        }
+
+        FindUserAuthenticatedLocationResponse response = findUserAuthenticatedLocationService.doService(userId);
         return ResponseEntity.ok(response);
     }
 

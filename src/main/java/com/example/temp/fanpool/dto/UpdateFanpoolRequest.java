@@ -16,5 +16,6 @@ public class UpdateFanpoolRequest {
     private String fanpoolType;
     private String genderConstraint;
     private int numberOfPeople;
+    private int currentOfPeople;
     private String memo;
 }

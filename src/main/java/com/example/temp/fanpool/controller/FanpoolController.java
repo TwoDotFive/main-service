@@ -7,13 +7,11 @@ import com.example.temp.fanpool.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -56,12 +54,9 @@ public class FanpoolController {
             @RequestParam(value = "teamId", required = false) Long teamId,
             @RequestParam(value = "dongCd", required = false) String dongCd,
             @RequestParam(value = "gameId", required = false) List<Long> gameId,
-            @RequestParam(value = "onlyGathering", required = true) boolean onlyGathering,
-
-            @RequestParam(value = "departAt", required = false)
-            @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime departAt
+            @RequestParam(value = "onlyGathering", required = true) boolean onlyGathering
     ) {
-        FindFilteredFanpoolCommand command = new FindFilteredFanpoolCommand(teamId, dongCd, gameId, departAt, onlyGathering, pageable);
+        FindFilteredFanpoolCommand command = new FindFilteredFanpoolCommand(teamId, dongCd, gameId, onlyGathering, pageable);
         FindFilteredFanpoolResponse result = findFilteredFanpoolService.doService(command);
         return ResponseEntity.ok(result);
     }

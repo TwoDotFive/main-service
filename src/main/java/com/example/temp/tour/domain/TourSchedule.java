@@ -30,7 +30,7 @@ public class TourSchedule extends BaseTimeEntity {
     private TourLog tourLog;
 
     @JoinColumn(name = "tour_place_id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private TourPlace tourPlace;
 
     private String tourPlaceName;

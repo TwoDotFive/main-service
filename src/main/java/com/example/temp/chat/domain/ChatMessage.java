@@ -1,24 +1,26 @@
 package com.example.temp.chat.domain;
 
-import com.example.temp.common.entity.BaseTimeEntity;
 import com.example.temp.common.util.IdUtil;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ChatMessage extends BaseTimeEntity {
+public class ChatMessage {
 
     @Id
     private Long id;
 
-    private Long chatRoomId;
+    private Long roomId;
 
     private Long userId;
 
@@ -27,14 +29,24 @@ public class ChatMessage extends BaseTimeEntity {
 
     private String content;
 
-    public static ChatMessage build(Long chatRoomId, Long userId, ChatMessageType type, String content) {
-        ChatMessage chatMessage = new ChatMessage();
-        chatMessage.id = IdUtil.create();
-        chatMessage.chatRoomId = chatRoomId;
-        chatMessage.userId = userId;
-        chatMessage.type = type;
-        chatMessage.content = content;
-        return chatMessage;
+    private LocalDateTime time;
+
+    @Builder
+    public ChatMessage(Long roomId, Long userId, ChatMessageType type, String content) {
+        this.id = IdUtil.create();
+        this.roomId = roomId;
+        this.userId = userId;
+        this.type = type;
+        this.content = content;
+        this.time = LocalDateTime.now();
+    }
+
+    public ChatMessagePreview getPreview() {
+        String contentPreview = switch (type) {
+            case TEXT -> content;
+            case IMAGE -> "이미지";
+        };
+        return new ChatMessagePreview(contentPreview, time);
     }
 
 }

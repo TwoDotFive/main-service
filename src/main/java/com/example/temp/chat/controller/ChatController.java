@@ -33,7 +33,7 @@ public class ChatController {
         return ResponseEntity.ok(IdResponse.build(chatroomId));
     }
 
-    @PostMapping("/message")
+    @PostMapping("/send")
     public ResponseEntity<Void> createRoom(
             @RequestBody SendChatMessageRequest request,
             @AuthenticationPrincipal CustomUserDetails userDetails

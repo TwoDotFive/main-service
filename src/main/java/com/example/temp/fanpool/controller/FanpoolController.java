@@ -101,7 +101,7 @@ public class FanpoolController {
     }
 
     @DeleteMapping("/{fanpoolId}")
-    public ResponseEntity<Void> updateInfo(
+    public ResponseEntity<Void> delete(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @PathVariable("fanpoolId") Long fanpoolId
     ) {
@@ -121,7 +121,7 @@ public class FanpoolController {
     }
 
     @DeleteMapping("/{fanpoolId}/cancel")
-    public ResponseEntity<Void> delete(
+    public ResponseEntity<Void> cancelParticipation(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @PathVariable("fanpoolId") String fanpoolId
     ) {

@@ -1,14 +1,18 @@
 package com.example.temp.fanpool.domain;
 
-import com.example.temp.user.domain.User;
 import org.springframework.data.repository.Repository;
 
 import java.util.Optional;
 
 public interface FanpoolUserRepository extends Repository<FanpoolUser, Long> {
+
     FanpoolUser save(FanpoolUser fanpoolUser);
 
-    void deleteByUserAndFanpool(User user, Fanpool fanpool);
+    void deleteByFanpoolId(long fanpoolId);
 
-    Optional<FanpoolUser> findByFanpoolAndUser(Fanpool fanpool, User user);
+    void deleteByFanpoolIdAndUserId(long fanpoolId, long userId);
+
+    boolean existsByFanpoolIdAndUserId(long fanpoolId, long userId);
+
+    Optional<FanpoolUser> findByFanpoolIdAndUserId(long fanpoolId, long user);
 }

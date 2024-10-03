@@ -7,24 +7,20 @@ import com.example.temp.fanpool.domain.FanpoolUser;
 import com.example.temp.fanpool.domain.FanpoolUserRepository;
 import com.example.temp.fanpool.dto.command.ParticipateFanpoolCommand;
 import com.example.temp.fanpool.service.ParticipateFanpoolService;
-import com.example.temp.user.domain.User;
-import com.example.temp.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class ParticipateFanpoolServiceImpl implements ParticipateFanpoolService {
-    private final UserRepository userRepository;
+
     private final FanpoolRepository fanpoolRepository;
     private final FanpoolUserRepository fanpoolUserRepository;
 
     @Override
+    @Transactional
     public void doService(ParticipateFanpoolCommand command) {
         Fanpool fanpool = fanpoolRepository.findByIdOrElseThrow(command.fanpoolId());
 
@@ -35,13 +31,11 @@ public class ParticipateFanpoolServiceImpl implements ParticipateFanpoolService 
             throw new CustomException(HttpStatus.BAD_REQUEST, "신청인원이 가득 찼습니다.");
         }
 
-        User user = userRepository.findByIdOrElseThrow(command.userId());
-        Optional<FanpoolUser> found = fanpoolUserRepository.findByFanpoolAndUser(fanpool, user);
-        if (found.isPresent()) {
+        if (fanpoolUserRepository.existsByFanpoolIdAndUserId(fanpool.getId(), command.userId())) {
             throw new CustomException(HttpStatus.BAD_REQUEST, "이미 참여 중입니다.");
         }
 
-        FanpoolUser fanpoolUser = FanpoolUser.build(fanpool, user);
+        FanpoolUser fanpoolUser = FanpoolUser.build(fanpool.getId(), command.userId());
         fanpoolUserRepository.save(fanpoolUser);
     }
 }

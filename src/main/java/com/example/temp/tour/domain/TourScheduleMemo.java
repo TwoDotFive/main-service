@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.BatchSize;
+import org.springframework.data.domain.Persistable;
 import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TourScheduleMemo extends BaseTimeEntity {
+public class TourScheduleMemo extends BaseTimeEntity implements Persistable<Long> {
 
     private static final int MAX_IMAGE_COUNT = 4;
 
@@ -63,5 +64,10 @@ public class TourScheduleMemo extends BaseTimeEntity {
 
     public void updateContent(String content) {
         this.content = new TourScheduleMemoContent(content);
+    }
+
+    @Override
+    public boolean isNew() {
+        return getCreatedAt() == null;
     }
 }

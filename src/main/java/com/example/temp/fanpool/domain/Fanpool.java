@@ -14,13 +14,14 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Persistable;
 
 import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Fanpool extends BaseTimeEntity {
+public class Fanpool extends BaseTimeEntity implements Persistable<Long> {
     @Id
     private Long id;
 
@@ -90,5 +91,10 @@ public class Fanpool extends BaseTimeEntity {
 
     public boolean alreadyFull() {
         return currentNumberOfPeople == numberOfPeople;
+    }
+
+    @Override
+    public boolean isNew() {
+        return getCreatedAt() == null;
     }
 }

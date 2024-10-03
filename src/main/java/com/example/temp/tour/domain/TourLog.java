@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Persistable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TourLog extends BaseTimeEntity {
+public class TourLog extends BaseTimeEntity implements Persistable<Long> {
 
     @Id
     private Long id;
@@ -63,5 +64,10 @@ public class TourLog extends BaseTimeEntity {
     public void updateTourSchedules(List<TourSchedule> schedules) {
         this.schedules.clear();
         this.schedules.addAll(schedules);
+    }
+
+    @Override
+    public boolean isNew() {
+        return getCreatedAt() == null;
     }
 }

@@ -17,7 +17,7 @@ public class BlockedUser extends BaseTimeEntity implements Persistable<Long> {
 
     @Id
     @Getter
-    private long id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;

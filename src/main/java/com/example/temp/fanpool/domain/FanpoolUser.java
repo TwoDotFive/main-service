@@ -1,8 +1,9 @@
 package com.example.temp.fanpool.domain;
 
 import com.example.temp.common.util.IdUtil;
-import com.example.temp.user.domain.User;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,20 +21,18 @@ public class FanpoolUser implements Persistable<Long> {
     @Id
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Fanpool fanpool;
+    private Long fanpoolId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private Long userId;
 
     @CreatedDate
     private LocalDateTime createdAt;
 
-    public static FanpoolUser build(Fanpool fanpool, User user) {
+    public static FanpoolUser build(Long fanpoolId, Long userId) {
         FanpoolUser ret = new FanpoolUser();
         ret.id = IdUtil.create();
-        ret.fanpool = fanpool;
-        ret.user = user;
+        ret.fanpoolId = fanpoolId;
+        ret.userId = userId;
         return ret;
     }
 

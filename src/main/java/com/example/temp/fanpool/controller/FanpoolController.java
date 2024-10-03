@@ -27,6 +27,7 @@ public class FanpoolController {
     private final UpdateFanpoolStateService updateFanpoolStateService;
     private final ParticipateFanpoolService participateFanpoolService;
     private final DeleteFanpoolParticipationService deleteFanpoolParticipationService;
+    private final DeleteFanpoolByIdService deleteFanpoolByIdService;
 
     @GetMapping
     public ResponseEntity<FindHostedFanpoolByUserResponse> getAllByUser(
@@ -96,6 +97,15 @@ public class FanpoolController {
     ) {
         UpdateFanpoolCommand command = new UpdateFanpoolCommand(customUserDetails.getId(), Long.parseLong(fanpoolId), request);
         updateFanpoolService.doService(command);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @DeleteMapping("/{fanpoolId}")
+    public ResponseEntity<Void> updateInfo(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @PathVariable("fanpoolId") Long fanpoolId
+    ) {
+        deleteFanpoolByIdService.doService(customUserDetails.getId(), fanpoolId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

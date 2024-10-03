@@ -38,4 +38,6 @@ public interface FanpoolRepository extends Repository<Fanpool, Long> {
 
     @Query("SELECT CONCAT(f.game.homeTeam.name, ' vs ', f.game.awayTeam.name)  FROM Fanpool f WHERE f.id = ?1")
     String findTeamNamesById(Long id);
+
+    void delete(Fanpool fanpool);
 }

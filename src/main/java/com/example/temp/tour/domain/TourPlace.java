@@ -8,11 +8,12 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Persistable;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TourPlace extends BaseTimeEntity {
+public class TourPlace extends BaseTimeEntity implements Persistable<Long> {
 
     @Id
     private Long id;
@@ -41,5 +42,10 @@ public class TourPlace extends BaseTimeEntity {
         this.x = x;
         this.y = y;
         this.thumbnail = thumbnail;
+    }
+
+    @Override
+    public boolean isNew() {
+        return getCreatedAt() == null;
     }
 }

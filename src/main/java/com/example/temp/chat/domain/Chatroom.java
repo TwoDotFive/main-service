@@ -7,11 +7,12 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Persistable;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Chatroom extends BaseTimeEntity {
+public class Chatroom extends BaseTimeEntity implements Persistable<Long> {
 
     @Id
     private Long id;
@@ -45,5 +46,10 @@ public class Chatroom extends BaseTimeEntity {
 
     public void updateLastMessage(ChatMessagePreview message) {
         this.lastMessage = message;
+    }
+
+    @Override
+    public boolean isNew() {
+        return getCreatedAt() == null;
     }
 }

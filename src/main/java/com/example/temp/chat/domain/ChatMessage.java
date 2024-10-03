@@ -1,21 +1,22 @@
 package com.example.temp.chat.domain;
 
 import com.example.temp.common.util.IdUtil;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.domain.Persistable;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ChatMessage {
+public class ChatMessage implements Persistable<Long> {
 
     @Id
     private Long id;
@@ -29,6 +30,7 @@ public class ChatMessage {
 
     private String content;
 
+    @CreatedDate
     private LocalDateTime time;
 
     @Builder
@@ -38,7 +40,6 @@ public class ChatMessage {
         this.userId = userId;
         this.type = type;
         this.content = content;
-        this.time = LocalDateTime.now();
     }
 
     public ChatMessagePreview getPreview() {
@@ -49,4 +50,8 @@ public class ChatMessage {
         return new ChatMessagePreview(contentPreview, time);
     }
 
+    @Override
+    public boolean isNew() {
+        return time == null;
+    }
 }

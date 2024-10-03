@@ -6,12 +6,13 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Persistable;
 
 @Entity
 @Getter
 @Table(name = "tour_schedule_memo_image")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TourScheduleMemoImage extends BaseTimeEntity {
+public class TourScheduleMemoImage extends BaseTimeEntity implements Persistable<Long> {
 
     @Id
     private Long id;
@@ -36,5 +37,10 @@ public class TourScheduleMemoImage extends BaseTimeEntity {
     public void update(String imageUrl, int sequence) {
         this.imageUrl = imageUrl;
         this.sequence = sequence;
+    }
+
+    @Override
+    public boolean isNew() {
+        return getCreatedAt() == null;
     }
 }

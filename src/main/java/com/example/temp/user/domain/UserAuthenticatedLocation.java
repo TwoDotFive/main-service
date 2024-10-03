@@ -10,11 +10,12 @@ import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Persistable;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class UserAuthenticatedLocation extends BaseTimeEntity {
+public class UserAuthenticatedLocation extends BaseTimeEntity implements Persistable<Long> {
     @Id
     private Long id;
 
@@ -42,4 +43,10 @@ public class UserAuthenticatedLocation extends BaseTimeEntity {
     public String getAddressDongCd() {
         return address.getDongCd();
     }
+
+    @Override
+    public boolean isNew() {
+        return getCreatedAt() == null;
+    }
+
 }

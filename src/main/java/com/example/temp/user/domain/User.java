@@ -11,11 +11,12 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Persistable;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User extends BaseTimeEntity {
+public class User extends BaseTimeEntity implements Persistable<Long> {
     @Id
     private Long id;
     private Long platformId;
@@ -60,5 +61,10 @@ public class User extends BaseTimeEntity {
 
     public void updateFavoriteTeam(Team team) {
         this.favoriteTeam = team;
+    }
+
+    @Override
+    public boolean isNew() {
+        return getCreatedAt() == null;
     }
 }

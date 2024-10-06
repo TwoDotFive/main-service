@@ -5,11 +5,12 @@ import com.example.temp.chat.domain.ChatMessageType;
 
 import java.time.LocalDateTime;
 
-public record ChatMessageView(String id, ChatMessageType type, String content, LocalDateTime time) {
+public record ChatMessageView(String id, String senderId, ChatMessageType type, String content, LocalDateTime time) {
 
     public static ChatMessageView of(ChatMessage chatMessage) {
         return new ChatMessageView(
-                chatMessage.getId().toString(),
+                String.valueOf(chatMessage.getId()),
+                String.valueOf(chatMessage.getUserId()),
                 chatMessage.getType(),
                 chatMessage.getContent(),
                 chatMessage.getTime()

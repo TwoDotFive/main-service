@@ -23,6 +23,7 @@ public interface ChatroomRepository extends Repository<Chatroom, Long> {
     @Query(
             nativeQuery = true,
             value = "SELECT cr.id as roomId, " +
+                    "       cr.fanpool_id as fanpoolId, " +
                     "       IF(cr.host_user_id = :userId, TRUE, FALSE) AS isHost, " +
                     "       cu.last_activity_time as lastActivityTime, " +
                     "       u.id as partnerId, " +

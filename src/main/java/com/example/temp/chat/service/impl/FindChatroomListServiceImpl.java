@@ -1,7 +1,8 @@
-package com.example.temp.chat.service;
+package com.example.temp.chat.service.impl;
 
 import com.example.temp.chat.domain.ChatroomRepository;
 import com.example.temp.chat.dto.FindChatroomListResult;
+import com.example.temp.chat.service.FindChatroomListService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

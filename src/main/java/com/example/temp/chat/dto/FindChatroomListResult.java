@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 public record FindChatroomListResult(
         String roomId,
+        String fanpoolId,
         boolean isHost,
         LocalDateTime lastActivityTime,
         UserProfileView partner,
@@ -26,7 +27,8 @@ public record FindChatroomListResult(
         }
 
         return new FindChatroomListResult(
-                dto.getRoomId().toString(),
+                String.valueOf(dto.getRoomId()),
+                String.valueOf(dto.getFanpoolId()),
                 dto.getIsHost() == 1,
                 dto.getLastActivityTime(),
                 partnerProfile,

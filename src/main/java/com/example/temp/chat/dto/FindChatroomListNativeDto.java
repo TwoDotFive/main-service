@@ -6,6 +6,8 @@ public interface FindChatroomListNativeDto {
 
     Long getRoomId();
 
+    Long getFanpoolId();
+
     Integer getIsHost();
 
     LocalDateTime getLastActivityTime();

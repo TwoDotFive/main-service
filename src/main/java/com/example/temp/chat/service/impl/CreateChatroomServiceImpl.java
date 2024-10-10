@@ -53,7 +53,7 @@ public class CreateChatroomServiceImpl implements CreateChatroomService {
     private ChatMessage createChatMessage(CreateChatroomCommand command, Chatroom chatroom) {
         return ChatMessage.builder()
                 .roomId(chatroom.getId())
-                .userId(command.hostUserId())
+                .userId(command.guestUserId())
                 .type(command.message().type())
                 .content(command.message().content())
                 .build();

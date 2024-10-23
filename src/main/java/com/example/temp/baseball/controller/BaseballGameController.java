@@ -58,7 +58,7 @@ public class BaseballGameController {
             @AuthenticationPrincipal CustomUserDetails authenticatedUser,
             @RequestParam(name = "year", required = true) int year
     ) {
-        GameScheduleResponse result = findAllSchedulesDuringThisWeekService.doService(authenticatedUser.getFavoriteTeam(), year);
+        GameScheduleResponse result = findAllSchedulesDuringThisWeekService.doService(authenticatedUser.getId(), year);
         return ResponseEntity.ok(result);
     }
 
@@ -67,7 +67,7 @@ public class BaseballGameController {
             @AuthenticationPrincipal CustomUserDetails authenticatedUser,
             @RequestBody List<GameSchedulesRequest> request
     ) {
-        createGameSchedulesService.doService(authenticatedUser.isAdmin(), request);
+        createGameSchedulesService.doService(authenticatedUser.getRole().isAdmin(), request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

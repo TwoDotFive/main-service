@@ -6,15 +6,14 @@ import lombok.Getter;
 
 @Getter
 public class AuthLoginResponse {
-    private String accessToken;
-    private String refreshToken;
-    private UserRole role;
-    private boolean firstLogin;
+
+    private final String accessToken;
+    private final UserRole role;
+    private final boolean firstLogin;
 
     @Builder
-    public AuthLoginResponse(String accessToken, String refreshToken, UserRole role, boolean firstLogin) {
+    public AuthLoginResponse(String accessToken, UserRole role, boolean firstLogin) {
         this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
         this.role = role;
         this.firstLogin = firstLogin;
     }

@@ -36,11 +36,9 @@ public class CreateUserServiceImpl implements CreateUserService {
         // JWT Access Token, Refresh Token 발급
         JwtToken tokens = jwtService.createJwtToken(findUser);
         log.info("access token:{}", tokens.getAccessToken());
-        log.info("refresh token:{}", tokens.getRefreshToken());
 
         return AuthLoginResponse.builder()
                 .accessToken(tokens.getAccessToken())
-                .refreshToken(tokens.getRefreshToken())
                 .role(findUser.getUserRole())
                 .firstLogin(firstLogin.get())
                 .build();

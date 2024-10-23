@@ -68,7 +68,7 @@ public class GlobalExceptionHandler {
 		StringWriter errors = new StringWriter();
 		e.printStackTrace(new PrintWriter(errors));
 		log.error(errors.toString());
-		ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
+		ErrorResponse errorResponse = new ErrorResponse("Unexpected Error");
 		return ResponseEntity.badRequest().body(errorResponse);
 	}
 

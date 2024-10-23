@@ -41,6 +41,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorizeRequests) ->
                         authorizeRequests
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/baseball/game/schedules").hasRole("ADMIN")
                                 .requestMatchers("/user/**").authenticated()
                                 .requestMatchers("/geo/**").authenticated()
                                 .requestMatchers("/baseball/**").authenticated()

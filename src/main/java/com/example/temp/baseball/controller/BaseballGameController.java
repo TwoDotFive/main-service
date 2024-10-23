@@ -31,7 +31,6 @@ public class BaseballGameController {
 
     @GetMapping
     public ResponseEntity<FindGamesByTeamResponse> findByTeam(
-            @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestParam(value = "teamId", required = false, defaultValue = "0") Long teamId,
 
             @RequestParam(value = "startDate", required = false)
@@ -56,18 +55,15 @@ public class BaseballGameController {
     @GetMapping("/schedules")
     public ResponseEntity<GameScheduleResponse> findAllSchedules(
             @AuthenticationPrincipal CustomUserDetails authenticatedUser,
-            @RequestParam(name = "year", required = true) int year
+            @RequestParam(name = "year") int year
     ) {
         GameScheduleResponse result = findAllSchedulesDuringThisWeekService.doService(authenticatedUser.getId(), year);
         return ResponseEntity.ok(result);
     }
 
     @PostMapping("/schedules")
-    public ResponseEntity<Void> save(
-            @AuthenticationPrincipal CustomUserDetails authenticatedUser,
-            @RequestBody List<GameSchedulesRequest> request
-    ) {
-        createGameSchedulesService.doService(authenticatedUser.getRole().isAdmin(), request);
+    public ResponseEntity<Void> save(@RequestBody List<GameSchedulesRequest> request) {
+        createGameSchedulesService.doService(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
